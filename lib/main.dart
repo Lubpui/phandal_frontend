@@ -1,7 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
-import 'package:phandal_frontend/core/theme/theme_app.dart';
+import 'package:phandal_frontend/core/theme/app_theme.dart';
 
 import 'package:phandal_frontend/home_page.dart';
 
