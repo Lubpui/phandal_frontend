@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:flutter/material.dart';
 import 'package:phandal_frontend/core/theme/theme.dart';
 
@@ -14,9 +16,11 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
+      title: 'Phandal App',
       theme: AppTheme.darkThemeMode,
-      home: HomePage(),
+      home: HomePage(
+        title: 'Phandal',
+      ),
     );
   }
 }
