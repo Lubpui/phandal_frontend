@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:phandal_frontend/core/theme/ThemeApp.dart';
-import 'package:phandal_frontend/homepage.dart';
+import 'package:phandal_frontend/core/theme/theme.dart';
+
+import 'package:phandal_frontend/home_page.dart';
 
 void main() {
   runApp(const MyApp());
