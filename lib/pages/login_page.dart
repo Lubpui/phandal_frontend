@@ -50,47 +50,65 @@ class _LoginPageState extends State<LoginPage> {
                 const SizedBox(
                   height: 30,
                 ),
-                Container(
-                  height: 50,
-                  decoration: BoxDecoration(
-                      color: const Color(0xFF253960),
-                      borderRadius: BorderRadius.circular(30)),
-                  child: TextFormField(
-                    controller: usernameController,
-                    keyboardType: TextInputType.emailAddress,
-                    decoration: InputDecoration(
-                        prefixIconConstraints:
-                            const BoxConstraints(minWidth: 50, maxHeight: 50),
-                        prefixIcon: Padding(
-                          padding: const EdgeInsets.only(right: 10.0),
-                          child: Container(
-                            width: 50,
-                            height: 50,
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(50),
-                                color: const Color(0xFF6BC7E9)),
-                            child: const Icon(
-                              Icons.mail_outline_rounded,
-                              color: Color(0xFF253960),
-                            ),
-                          ),
+                TextFormField(
+                  controller: usernameController,
+                  obscureText: !_isPasswordVisible,
+                  decoration: InputDecoration(
+                    prefixIconConstraints:
+                        const BoxConstraints(minWidth: 50, maxHeight: 50),
+                    prefixIcon: Padding(
+                      padding: const EdgeInsets.only(right: 10.0),
+                      child: Container(
+                        width: 50,
+                        height: 50,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(50),
+                          color: errorMessage != ""
+                              ? Color(0xFFFF6767)
+                              : Color(0xFF6BC7E9),
                         ),
-                        contentPadding: const EdgeInsets.only(left: 60),
-                        hintText: "Username, email"),
-                    validator: (value) {
-                      if (value!.isEmpty) {
-                        return "Username cant be empty";
-                      }
-                      bool emailValid =
-                          RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$')
-                              .hasMatch(value);
-                      if (!emailValid) {
-                        return "Enter valid email";
-                      }
-
-                      return null;
-                    },
+                        child: const Icon(
+                          Icons.mail_outline_rounded,
+                          color: Color(0xFF253960),
+                        ),
+                      ),
+                    ),
+                    contentPadding: const EdgeInsets.only(left: 60),
+                    hintText: "Username , email",
+                    filled: true,
+                    fillColor: Color(0xFF253960),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(25),
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(25),
+                      borderSide: BorderSide.none,
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(25),
+                      borderSide: BorderSide(
+                        color: Color(0xFF6BC7E9),
+                      ),
+                    ),
+                    errorBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(25),
+                      borderSide: BorderSide(
+                        color: Color(0xFFFF6767),
+                      ),
+                    ),
                   ),
+                  validator: (value) {
+                    if (value!.isEmpty) {
+                      return "Username cant be empty";
+                    }
+                    bool emailValid =
+                        RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$')
+                            .hasMatch(value);
+                    if (!emailValid) {
+                      return "Enter valid email";
+                    }
+                    return null;
+                  },
                 ),
                 const SizedBox(
                   height: 20,
@@ -128,7 +146,7 @@ class _LoginPageState extends State<LoginPage> {
                               : Color(0xFF6BC7E9),
                         ),
                         child: const Icon(
-                          Icons.mail_outline_rounded,
+                          Icons.lock_outlined,
                           color: Color(0xFF253960),
                         ),
                       ),
