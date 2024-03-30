@@ -77,10 +77,11 @@ class _SheetState extends State<Sheet> {
             "Light Color for ${widget.mockUp.name} ${widget.mockUp.network}",
             style: const TextStyle(
               color: Color(0xffFFFFFF),
+              fontSize: 17,
             ),
           ),
           const Padding(
-            padding: EdgeInsets.only(top: 20),
+            padding: EdgeInsets.only(top: 28),
           ),
           Padding(
             padding: const EdgeInsets.only(left: 20, right: 20),
@@ -92,7 +93,7 @@ class _SheetState extends State<Sheet> {
             ),
           ),
           Padding(
-            padding: EdgeInsets.only(left: 20, right: 20, top: 20),
+            padding: EdgeInsets.only(left: 20, right: 20, top: 28),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -100,21 +101,21 @@ class _SheetState extends State<Sheet> {
                   "Recoil",
                   style: TextStyle(
                     color: Color(0xffFFFFFF),
-                    fontWeight: FontWeight.bold,
+                    fontSize: 17,
                   ),
                 ),
                 Text(
                   _current.round().toString(),
                   style: const TextStyle(
                     color: Color(0xffFFFFFF),
-                    fontWeight: FontWeight.bold,
+                    fontSize: 17,
                   ),
                 ),
               ],
             ),
           ),
           Padding(
-            padding: const EdgeInsets.only(top: 20, right: 20, left: 20),
+            padding: const EdgeInsets.only(top: 28, right: 20, left: 20),
             child: Slider(
                 value: _current,
                 min: 0,
