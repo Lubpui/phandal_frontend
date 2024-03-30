@@ -1,18 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:phandal_frontend/core/theme/app_pallete.dart';
-import 'package:phandal_frontend/model/usermodel.dart';
 import 'package:phandal_frontend/widget/navbar_widget.dart';
 import 'package:phandal_frontend/widget/user_widget.dart';
 
 class SettingPage extends StatelessWidget {
-  SettingPage({super.key});
+  const SettingPage({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: ListView(
         children: [
-          SizedBox(
+          const SizedBox(
             height: 120,
           ),
           const Padding(
@@ -22,7 +21,7 @@ class SettingPage extends StatelessWidget {
               style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
           ),
-          UserButton(),
+          const UserButton(),
           const Padding(
             padding: EdgeInsets.all(20.0),
             child: Text(
@@ -42,7 +41,7 @@ class SettingPage extends StatelessWidget {
                 ], begin: Alignment.topCenter, end: Alignment.bottomCenter),
               ),
               child: Padding(
-                padding: EdgeInsets.symmetric(vertical: 15),
+                padding: const EdgeInsets.symmetric(vertical: 15),
                 child: Column(
                   children: [
                     ElevatedButton(
@@ -52,7 +51,7 @@ class SettingPage extends StatelessWidget {
                           backgroundColor: AppPallete.transparentColor),
                       onPressed: () {},
                       child: Padding(
-                        padding: EdgeInsets.symmetric(vertical: 10),
+                        padding: const EdgeInsets.symmetric(vertical: 10),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
@@ -102,7 +101,7 @@ class SettingPage extends StatelessWidget {
                           backgroundColor: AppPallete.transparentColor),
                       onPressed: () {},
                       child: Padding(
-                        padding: EdgeInsets.symmetric(vertical: 10),
+                        padding: const EdgeInsets.symmetric(vertical: 10),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
@@ -152,7 +151,7 @@ class SettingPage extends StatelessWidget {
                           backgroundColor: AppPallete.transparentColor),
                       onPressed: () {},
                       child: Padding(
-                        padding: EdgeInsets.symmetric(vertical: 10),
+                        padding: const EdgeInsets.symmetric(vertical: 10),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
@@ -202,7 +201,7 @@ class SettingPage extends StatelessWidget {
           )
         ],
       ),
-      bottomNavigationBar: MyNavigationBar(),
+      bottomNavigationBar: const MyNavigationBar(),
     );
   }
 }
