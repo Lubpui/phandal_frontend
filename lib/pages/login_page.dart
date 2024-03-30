@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
@@ -11,7 +12,7 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   final _formkey = GlobalKey<FormState>();
 
-  final emailController = TextEditingController();
+  final usernameController = TextEditingController();
   final passwordController = TextEditingController();
 
   bool _isPasswordVisible = false;
@@ -19,14 +20,14 @@ class _LoginPageState extends State<LoginPage> {
   @override
   void initState() {
     super.initState();
-    emailController.text = '';
+    usernameController.text = '';
     passwordController.text = '';
     _isPasswordVisible = false;
   }
 
   @override
   void dispose() {
-    emailController.dispose();
+    usernameController.dispose();
     passwordController.dispose();
     super.dispose();
   }
@@ -51,6 +52,8 @@ class _LoginPageState extends State<LoginPage> {
                       color: const Color(0xFF253960),
                       borderRadius: BorderRadius.circular(30)),
                   child: TextFormField(
+                    controller: usernameController,
+                    keyboardType: TextInputType.emailAddress,
                     decoration: InputDecoration(
                         prefixIconConstraints:
                             const BoxConstraints(minWidth: 50, maxHeight: 50),
@@ -70,6 +73,17 @@ class _LoginPageState extends State<LoginPage> {
                         ),
                         contentPadding: const EdgeInsets.only(left: 60),
                         hintText: "Username, email"),
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return "Username cant be empty";
+                      }
+                      bool emailValid =
+                          RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$')
+                              .hasMatch(value);
+                      if (!emailValid) {
+                        return "Enter valid email";
+                      }
+                    },
                   ),
                 ),
                 const SizedBox(
@@ -81,6 +95,7 @@ class _LoginPageState extends State<LoginPage> {
                       color: const Color(0xFF253960),
                       borderRadius: BorderRadius.circular(30)),
                   child: TextFormField(
+                    controller: passwordController,
                     obscureText: !_isPasswordVisible,
                     decoration: InputDecoration(
                         prefixIconConstraints:
@@ -114,6 +129,13 @@ class _LoginPageState extends State<LoginPage> {
                         ),
                         contentPadding: const EdgeInsets.only(left: 60),
                         hintText: "Password"),
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return "Enter Password";
+                      } else if (passwordController.text.length < 6) {
+                        return "Password Lenght blyat!!";
+                      }
+                    },
                   ),
                 ),
                 const SizedBox(
@@ -123,7 +145,13 @@ class _LoginPageState extends State<LoginPage> {
                   style: const ButtonStyle(
                       backgroundColor:
                           MaterialStatePropertyAll(Color(0xFF6BC7E9))),
-                  onPressed: () {},
+                  onPressed: () {
+                    if (_formkey.currentState!.validate()) {
+                      print("Success");
+                      usernameController.clear();
+                      passwordController.clear();
+                    }
+                  },
                   child: const Center(
                       child: Text(
                     "Sign In",
