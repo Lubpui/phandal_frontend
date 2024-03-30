@@ -11,6 +11,7 @@ class Sheet extends StatefulWidget {
 
 class _SheetState extends State<Sheet> {
   int _selectedColor = 0;
+  double _current = 0;
 
   final List<int> colors = [
     0xffFF0000,
@@ -90,12 +91,12 @@ class _SheetState extends State<Sheet> {
               ],
             ),
           ),
-          const Padding(
-            padding: EdgeInsets.only(left: 20, right: 20, top: 10),
+          Padding(
+            padding: EdgeInsets.only(left: 20, right: 20, top: 20),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
+                const Text(
                   "Recoil",
                   style: TextStyle(
                     color: Color(0xffFFFFFF),
@@ -103,14 +104,28 @@ class _SheetState extends State<Sheet> {
                   ),
                 ),
                 Text(
-                  "5",
-                  style: TextStyle(
+                  _current.round().toString(),
+                  style: const TextStyle(
                     color: Color(0xffFFFFFF),
                     fontWeight: FontWeight.bold,
                   ),
                 ),
               ],
             ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(top: 20, right: 20, left: 20),
+            child: Slider(
+                value: _current,
+                min: 0,
+                max: 5,
+                activeColor: const Color(0xff6BC7E9),
+                thumbColor: const Color(0xffD9D9D9),
+                onChanged: (value) {
+                  setState(() {
+                    _current = value;
+                  });
+                }),
           )
         ],
       ),
