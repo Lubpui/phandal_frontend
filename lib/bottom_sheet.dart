@@ -10,7 +10,7 @@ class Sheet extends StatefulWidget {
 }
 
 class _SheetState extends State<Sheet> {
-  int _selectedColorIndex = 0;
+  int _selectedColor = 0;
 
   final List<Color> colors = [
     const Color(0xffFF0000),
@@ -24,7 +24,7 @@ class _SheetState extends State<Sheet> {
     return GestureDetector(
       onTap: () {
         setState(() {
-          _selectedColorIndex = index;
+          _selectedColor = index;
         });
       },
       child: Padding(
@@ -35,12 +35,12 @@ class _SheetState extends State<Sheet> {
           decoration: BoxDecoration(
             shape: BoxShape.circle,
             border: Border.all(
-              color: _selectedColorIndex == index
+              color: _selectedColor == index
                   ? const Color(0xff6BC7E9)
                   : colors[index],
               width: 5,
             ),
-            color: _selectedColorIndex == index ? colors[index] : colors[index],
+            color: _selectedColor == index ? colors[index] : colors[index],
           ),
         ),
       ),
