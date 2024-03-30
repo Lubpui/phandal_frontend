@@ -20,7 +20,7 @@ class _SheetState extends State<Sheet> {
     const Color(0xff0019FF),
   ];
 
-  Widget buildRadioButton(int index) {
+  Widget Radiopress(int index) {
     return GestureDetector(
       onTap: () {
         setState(() {
@@ -76,7 +76,7 @@ class _SheetState extends State<Sheet> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                for (int i = 0; i < 5; i++) buildRadioButton(i),
+                for (int i = 0; i < 5; i++) Radiopress(i),
               ],
             ),
           ),
