@@ -10,10 +10,47 @@ class Sheet extends StatefulWidget {
 }
 
 class _SheetState extends State<Sheet> {
+  int _selectedColorIndex = 0;
+
+  final List<Color> colors = [
+    const Color(0xffFF0000),
+    const Color(0xffFFA800),
+    const Color(0xffFFF500),
+    const Color(0xff00FF1A),
+    const Color(0xff0019FF),
+  ];
+
+  Widget buildRadioButton(int index) {
+    return GestureDetector(
+      onTap: () {
+        setState(() {
+          _selectedColorIndex = index;
+        });
+      },
+      child: Padding(
+        padding: const EdgeInsets.all(10),
+        child: Container(
+          width: 50,
+          height: 50,
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            border: Border.all(
+              color: _selectedColorIndex == index
+                  ? const Color(0xff6BC7E9)
+                  : colors[index],
+              width: 5,
+            ),
+            color: _selectedColorIndex == index ? colors[index] : colors[index],
+          ),
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: MediaQuery.of(context).size.height * 0.75,
+      height: MediaQuery.of(context).size.height * 0.65,
       decoration: const BoxDecoration(
         color: Color(0xff254479),
         borderRadius: BorderRadius.only(
@@ -24,68 +61,47 @@ class _SheetState extends State<Sheet> {
       width: double.infinity,
       child: Column(
         children: [
-          const Padding(padding: EdgeInsets.only(top: 10)),
+          const Padding(padding: EdgeInsets.only(top: 30)),
           Text(
-            "Enter the password for ${widget.mockUp.name} ${widget.mockUp.network}",
+            "Light Color for ${widget.mockUp.name} ${widget.mockUp.network}",
             style: const TextStyle(
               color: Color(0xffFFFFFF),
             ),
           ),
           const Padding(
-            padding: EdgeInsets.only(top: 10),
+            padding: EdgeInsets.only(top: 20),
           ),
           Padding(
-            padding: const EdgeInsets.only(left: 30, right: 30, top: 10),
+            padding: const EdgeInsets.only(left: 20, right: 20),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                InkWell(
-                  child: const Text('Cancel',
-                      style: TextStyle(color: Color(0xff35B6FF))),
-                  onTap: () {
-                    Navigator.pop(context);
-                  },
-                ),
-                // Text('Cancel', style: TextStyle(color: Color(0xff35B6FF))),
-                const Text('Enter Password',
-                    style: TextStyle(color: Color(0xffFFFFFF))),
-                InkWell(
-                  child: const Text('Join',
-                      style: TextStyle(color: Color(0xff35B6FF))),
-                  onTap: () {
-                    Navigator.pop(context);
-                  },
-                ),
+                for (int i = 0; i < 5; i++) buildRadioButton(i),
               ],
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.only(top: 20, left: 40, right: 40),
-            child: TextField(
-              style: const TextStyle(
-                color: Color(0xffFFFFFF),
-              ),
-              decoration: InputDecoration(
-                contentPadding:
-                    const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
-                filled: true,
-                fillColor: const Color(0xff1D3054),
-                hintText: "Password",
-                hintStyle: const TextStyle(color: Color(0xff496BA5)),
-                suffixIcon: const Padding(
-                  padding: EdgeInsets.only(left: 20, right: 20),
-                  child: Icon(
-                    Icons.visibility,
-                    size: 20,
-                    color: Color(0xff35B6FF),
+          const Padding(
+            padding: EdgeInsets.only(left: 20, right: 20, top: 10),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  "Recoil",
+                  style: TextStyle(
+                    color: Color(0xffFFFFFF),
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(50),
+                Text(
+                  "5",
+                  style: TextStyle(
+                    color: Color(0xffFFFFFF),
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
-              ),
+              ],
             ),
-          ),
+          )
         ],
       ),
     );
