@@ -12,12 +12,20 @@ class Sheet extends StatefulWidget {
 class _SheetState extends State<Sheet> {
   int _selectedColor = 0;
 
-  final List<Color> colors = [
-    const Color(0xffFF0000),
-    const Color(0xffFFA800),
-    const Color(0xffFFF500),
-    const Color(0xff00FF1A),
-    const Color(0xff0019FF),
+  final List<int> colors = [
+    0xffFF0000,
+    0xffFFA800,
+    0xffFFF500,
+    0xff00FF1A,
+    0xff0019FF,
+  ];
+
+  final List<int> colors2 = [
+    0xffFF7373,
+    0xffFFCC6A,
+    0xffFFFCAB,
+    0xff8EFF99,
+    0xff4F76FF,
   ];
 
   Widget Radiopress(int index) {
@@ -36,11 +44,13 @@ class _SheetState extends State<Sheet> {
             shape: BoxShape.circle,
             border: Border.all(
               color: _selectedColor == index
-                  ? const Color(0xff6BC7E9)
-                  : colors[index],
+                  ? Color(0xff6BC7E9)
+                  : Color(colors2[index]),
               width: 5,
             ),
-            color: _selectedColor == index ? colors[index] : colors[index],
+            color: _selectedColor == index
+                ? Color(colors[index])
+                : Color(colors[index]),
           ),
         ),
       ),
