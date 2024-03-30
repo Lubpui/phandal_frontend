@@ -18,9 +18,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Phandal App',
       theme: AppTheme.darkThemeMode,
-      home: HomePage(
-        title: 'Phandal',
-      ),
+      home: HomePage(),
     );
   }
 }
