@@ -1,9 +1,11 @@
-import 'dart:convert';
+// ignore_for_file: prefer_const_constructors, sized_box_for_whitespace, avoid_print
+
+// import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 class LoginPage extends StatefulWidget {
-  LoginPage({super.key});
+  const LoginPage({super.key});
 
   @override
   State<LoginPage> createState() => _LoginPageState();
@@ -14,6 +16,8 @@ class _LoginPageState extends State<LoginPage> {
 
   final usernameController = TextEditingController();
   final passwordController = TextEditingController();
+
+  String errorMessage = '';
 
   bool _isPasswordVisible = false;
 
@@ -83,60 +87,90 @@ class _LoginPageState extends State<LoginPage> {
                       if (!emailValid) {
                         return "Enter valid email";
                       }
+
+                      return null;
                     },
                   ),
                 ),
                 const SizedBox(
                   height: 20,
                 ),
-                Container(
-                  height: 50,
-                  decoration: BoxDecoration(
-                      color: const Color(0xFF253960),
-                      borderRadius: BorderRadius.circular(30)),
-                  child: TextFormField(
-                    controller: passwordController,
-                    obscureText: !_isPasswordVisible,
-                    decoration: InputDecoration(
-                        prefixIconConstraints:
-                            const BoxConstraints(minWidth: 50, maxHeight: 50),
-                        suffixIcon: IconButton(
-                          onPressed: () {
-                            setState(() {
-                              _isPasswordVisible = !_isPasswordVisible;
-                            });
-                          },
-                          icon: Icon(
-                            _isPasswordVisible
-                                ? Icons.visibility
-                                : Icons.visibility_off,
-                            color: Color(0xFF6BC7E9),
-                          ),
+                TextFormField(
+                  controller: passwordController,
+                  obscureText: !_isPasswordVisible,
+                  decoration: InputDecoration(
+                    prefixIconConstraints:
+                        const BoxConstraints(minWidth: 50, maxHeight: 50),
+                    suffixIcon: IconButton(
+                      onPressed: () {
+                        setState(() {
+                          _isPasswordVisible = !_isPasswordVisible;
+                        });
+                      },
+                      icon: Icon(
+                        _isPasswordVisible
+                            ? Icons.visibility
+                            : Icons.visibility_off,
+                        color: errorMessage != ""
+                            ? Color(0xFFFF6767)
+                            : Color(0xFF6BC7E9),
+                      ),
+                    ),
+                    prefixIcon: Padding(
+                      padding: const EdgeInsets.only(right: 10.0),
+                      child: Container(
+                        width: 50,
+                        height: 50,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(50),
+                          color: errorMessage != ""
+                              ? Color(0xFFFF6767)
+                              : Color(0xFF6BC7E9),
                         ),
-                        prefixIcon: Padding(
-                          padding: const EdgeInsets.only(right: 10.0),
-                          child: Container(
-                            width: 50,
-                            height: 50,
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(50),
-                                color: const Color(0xFF6BC7E9)),
-                            child: const Icon(
-                              Icons.mail_outline_rounded,
-                              color: Color(0xFF253960),
-                            ),
-                          ),
+                        child: const Icon(
+                          Icons.mail_outline_rounded,
+                          color: Color(0xFF253960),
                         ),
-                        contentPadding: const EdgeInsets.only(left: 60),
-                        hintText: "Password"),
-                    validator: (value) {
-                      if (value!.isEmpty) {
-                        return "Enter Password";
-                      } else if (passwordController.text.length < 6) {
-                        return "Password Lenght blyat!!";
-                      }
-                    },
+                      ),
+                    ),
+                    contentPadding: const EdgeInsets.only(left: 60),
+                    hintText: "Password",
+                    filled: true,
+                    fillColor: Color(0xFF253960),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(25),
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(25),
+                      borderSide: BorderSide.none,
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(25),
+                      borderSide: BorderSide(
+                        color: Color(0xFF6BC7E9),
+                      ),
+                    ),
+                    errorBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(25),
+                      borderSide: BorderSide(
+                        color: Color(0xFFFF6767),
+                      ),
+                    ),
                   ),
+                  validator: (value) {
+                    String error = '';
+                    if (value!.isEmpty) {
+                      error = "Enter Password";
+                    } else if (passwordController.text.length < 6) {
+                      error = "Password Lenght blyat!!";
+                    }
+
+                    setState(() {
+                      errorMessage = error;
+                    });
+
+                    return errorMessage;
+                  },
                 ),
                 const SizedBox(
                   height: 20,
@@ -224,7 +258,9 @@ class _LoginPageState extends State<LoginPage> {
                   children: [
                     const Text(
                       "Not a member?",
-                      style: TextStyle(fontSize: 20),
+                      style: TextStyle(
+                        fontSize: 14,
+                      ),
                     ),
                     const SizedBox(
                       width: 5,
@@ -234,7 +270,7 @@ class _LoginPageState extends State<LoginPage> {
                         child: const Text(
                           "Register now",
                           style:
-                              TextStyle(color: Color(0xFF6BC7E9), fontSize: 20),
+                              TextStyle(color: Color(0xFF6BC7E9), fontSize: 14),
                         )),
                   ],
                 )
