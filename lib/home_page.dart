@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:phandal_frontend/bottom_sheet.dart';
 import 'package:phandal_frontend/data/data_model.dart';
+import 'package:percent_indicator/percent_indicator.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -78,7 +79,7 @@ class _HomePageState extends State<HomePage> {
                   delegate: SliverChildBuilderDelegate(
                     (context, index) {
                       final wifi = _mockUp[index];
-                      // double bat = display_list[index].number / 100;
+                      double bat = display_list[index].number / 100;
                       return GestureDetector(
                         onTap: () {
                           showModalBottomSheet(
@@ -148,24 +149,24 @@ class _HomePageState extends State<HomePage> {
                                         ],
                                       ),
                                     ),
-                                    // CircularPercentIndicator(
-                                    //   radius: 30.0,
-                                    //   lineWidth: 5,
-                                    //   percent: bat,
-                                    //   center: Text(
-                                    //     "${display_list[index].number}%",
-                                    //     style: const TextStyle(
-                                    //         fontWeight: FontWeight.bold,
-                                    //         fontSize: 15,
-                                    //         color: Color(0xfFFFFFFF)),
-                                    //   ),
-                                    //   circularStrokeCap:
-                                    //       CircularStrokeCap.round,
-                                    //   progressColor: const Color(0xff82E2F7),
-                                    //   backgroundColor: const Color(0xffFFFFFF),
-                                    //   animation: true,
-                                    //   animationDuration: 1000,
-                                    // ),
+                                    CircularPercentIndicator(
+                                      radius: 30.0,
+                                      lineWidth: 5,
+                                      percent: bat,
+                                      center: Text(
+                                        "${display_list[index].number}%",
+                                        style: const TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 15,
+                                            color: Color(0xfFFFFFFF)),
+                                      ),
+                                      circularStrokeCap:
+                                          CircularStrokeCap.round,
+                                      progressColor: const Color(0xff82E2F7),
+                                      backgroundColor: const Color(0xffFFFFFF),
+                                      animation: true,
+                                      animationDuration: 1000,
+                                    ),
                                   ],
                                 ),
                               ),
