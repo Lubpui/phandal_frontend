@@ -1,8 +1,9 @@
 // ignore_for_file: prefer_const_constructors, sized_box_for_whitespace, avoid_print
 
-// import 'dart:convert';
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:phandal_frontend/model/account_model.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -17,13 +18,15 @@ class _LoginPageState extends State<LoginPage> {
   final usernameController = TextEditingController();
   final passwordController = TextEditingController();
 
-  String errorMessage = '';
+  Account errorMessage = new Account();
 
   bool _isPasswordVisible = false;
 
   @override
   void initState() {
     super.initState();
+    errorMessage.username = '';
+    errorMessage.password = '';
     usernameController.text = '';
     passwordController.text = '';
     _isPasswordVisible = false;
@@ -52,7 +55,6 @@ class _LoginPageState extends State<LoginPage> {
                 ),
                 TextFormField(
                   controller: usernameController,
-                  obscureText: !_isPasswordVisible,
                   decoration: InputDecoration(
                     prefixIconConstraints:
                         const BoxConstraints(minWidth: 50, maxHeight: 50),
@@ -63,7 +65,7 @@ class _LoginPageState extends State<LoginPage> {
                         height: 50,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(50),
-                          color: errorMessage != ""
+                          color: errorMessage.username != ""
                               ? Color(0xFFFF6767)
                               : Color(0xFF6BC7E9),
                         ),
@@ -98,16 +100,19 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                   ),
                   validator: (value) {
+                    String error = '';
                     if (value!.isEmpty) {
-                      return "Username cant be empty";
+                      error = "Username can't be empty";
                     }
-                    bool emailValid =
-                        RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$')
-                            .hasMatch(value);
-                    if (!emailValid) {
-                      return "Enter valid email";
+                    if (value.length < 6 || value.length > 20) {
+                      error =
+                          "Username must be between 6 and 20 characters long";
                     }
-                    return null;
+                    setState(() {
+                      errorMessage.username = error;
+                    });
+
+                    return error;
                   },
                 ),
                 const SizedBox(
@@ -129,7 +134,7 @@ class _LoginPageState extends State<LoginPage> {
                         _isPasswordVisible
                             ? Icons.visibility
                             : Icons.visibility_off,
-                        color: errorMessage != ""
+                        color: errorMessage.password != ""
                             ? Color(0xFFFF6767)
                             : Color(0xFF6BC7E9),
                       ),
@@ -141,7 +146,7 @@ class _LoginPageState extends State<LoginPage> {
                         height: 50,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(50),
-                          color: errorMessage != ""
+                          color: errorMessage.password != ""
                               ? Color(0xFFFF6767)
                               : Color(0xFF6BC7E9),
                         ),
@@ -184,10 +189,10 @@ class _LoginPageState extends State<LoginPage> {
                     }
 
                     setState(() {
-                      errorMessage = error;
+                      errorMessage.password = error;
                     });
 
-                    return errorMessage;
+                    return error;
                   },
                 ),
                 const SizedBox(
@@ -199,7 +204,11 @@ class _LoginPageState extends State<LoginPage> {
                           MaterialStatePropertyAll(Color(0xFF6BC7E9))),
                   onPressed: () {
                     if (_formkey.currentState!.validate()) {
-                      print("Success");
+                      String jsonString = jsonEncode({
+                        'username': usernameController.text,
+                        'password': passwordController.text
+                      });
+                      print(jsonString);
                       usernameController.clear();
                       passwordController.clear();
                     }
