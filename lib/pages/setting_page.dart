@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:phandal_frontend/core/theme/app_pallete.dart';
 import 'package:phandal_frontend/widget/navbar_widget.dart';
+import 'package:phandal_frontend/widget/searchbar_widget.dart';
 import 'package:phandal_frontend/widget/user_widget.dart';
 
 class SettingPage extends StatelessWidget {
@@ -9,11 +10,12 @@ class SettingPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        bottom: const PreferredSize(
+            preferredSize: Size.fromHeight(60), child: SearchBarWidget()),
+      ),
       body: ListView(
         children: [
-          const SizedBox(
-            height: 120,
-          ),
           const Padding(
             padding: EdgeInsets.all(20.0),
             child: Text(

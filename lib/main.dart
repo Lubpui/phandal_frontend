@@ -2,10 +2,10 @@
 
 import 'package:flutter/material.dart';
 import 'package:phandal_frontend/core/theme/app_theme.dart';
-import 'package:phandal_frontend/home_page.dart';
 import 'package:phandal_frontend/pages/bluetooth_connect_page.dart';
-import 'package:phandal_frontend/pages/dashboard_page.dart';
 import 'package:phandal_frontend/pages/login_page.dart';
+import 'package:phandal_frontend/pages/setting_page.dart';
+import 'package:phandal_frontend/route/routes.dart';
 
 // import 'package:phandal_frontend/home_page.dart';
 
@@ -21,6 +21,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Phandal App',
+        routes: AppRoute.all,
         theme: AppTheme.darkThemeMode,
         home:
             BluetoothConnectPage() /* HomePage(

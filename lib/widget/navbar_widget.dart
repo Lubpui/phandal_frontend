@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors, library_private_types_in_public_api
 
 import 'package:flutter/material.dart';
+import 'package:iconsax/iconsax.dart';
 import 'package:phandal_frontend/core/theme/app_pallete.dart';
 
 class MyNavigationBar extends StatefulWidget {
@@ -49,15 +50,15 @@ class _MyNavigationBarState extends State<MyNavigationBar> {
                 type: BottomNavigationBarType.fixed,
                 items: const [
                   BottomNavigationBarItem(
-                    icon: Icon(Icons.home),
+                    icon: Icon(Iconsax.home),
                     label: 'Home',
                   ),
                   BottomNavigationBarItem(
-                    icon: Icon(Icons.space_dashboard_outlined),
+                    icon: Icon(Iconsax.status_up),
                     label: 'Notifications',
                   ),
                   BottomNavigationBarItem(
-                    icon: Icon(Icons.settings),
+                    icon: Icon(Iconsax.setting),
                     label: 'Notifications',
                   ),
                 ],
