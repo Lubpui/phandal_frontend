@@ -10,8 +10,13 @@ class Sheet extends StatefulWidget {
 }
 
 class _SheetState extends State<Sheet> {
+  //widget 5 Colors
   int _selectedColor = 0;
   double _current = 0;
+
+  //widget Dropdown
+  String? selectedValue;
+  List<String> dropdownItem = ["Item 1", "Item 2", "Item 3"];
 
   final List<int> colors = [
     0xffFF0000,
@@ -45,7 +50,7 @@ class _SheetState extends State<Sheet> {
             shape: BoxShape.circle,
             border: Border.all(
               color: _selectedColor == index
-                  ? Color(0xff6BC7E9)
+                  ? const Color(0xff6BC7E9)
                   : Color(colors2[index]),
               width: 5,
             ),
@@ -93,7 +98,7 @@ class _SheetState extends State<Sheet> {
             ),
           ),
           Padding(
-            padding: EdgeInsets.only(left: 20, right: 20, top: 28),
+            padding: const EdgeInsets.only(left: 20, right: 20, top: 28),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -117,16 +122,60 @@ class _SheetState extends State<Sheet> {
           Padding(
             padding: const EdgeInsets.only(top: 28, right: 20, left: 20),
             child: Slider(
-                value: _current,
-                min: 0,
-                max: 5,
-                activeColor: const Color(0xff6BC7E9),
-                thumbColor: const Color(0xffD9D9D9),
-                onChanged: (value) {
-                  setState(() {
-                    _current = value;
-                  });
-                }),
+              value: _current,
+              min: 0,
+              max: 5,
+              activeColor: const Color(0xff6BC7E9),
+              thumbColor: const Color(0xffD9D9D9),
+              onChanged: (value) {
+                setState(() {
+                  _current = value;
+                });
+              },
+            ),
+          ),
+          SizedBox(
+            width: double.infinity,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(left: 40, right: 40, top: 20),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(20),
+                      color: const Color(0xff3E5888),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 15, right: 15),
+                      child: DropdownButton<String>(
+                        hint: const Text("Select Mode"),
+                        value: selectedValue,
+                        items: dropdownItem.map((String value) {
+                          return DropdownMenuItem<String>(
+                              value: value, child: Text(value));
+                        }).toList(),
+                        onChanged: (newValue) {
+                          setState(() {
+                            selectedValue = newValue;
+                          });
+                        },
+                        isExpanded: true,
+                        dropdownColor: const Color(0xff3E5888),
+                        borderRadius: BorderRadius.circular(20),
+                        icon: const Icon(
+                          Icons.keyboard_arrow_down,
+                          color: Color(0xff87A2D3),
+                        ),
+                        iconSize: 20,
+                        underline: const SizedBox(),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
           )
         ],
       ),
