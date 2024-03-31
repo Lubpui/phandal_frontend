@@ -174,6 +174,58 @@ class _SheetState extends State<Sheet> {
                     ),
                   ),
                 ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 50, left: 20, right: 20),
+                  child: GestureDetector(
+                    onTap: () {
+                      print("Save");
+                    },
+                    child: Container(
+                      width: 300,
+                      height: 50,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(25),
+                        color: const Color(0xff6BC7E9),
+                      ),
+                      child: const Center(
+                        child: Text(
+                          "Save",
+                          style: TextStyle(
+                            color: Color(0xff1E345C),
+                            fontWeight: FontWeight.bold,
+                            fontSize: 17,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 20, left: 20, right: 20),
+                  child: GestureDetector(
+                    onTap: () {
+                      print("Disconnection");
+                    },
+                    child: Container(
+                      width: 300,
+                      height: 50,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(25),
+                        color: const Color(0xffFF6767),
+                      ),
+                      child: const Center(
+                        child: Text(
+                          "Disconnection",
+                          style: TextStyle(
+                            color: Color(0xffFFFFFF),
+                            fontWeight: FontWeight.bold,
+                            fontSize: 17,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
               ],
             ),
           )

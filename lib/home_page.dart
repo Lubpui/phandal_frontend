@@ -181,6 +181,7 @@ class _HomePageState extends State<HomePage> {
                 ),
                 SliverToBoxAdapter(
                   child: GestureDetector(
+                    // ontap in bluetooth_home
                     onTap: () {},
                     child: Padding(
                       padding: const EdgeInsets.symmetric(
