@@ -2,7 +2,6 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:phandal_frontend/core/theme/app_pallete.dart';
 
@@ -50,7 +49,7 @@ class _MyNavigationBarState extends State<MyNavigationBar> {
                 selectedFontSize: 0,
                 unselectedFontSize: 0,
                 type: BottomNavigationBarType.fixed,
-                items: [
+                items: const [
                   BottomNavigationBarItem(
                     icon: Icon(Icons.home_outlined),
                     label: 'Notifications',

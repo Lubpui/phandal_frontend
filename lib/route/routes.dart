@@ -13,7 +13,7 @@ class AppRoute {
   static get all => <String, WidgetBuilder>{
         loginpage: (BuildContext context) => const LoginPage(),
         bluetoothpage: (BuildContext context) => const BluetoothConnectPage(),
-        dashboardpage: (BuildContext context) => const DashBoard(),
+        dashboardpage: (BuildContext context) => DashBoard(),
         settingpagepage: (BuildContext context) => const SettingPage(),
       };
 }
