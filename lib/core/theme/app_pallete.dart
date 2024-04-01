@@ -33,4 +33,10 @@ class AppPallete {
   static const Color backgroundIcon = Color.fromARGB(255, 28, 255, 130);
   static const Color backgroundabout = Color.fromARGB(101, 253, 198, 0);
   static const Color abouticon = Color(0xFFFDC500);
+  static const Color batterycolor = Color(0xFF02FF95);
+  static const Color greyscaleicon = Color.fromARGB(255, 94, 94, 94);
+  static const Color greyscalebg = Color.fromARGB(173, 197, 197, 197);
+  static const Color win = Color(0xFF1CADFF);
+  static const Color lost = Color(0xFFFF5757);
+  static const Color searchbarelementcolor = Color(0xFF5B7299);
 }
