@@ -11,6 +11,7 @@ class SettingPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        surfaceTintColor: AppPallete.transparentColor,
         bottom: const PreferredSize(
             preferredSize: Size.fromHeight(60), child: SearchBarWidget()),
       ),
@@ -34,7 +35,7 @@ class SettingPage extends StatelessWidget {
           Center(
             child: Container(
               width: 320,
-              height: 320,
+              height: 350,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(20),
                 gradient: const LinearGradient(colors: [
@@ -45,6 +46,7 @@ class SettingPage extends StatelessWidget {
               child: Padding(
                 padding: const EdgeInsets.symmetric(vertical: 15),
                 child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     ElevatedButton(
                       style: ElevatedButton.styleFrom(
@@ -58,15 +60,15 @@ class SettingPage extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
                             Container(
-                              width: 70,
-                              height: 70,
+                              width: 54,
+                              height: 54,
                               decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(50),
                                   color: AppPallete.greyscalebg),
                               child: const Icon(
                                 Icons.notifications_outlined,
                                 color: AppPallete.greyscaleicon,
-                                size: 50,
+                                size: 35,
                               ),
                             ),
                             const SizedBox(
@@ -108,15 +110,65 @@ class SettingPage extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
                             Container(
-                              width: 70,
-                              height: 70,
+                              width: 54,
+                              height: 54,
                               decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(50),
                                   color: AppPallete.greyscalebg),
                               child: const Icon(
-                                Icons.language,
+                                Icons.palette_outlined,
                                 color: AppPallete.greyscaleicon,
-                                size: 50,
+                                size: 35,
+                              ),
+                            ),
+                            const SizedBox(
+                              width: 30,
+                            ),
+                            const Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  "Appearance",
+                                  style: TextStyle(
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold,
+                                      color:
+                                          Color.fromARGB(255, 151, 151, 151)),
+                                ),
+                                Text(
+                                  "Coming soon",
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      color: AppPallete.greyscalebg,
+                                      fontSize: 16),
+                                )
+                              ],
+                            )
+                          ],
+                        ),
+                      ),
+                    ),
+                    ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                          shadowColor: AppPallete.transparentColor,
+                          elevation: 0,
+                          backgroundColor: AppPallete.transparentColor),
+                      onPressed: () {},
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 10),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Container(
+                              width: 54,
+                              height: 54,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(50),
+                                  color: AppPallete.greyscalebg),
+                              child: const Icon(
+                                Icons.language_outlined,
+                                color: AppPallete.greyscaleicon,
+                                size: 35,
                               ),
                             ),
                             const SizedBox(
@@ -158,15 +210,15 @@ class SettingPage extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
                             Container(
-                              width: 70,
-                              height: 70,
+                              width: 54,
+                              height: 54,
                               decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(50),
                                   color: AppPallete.greyscalebg),
                               child: const Icon(
                                 Icons.error_outline_outlined,
                                 color: AppPallete.greyscaleicon,
-                                size: 50,
+                                size: 35,
                               ),
                             ),
                             const SizedBox(

@@ -38,4 +38,5 @@ class AppPallete {
   static const Color greyscalebg = Color.fromARGB(173, 197, 197, 197);
   static const Color win = Color(0xFF1CADFF);
   static const Color lost = Color(0xFFFF5757);
+  static const Color searchbarelementcolor = Color(0xFF5B7299);
 }

@@ -23,8 +23,7 @@ class MyApp extends StatelessWidget {
         title: 'Phandal App',
         routes: AppRoute.all,
         theme: AppTheme.darkThemeMode,
-        home:
-            BluetoothConnectPage() /* HomePage(
+        home: SettingPage() /* HomePage(
         title: 'Phandal',
       ), */
         );

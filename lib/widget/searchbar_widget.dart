@@ -4,8 +4,6 @@ import 'package:phandal_frontend/core/theme/app_pallete.dart';
 class SearchBarWidget extends StatefulWidget {
   const SearchBarWidget({super.key});
 
-  
-
   @override
   State<SearchBarWidget> createState() => _SearchBarWidgetState();
 }
@@ -23,14 +21,14 @@ class _SearchBarWidgetState extends State<SearchBarWidget> {
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(40)),
           child: TextField(
             decoration: const InputDecoration(
-                hintText: "Search...",
+                hintText: "Search... Setting, etc",
+                hintStyle: TextStyle(color: AppPallete.searchbarelementcolor),
                 prefixIcon: Icon(
                   Icons.search,
+                  color: AppPallete.searchbarelementcolor,
                 ),
                 border: InputBorder.none),
-            onChanged: (value) {
-              
-            },
+            onChanged: (value) {},
           ),
         ),
       ),

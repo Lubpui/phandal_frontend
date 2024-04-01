@@ -1,6 +1,8 @@
 // ignore_for_file: prefer_const_constructors, library_private_types_in_public_api
 
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:phandal_frontend/core/theme/app_pallete.dart';
 
@@ -48,17 +50,21 @@ class _MyNavigationBarState extends State<MyNavigationBar> {
                 selectedFontSize: 0,
                 unselectedFontSize: 0,
                 type: BottomNavigationBarType.fixed,
-                items: const [
+                items: [
                   BottomNavigationBarItem(
-                    icon: Icon(Iconsax.home),
-                    label: 'Home',
-                  ),
-                  BottomNavigationBarItem(
-                    icon: Icon(Iconsax.status_up),
+                    icon: Icon(Icons.home_outlined),
                     label: 'Notifications',
                   ),
                   BottomNavigationBarItem(
-                    icon: Icon(Iconsax.setting),
+                    icon: Icon(Icons.fiber_smart_record_outlined),
+                    label: 'Notifications',
+                  ),
+                  BottomNavigationBarItem(
+                    icon: Icon(Icons.scoreboard_outlined),
+                    label: 'Notifications',
+                  ),
+                  BottomNavigationBarItem(
+                    icon: Icon(Iconsax.setting_24),
                     label: 'Notifications',
                   ),
                 ],
