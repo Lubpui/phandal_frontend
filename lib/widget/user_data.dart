@@ -21,7 +21,7 @@ class UserData extends StatelessWidget {
     final Usermodel selecteduser = modelDB[0];
     return Center(
       child: Container(
-        width: 350,
+        width: 320,
         height: 110,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(40),
@@ -54,7 +54,7 @@ class UserData extends StatelessWidget {
               padding: const EdgeInsets.only(top: 2.0),
               child: IconButton(
                   onPressed: () {},
-                  icon: Icon(
+                  icon: const Icon(
                     Icons.edit_document,
                     size: 15,
                     color: AppPallete.iconColor,

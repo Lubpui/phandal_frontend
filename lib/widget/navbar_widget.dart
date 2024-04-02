@@ -16,11 +16,7 @@ class _MyNavigationBarState extends State<MyNavigationBar> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.only(
-        bottom: 25.0,
-        left: 25.0,
-        right: 25.0,
-      ),
+      padding: EdgeInsets.only(bottom: 25.0, left: 25.0, right: 25.0, top: 10),
       child: SizedBox(
         height: 70,
         child: Theme(

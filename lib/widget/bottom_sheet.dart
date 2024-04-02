@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:phandal_frontend/core/theme/app_pallete.dart';
 import 'package:phandal_frontend/data/data_model.dart';
 
 class Sheet extends StatefulWidget {
@@ -7,6 +8,10 @@ class Sheet extends StatefulWidget {
 
   @override
   State<Sheet> createState() => _SheetState();
+}
+
+void _closeBottomSheet(BuildContext context) {
+  Navigator.pop(context);
 }
 
 class _SheetState extends State<Sheet> {
@@ -68,7 +73,10 @@ class _SheetState extends State<Sheet> {
     return Container(
       height: MediaQuery.of(context).size.height * 0.65,
       decoration: const BoxDecoration(
-        color: Color(0xff254479),
+        gradient: LinearGradient(
+            colors: [AppPallete.buttongradient2, AppPallete.buttongradient1],
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter),
         borderRadius: BorderRadius.only(
           topLeft: Radius.circular(25),
           topRight: Radius.circular(25),
@@ -179,6 +187,7 @@ class _SheetState extends State<Sheet> {
                   child: GestureDetector(
                     onTap: () {
                       print("Save");
+                      _closeBottomSheet(context);
                     },
                     child: Container(
                       width: 300,
@@ -204,7 +213,8 @@ class _SheetState extends State<Sheet> {
                   padding: const EdgeInsets.only(top: 20, left: 20, right: 20),
                   child: GestureDetector(
                     onTap: () {
-                      print("Disconnection");
+                      print("Disconnect");
+                      _closeBottomSheet(context);
                     },
                     child: Container(
                       width: 300,
@@ -215,7 +225,7 @@ class _SheetState extends State<Sheet> {
                       ),
                       child: const Center(
                         child: Text(
-                          "Disconnection",
+                          "Disconnect",
                           style: TextStyle(
                             color: Color(0xffFFFFFF),
                             fontWeight: FontWeight.bold,
