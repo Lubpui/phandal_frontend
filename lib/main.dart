@@ -32,7 +32,8 @@ class MyApp extends StatelessWidget {
         title: 'Phandal App',
         routes: AppRoute.all,
         theme: AppTheme.darkThemeMode,
-        home: DashBoard() /* HomePage(
+        home:
+            RegisterPage() /* HomePage(
         title: 'Phandal',
       ), */
         );
