@@ -19,19 +19,25 @@ class _LoginPageState extends State<RegisterPage> {
   final email = TextEditingController();
   final birth = TextEditingController();
   final password = TextEditingController();
-  final conpassword = TextEditingController();
 
   Account errorMessage = new Account();
 
   bool _isPasswordVisible = false;
+  bool _isConPasswordVisible = false;
 
   @override
   void initState() {
     super.initState();
     errorMessage.username = '';
     errorMessage.password = '';
+    errorMessage.email = '';
+    errorMessage.birth = '';
+    errorMessage.conpassword = '';
+
     username.text = '';
     password.text = '';
+    email.text = '';
+    birth.text = '';
     _isPasswordVisible = false;
   }
 
@@ -39,6 +45,8 @@ class _LoginPageState extends State<RegisterPage> {
   void dispose() {
     username.dispose();
     password.dispose();
+    email.dispose();
+    birth.dispose();
     super.dispose();
   }
 
@@ -88,14 +96,14 @@ class _LoginPageState extends State<RegisterPage> {
                     setState(() {
                       errorMessage.username = error;
                     });
-                    return error;
+                    return error != "" ? error : null;
                   },
                 ),
                 const SizedBox(
                   height: 20,
                 ),
                 TextFormField(
-                  controller: username,
+                  controller: email,
                   decoration: InputDecoration(
                     contentPadding: const EdgeInsets.only(left: 20),
                     hintText: "Email",
@@ -130,16 +138,16 @@ class _LoginPageState extends State<RegisterPage> {
                       error = "Enter your valid Email";
                     }
                     setState(() {
-                      errorMessage.username = error;
+                      errorMessage.email = error;
                     });
-                    return error;
+                    return error != "" ? error : null;
                   },
                 ),
                 const SizedBox(
                   height: 20,
                 ),
                 TextFormField(
-                  controller: username,
+                  controller: birth,
                   decoration: InputDecoration(
                     contentPadding: const EdgeInsets.only(left: 20),
                     hintText: "Brithdate",
@@ -174,9 +182,9 @@ class _LoginPageState extends State<RegisterPage> {
                           "Username must be between 6 and 20 characters long";
                     }
                     setState(() {
-                      errorMessage.username = error;
+                      errorMessage.birth = error;
                     });
-                    return error;
+                    return error != "" ? error : null;
                   },
                 ),
                 const SizedBox(
@@ -229,34 +237,31 @@ class _LoginPageState extends State<RegisterPage> {
                     String error = '';
                     if (value!.isEmpty) {
                       error = "Enter Password";
-                    } else if (password.text.length < 6) {
-                      error = "Password Lenght blyat!!";
                     }
                     setState(() {
                       errorMessage.password = error;
                     });
 
-                    return error;
+                    return error != "" ? error : null;
                   },
                 ),
                 const SizedBox(
                   height: 20,
                 ),
                 TextFormField(
-                  controller: password,
-                  obscureText: !_isPasswordVisible,
+                  obscureText: !_isConPasswordVisible,
                   decoration: InputDecoration(
                     suffixIcon: IconButton(
                       onPressed: () {
                         setState(() {
-                          _isPasswordVisible = !_isPasswordVisible;
+                          _isConPasswordVisible = !_isConPasswordVisible;
                         });
                       },
                       icon: Icon(
-                        _isPasswordVisible
+                        _isConPasswordVisible
                             ? Icons.visibility
                             : Icons.visibility_off,
-                        color: errorMessage.password != ""
+                        color: errorMessage.conpassword != ""
                             ? Color(0xFFFF6767)
                             : Color(0xFF6BC7E9),
                       ),
@@ -289,14 +294,14 @@ class _LoginPageState extends State<RegisterPage> {
                     String error = '';
                     if (value!.isEmpty) {
                       error = "Enter Password";
-                    } else if (password.text.length < 6) {
-                      error = "Password Lenght blyat!!";
+                    } else if (password.text != value) {
+                      error = "Passwords don't match";
                     }
                     setState(() {
-                      errorMessage.password = error;
+                      errorMessage.conpassword = error;
                     });
 
-                    return error;
+                    return error != "" ? error : null;
                   },
                 ),
                 const SizedBox(
@@ -310,10 +315,14 @@ class _LoginPageState extends State<RegisterPage> {
                     if (_formkey.currentState!.validate()) {
                       String jsonString = jsonEncode({
                         'username': username.text,
-                        'password': password.text
+                        'email': email.text,
+                        'brith': birth.text,
+                        'password': password.text,
                       });
                       print(jsonString);
                       username.clear();
+                      email.clear();
+                      birth.clear();
                       password.clear();
                     }
                   },
