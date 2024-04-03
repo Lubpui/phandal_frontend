@@ -15,8 +15,11 @@ class RegisterPage extends StatefulWidget {
 class _LoginPageState extends State<RegisterPage> {
   final _formkey = GlobalKey<FormState>();
 
-  final usernameController = TextEditingController();
-  final passwordController = TextEditingController();
+  final username = TextEditingController();
+  final email = TextEditingController();
+  final birth = TextEditingController();
+  final password = TextEditingController();
+  final conpassword = TextEditingController();
 
   Account errorMessage = new Account();
 
@@ -27,15 +30,15 @@ class _LoginPageState extends State<RegisterPage> {
     super.initState();
     errorMessage.username = '';
     errorMessage.password = '';
-    usernameController.text = '';
-    passwordController.text = '';
+    username.text = '';
+    password.text = '';
     _isPasswordVisible = false;
   }
 
   @override
   void dispose() {
-    usernameController.dispose();
-    passwordController.dispose();
+    username.dispose();
+    password.dispose();
     super.dispose();
   }
 
@@ -51,7 +54,7 @@ class _LoginPageState extends State<RegisterPage> {
               children: [
                 const Image(image: AssetImage('assets/logo.png')),
                 TextFormField(
-                  controller: usernameController,
+                  controller: username,
                   decoration: InputDecoration(
                     contentPadding: const EdgeInsets.only(left: 20),
                     hintText: "Username",
@@ -80,15 +83,11 @@ class _LoginPageState extends State<RegisterPage> {
                   validator: (value) {
                     String error = '';
                     if (value!.isEmpty) {
-                      error = "Username can't be empty";
-                    } else if (value.length < 6 || value.length > 20) {
-                      error =
-                          "Username must be between 6 and 20 characters long";
+                      error = "Enter your username";
                     }
                     setState(() {
                       errorMessage.username = error;
                     });
-
                     return error;
                   },
                 ),
@@ -96,7 +95,7 @@ class _LoginPageState extends State<RegisterPage> {
                   height: 20,
                 ),
                 TextFormField(
-                  controller: usernameController,
+                  controller: username,
                   decoration: InputDecoration(
                     contentPadding: const EdgeInsets.only(left: 20),
                     hintText: "Email",
@@ -125,15 +124,14 @@ class _LoginPageState extends State<RegisterPage> {
                   validator: (value) {
                     String error = '';
                     if (value!.isEmpty) {
-                      error = "Username can't be empty";
-                    } else if (value.length < 6 || value.length > 20) {
-                      error =
-                          "Username must be between 6 and 20 characters long";
+                      error = "Enter your Email";
+                    } else if (!RegExp("^[a-zA-Z0-9+.-]+@[a-zA-Z0-9+.-]+.[a-z]")
+                        .hasMatch(value)) {
+                      error = "Enter your valid Email";
                     }
                     setState(() {
                       errorMessage.username = error;
                     });
-
                     return error;
                   },
                 ),
@@ -141,7 +139,7 @@ class _LoginPageState extends State<RegisterPage> {
                   height: 20,
                 ),
                 TextFormField(
-                  controller: usernameController,
+                  controller: username,
                   decoration: InputDecoration(
                     contentPadding: const EdgeInsets.only(left: 20),
                     hintText: "Brithdate",
@@ -178,7 +176,6 @@ class _LoginPageState extends State<RegisterPage> {
                     setState(() {
                       errorMessage.username = error;
                     });
-
                     return error;
                   },
                 ),
@@ -186,7 +183,7 @@ class _LoginPageState extends State<RegisterPage> {
                   height: 20,
                 ),
                 TextFormField(
-                  controller: passwordController,
+                  controller: password,
                   obscureText: !_isPasswordVisible,
                   decoration: InputDecoration(
                     suffixIcon: IconButton(
@@ -232,10 +229,9 @@ class _LoginPageState extends State<RegisterPage> {
                     String error = '';
                     if (value!.isEmpty) {
                       error = "Enter Password";
-                    } else if (passwordController.text.length < 6) {
+                    } else if (password.text.length < 6) {
                       error = "Password Lenght blyat!!";
                     }
-
                     setState(() {
                       errorMessage.password = error;
                     });
@@ -247,7 +243,7 @@ class _LoginPageState extends State<RegisterPage> {
                   height: 20,
                 ),
                 TextFormField(
-                  controller: passwordController,
+                  controller: password,
                   obscureText: !_isPasswordVisible,
                   decoration: InputDecoration(
                     suffixIcon: IconButton(
@@ -293,10 +289,9 @@ class _LoginPageState extends State<RegisterPage> {
                     String error = '';
                     if (value!.isEmpty) {
                       error = "Enter Password";
-                    } else if (passwordController.text.length < 6) {
+                    } else if (password.text.length < 6) {
                       error = "Password Lenght blyat!!";
                     }
-
                     setState(() {
                       errorMessage.password = error;
                     });
@@ -314,12 +309,12 @@ class _LoginPageState extends State<RegisterPage> {
                   onPressed: () {
                     if (_formkey.currentState!.validate()) {
                       String jsonString = jsonEncode({
-                        'username': usernameController.text,
-                        'password': passwordController.text
+                        'username': username.text,
+                        'password': password.text
                       });
                       print(jsonString);
-                      usernameController.clear();
-                      passwordController.clear();
+                      username.clear();
+                      password.clear();
                     }
                   },
                   child: const Center(
