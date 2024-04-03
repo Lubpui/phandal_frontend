@@ -148,6 +148,12 @@ class _LoginPageState extends State<RegisterPage> {
                 ),
                 TextFormField(
                   controller: birth,
+                  readOnly: true,
+                  onTap: () {
+                    setState(() {
+                      _selectDate();
+                    });
+                  },
                   decoration: InputDecoration(
                     contentPadding: const EdgeInsets.only(left: 20),
                     hintText: "Brithdate",
@@ -365,5 +371,21 @@ class _LoginPageState extends State<RegisterPage> {
         ),
       ),
     );
+  }
+
+  //DatePicker
+  Future<void> _selectDate() async {
+    DateTime? _picked = await showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(2000),
+      lastDate: DateTime(2100),
+    );
+
+    if (_picked != null) {
+      setState(() {
+        birth.text = _picked.toString().split(" ")[0];
+      });
+    }
   }
 }
