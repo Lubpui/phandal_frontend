@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:phandal_frontend/widget/bottom_sheet.dart';
-import 'package:phandal_frontend/data/data_model.dart';
+import 'package:phandal_frontend/model/data_model.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 
 class HomePage extends StatefulWidget {

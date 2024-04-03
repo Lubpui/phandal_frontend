@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:phandal_frontend/data/data_model.dart';
+import 'package:phandal_frontend/model/data_model.dart';
 
 class Sheet extends StatefulWidget {
   final DataModel mockUp;
