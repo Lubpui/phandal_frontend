@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:phandal_frontend/bottom_sheet.dart';
+import 'package:phandal_frontend/widget/bottom_sheet.dart';
 import 'package:phandal_frontend/data/data_model.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 

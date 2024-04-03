@@ -9,7 +9,7 @@ import 'package:provider/provider.dart';
 
 // import 'package:phandal_frontend/home_page.dart';
 // import 'package:phandal_frontend/home_page.dart';
-import 'package:phandal_frontend/register_page.dart';
+import 'package:phandal_frontend/pages/register_page.dart';
 
 void main() {
   runApp(
