@@ -13,7 +13,7 @@ class SettingPage extends StatelessWidget {
       appBar: AppBar(
         surfaceTintColor: AppPallete.transparentColor,
         bottom: const PreferredSize(
-            preferredSize: Size.fromHeight(60), child: SearchBarWidget()),
+            preferredSize: Size.fromHeight(80), child: SearchBarWidget()),
       ),
       body: ListView(
         children: [

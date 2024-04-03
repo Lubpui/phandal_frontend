@@ -104,15 +104,12 @@ class _LoginPageState extends State<LoginPage> {
                     if (value!.isEmpty) {
                       error = "Username can't be empty";
                     }
-                    if (value.length < 6 || value.length > 20) {
-                      error =
-                          "Username must be between 6 and 20 characters long";
-                    }
+
                     setState(() {
                       errorMessage.username = error;
                     });
 
-                    return error;
+                    return error != "" ? error : null;
                   },
                 ),
                 const SizedBox(
@@ -192,7 +189,7 @@ class _LoginPageState extends State<LoginPage> {
                       errorMessage.password = error;
                     });
 
-                    return error;
+                    return error != "" ? error : null;
                   },
                 ),
                 const SizedBox(
@@ -238,7 +235,7 @@ class _LoginPageState extends State<LoginPage> {
                       width: 15,
                     ),
                     Text(
-                      "OR",
+                      "OR Sign in",
                       style: TextStyle(color: Color(0xFF6BC7E9)),
                     ),
                     SizedBox(
