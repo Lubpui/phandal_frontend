@@ -50,14 +50,101 @@ class _LoginPageState extends State<RegisterPage> {
             child: ListView(
               children: [
                 const Image(image: AssetImage('assets/logo.png')),
-                const SizedBox(
-                  height: 30,
-                ),
                 TextFormField(
                   controller: usernameController,
                   decoration: InputDecoration(
                     contentPadding: const EdgeInsets.only(left: 20),
                     hintText: "Username",
+                    filled: true,
+                    fillColor: Color(0xFF253960),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(25),
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(25),
+                      borderSide: BorderSide.none,
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(25),
+                      borderSide: BorderSide(
+                        color: Color(0xFF6BC7E9),
+                      ),
+                    ),
+                    errorBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(25),
+                      borderSide: BorderSide(
+                        color: Color(0xFFFF6767),
+                      ),
+                    ),
+                  ),
+                  validator: (value) {
+                    String error = '';
+                    if (value!.isEmpty) {
+                      error = "Username can't be empty";
+                    } else if (value.length < 6 || value.length > 20) {
+                      error =
+                          "Username must be between 6 and 20 characters long";
+                    }
+                    setState(() {
+                      errorMessage.username = error;
+                    });
+
+                    return error;
+                  },
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                TextFormField(
+                  controller: usernameController,
+                  decoration: InputDecoration(
+                    contentPadding: const EdgeInsets.only(left: 20),
+                    hintText: "Email",
+                    filled: true,
+                    fillColor: Color(0xFF253960),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(25),
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(25),
+                      borderSide: BorderSide.none,
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(25),
+                      borderSide: BorderSide(
+                        color: Color(0xFF6BC7E9),
+                      ),
+                    ),
+                    errorBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(25),
+                      borderSide: BorderSide(
+                        color: Color(0xFFFF6767),
+                      ),
+                    ),
+                  ),
+                  validator: (value) {
+                    String error = '';
+                    if (value!.isEmpty) {
+                      error = "Username can't be empty";
+                    } else if (value.length < 6 || value.length > 20) {
+                      error =
+                          "Username must be between 6 and 20 characters long";
+                    }
+                    setState(() {
+                      errorMessage.username = error;
+                    });
+
+                    return error;
+                  },
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                TextFormField(
+                  controller: usernameController,
+                  decoration: InputDecoration(
+                    contentPadding: const EdgeInsets.only(left: 20),
+                    hintText: "Brithdate",
                     filled: true,
                     fillColor: Color(0xFF253960),
                     border: OutlineInputBorder(
