@@ -10,7 +10,7 @@ class DeviceWidget extends StatelessWidget {
       padding: const EdgeInsets.only(bottom: 10.0),
       child: Center(
         child: Container(
-          width: 305,
+          width: 310,
           height: 75,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(20),
@@ -29,7 +29,11 @@ class DeviceWidget extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text("Device name"),
-                    Text("MacAddress name"),
+                    Text(
+                      "MacAddress name",
+                      style:
+                          TextStyle(color: Color.fromARGB(64, 255, 255, 255)),
+                    ),
                   ],
                 ),
                 Icon(

@@ -17,7 +17,7 @@ class UserData extends StatelessWidget {
     final Usermodel selecteduser = modelDB[0];
     return Center(
       child: Container(
-        width: 320,
+        width: 230,
         height: 110,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(40),
@@ -25,15 +25,6 @@ class UserData extends StatelessWidget {
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: CircleAvatar(
-                backgroundImage: NetworkImage(
-                  selecteduser.imageUrl,
-                ),
-                radius: 30,
-              ),
-            ),
             Column(
               children: [
                 Padding(
@@ -55,7 +46,16 @@ class UserData extends StatelessWidget {
                     size: 15,
                     color: AppPallete.iconColor,
                   )),
-            )
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: CircleAvatar(
+                backgroundImage: NetworkImage(
+                  selecteduser.imageUrl,
+                ),
+                radius: 30,
+              ),
+            ),
           ],
         ),
       ),
