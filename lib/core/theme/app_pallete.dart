@@ -36,7 +36,7 @@ class AppPallete {
   static const Color batterycolor = Color(0xFF02FF95);
   static const Color greyscaleicon = Color.fromARGB(255, 94, 94, 94);
   static const Color greyscalebg = Color.fromARGB(173, 197, 197, 197);
-  static const Color win = Color(0xFF1CADFF);
-  static const Color lost = Color(0xFFFF5757);
+  static const Color win = Color(0xFF6BC7E9);
+  static const Color lost = Color(0xFFFF6767);
   static const Color searchbarelementcolor = Color(0xFF5B7299);
 }

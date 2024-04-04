@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors, sized_box_for_whitespace, avoid_print
+// ignore_for_file: prefer_const_constructors, sized_box_for_whitespace, avoid_print, unnecessary_new
 
 import 'dart:convert';
 import 'package:flutter/material.dart';
