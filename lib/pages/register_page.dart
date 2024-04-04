@@ -2,7 +2,6 @@
 
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:phandal_frontend/model/account_model.dart';
 
 class RegisterPage extends StatefulWidget {
@@ -375,16 +374,16 @@ class _LoginPageState extends State<RegisterPage> {
 
   //DatePicker
   Future<void> _selectDate() async {
-    DateTime? _picked = await showDatePicker(
+    DateTime? picked = await showDatePicker(
       context: context,
       initialDate: DateTime.now(),
       firstDate: DateTime(2000),
       lastDate: DateTime(2100),
     );
 
-    if (_picked != null) {
+    if (picked != null) {
       setState(() {
-        birth.text = _picked.toString().split(" ")[0];
+        birth.text = picked.toString().split(" ")[0];
       });
     }
   }
