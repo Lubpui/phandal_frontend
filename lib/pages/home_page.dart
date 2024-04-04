@@ -1,10 +1,11 @@
+// ignore_for_file: non_constant_identifier_names
+
 import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:phandal_frontend/widget/bottom_sheet.dart';
 import 'package:phandal_frontend/model/data_model.dart';
 import 'package:phandal_frontend/core/theme/app_pallete.dart';
-import 'package:phandal_frontend/data/data_model.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 import 'package:phandal_frontend/widget/navbar_widget.dart';
 import 'package:phandal_frontend/widget/user_data.dart';

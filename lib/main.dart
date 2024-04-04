@@ -3,9 +3,6 @@
 import 'package:flutter/material.dart';
 import 'package:phandal_frontend/core/theme/app_theme.dart';
 import 'package:phandal_frontend/routes/routes.dart';
-
-// import 'package:phandal_frontend/home_page.dart';
-// import 'package:phandal_frontend/home_page.dart';
 import 'package:phandal_frontend/pages/register_page.dart';
 
 void main() {
