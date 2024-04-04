@@ -359,7 +359,7 @@ class _LoginPageState extends State<RegisterPage> {
                     GestureDetector(
                         onTap: () {},
                         child: const Text(
-                          "Sigh Up",
+                          "Login",
                           style:
                               TextStyle(color: Color(0xFF6BC7E9), fontSize: 14),
                         )),
