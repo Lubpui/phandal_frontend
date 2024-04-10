@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:phandal_frontend/model/color_model.dart';
 import 'package:phandal_frontend/model/data_model.dart';
 import 'package:phandal_frontend/core/theme/app_pallete.dart';
+import 'package:phandal_frontend/utils/utils.dart';
 
 class Sheet extends StatefulWidget {
   final DataModel mockUp;
@@ -23,20 +25,12 @@ class _SheetState extends State<Sheet> {
   String? selectedValue;
   List<String> dropdownItem = ["Item 1", "Item 2", "Item 3"];
 
-  final List<int> colors = [
-    0xffFF0000,
-    0xffFFA800,
-    0xffFFF500,
-    0xff00FF1A,
-    0xff0019FF,
-  ];
-
-  final List<int> colors2 = [
-    0xffFF7373,
-    0xffFFCC6A,
-    0xffFFFCAB,
-    0xff8EFF99,
-    0xff4F76FF,
+  final List<ColorObject> colors = [
+    ColorObject(primary: "#FF0000", secondary: "#FF7373", name: "red"),
+    ColorObject(primary: "#FFA800", secondary: "#FFCC6A", name: "orange"),
+    ColorObject(primary: "#FFF500", secondary: "#FFFCAB", name: "yellow"),
+    ColorObject(primary: "#00FF1A", secondary: "#8EFF99", name: "green"),
+    ColorObject(primary: "#0019FF", secondary: "#4F76FF", name: "blue"),
   ];
 
   Widget Radiopress(int index) {
@@ -55,13 +49,13 @@ class _SheetState extends State<Sheet> {
             shape: BoxShape.circle,
             border: Border.all(
               color: _selectedColor == index
-                  ? const Color(0xff6BC7E9)
-                  : Color(colors2[index]),
+                  ? Color(toIntColor("#6BC7E9"))
+                  : Color(toIntColor(colors[index].secondary)),
               width: 5,
             ),
             color: _selectedColor == index
-                ? Color(colors[index])
-                : Color(colors[index]),
+                ? Color(toIntColor(colors[index].primary))
+                : Color(toIntColor(colors[index].primary)),
           ),
         ),
       ),
@@ -71,7 +65,7 @@ class _SheetState extends State<Sheet> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: MediaQuery.of(context).size.height * 0.65,
+      height: MediaQuery.of(context).size.height * 0.75,
       decoration: const BoxDecoration(
         gradient: LinearGradient(
             colors: [AppPallete.buttongradient2, AppPallete.buttongradient1],
@@ -106,7 +100,7 @@ class _SheetState extends State<Sheet> {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.only(left: 20, right: 20, top: 28),
+            padding: const EdgeInsets.only(left: 30, right: 30, top: 28),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -128,7 +122,7 @@ class _SheetState extends State<Sheet> {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.only(top: 28, right: 20, left: 20),
+            padding: const EdgeInsets.only(top: 30, right: 10, left: 15),
             child: Slider(
               value: _current,
               min: 0,
@@ -149,7 +143,7 @@ class _SheetState extends State<Sheet> {
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Padding(
-                  padding: const EdgeInsets.only(left: 40, right: 40, top: 20),
+                  padding: const EdgeInsets.only(left: 30, right: 30, top: 20),
                   child: Container(
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(20),
@@ -238,7 +232,64 @@ class _SheetState extends State<Sheet> {
                 ),
               ],
             ),
-          )
+          ),
+          Padding(
+            padding: const EdgeInsets.only(top: 50, left: 20, right: 20),
+            child: GestureDetector(
+              onTap: () {
+                Map<String, dynamic> body = {
+                  "color": colors[_selectedColor].name,
+                  "recoil": _current.toStringAsFixed(0),
+                  "mode": selectedValue
+                };
+                print(body);
+              },
+              child: Container(
+                width: 350,
+                height: 50,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(25),
+                  color: const Color(0xff6BC7E9),
+                ),
+                child: const Center(
+                  child: Text(
+                    "Save",
+                    style: TextStyle(
+                      color: Color(0xff1E345C),
+                      fontWeight: FontWeight.bold,
+                      fontSize: 17,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(top: 20, left: 20, right: 20),
+            child: GestureDetector(
+              onTap: () {
+                print("Disconnection");
+              },
+              child: Container(
+                width: 350,
+                height: 50,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(25),
+                  color: const Color(0xffFF6767),
+                ),
+                child: const Center(
+                  child: Text(
+                    "Disconnection",
+                    style: TextStyle(
+                      color: Color(0xffFFFFFF),
+                      fontWeight: FontWeight.bold,
+                      fontSize: 17,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
         ],
       ),
     );
