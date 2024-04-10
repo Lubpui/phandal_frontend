@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:phandal_frontend/model/account_model.dart';
+import 'package:phandal_frontend/routes/routes.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -290,7 +291,9 @@ class _LoginPageState extends State<LoginPage> {
                       width: 5,
                     ),
                     GestureDetector(
-                        onTap: () {},
+                        onTap: () {
+                          Navigator.pushNamed(context, AppRoute.registerPage);
+                        },
                         child: const Text(
                           "Register now",
                           style:

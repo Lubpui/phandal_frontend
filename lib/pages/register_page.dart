@@ -1,17 +1,20 @@
-// ignore_for_file: prefer_const_constructors, sized_box_for_whitespace, avoid_print, unnecessary_new
+// ignore_for_file: prefer_const_constructors, sized_box_for_whitespace, avoid_print, unnecessary_new, unrelated_type_equality_checks, use_build_context_synchronously
 
-import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:phandal_frontend/model/account_model.dart';
+import 'package:phandal_frontend/model/response_body_model.dart';
+import 'package:phandal_frontend/routes/routes.dart';
+import 'package:phandal_frontend/widget/custom_text_form_field.dart';
+import 'package:http/http.dart' as http;
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
 
   @override
-  State<RegisterPage> createState() => _LoginPageState();
+  State<RegisterPage> createState() => _RegisterPageState();
 }
 
-class _LoginPageState extends State<RegisterPage> {
+class _RegisterPageState extends State<RegisterPage> {
   final _formkey = GlobalKey<FormState>();
 
   final username = TextEditingController();
@@ -19,25 +22,23 @@ class _LoginPageState extends State<RegisterPage> {
   final birth = TextEditingController();
   final password = TextEditingController();
 
-  Account errorMessage = new Account();
-
-  bool _isPasswordVisible = false;
-  bool _isConPasswordVisible = false;
+  ErrorAccount errorMessages = new ErrorAccount();
+  ResponseBody responseBody = new ResponseBody();
 
   @override
   void initState() {
     super.initState();
-    errorMessage.username = '';
-    errorMessage.password = '';
-    errorMessage.email = '';
-    errorMessage.birth = '';
-    errorMessage.conpassword = '';
+    errorMessages.username = '';
+    errorMessages.password = '';
+    errorMessages.email = '';
+    errorMessages.birth = '';
+    errorMessages.conpassword = '';
+    errorMessages.response = '';
 
     username.text = '';
     password.text = '';
     email.text = '';
     birth.text = '';
-    _isPasswordVisible = false;
   }
 
   @override
@@ -47,6 +48,41 @@ class _LoginPageState extends State<RegisterPage> {
     email.dispose();
     birth.dispose();
     super.dispose();
+  }
+
+  void register() async {
+    try {
+      if (_formkey.currentState!.validate()) {
+        Map<String, String> body = {
+          'username': username.text,
+          'email': email.text,
+          'birthdate': birth.text,
+          'password': password.text,
+        };
+
+        var url = Uri.http('192.168.1.63:3000', '/user/register');
+        var res = await http.post(url, body: body);
+
+        print('status: ${res.statusCode}');
+
+        if (res.statusCode == 201) {
+          print('Register successful...');
+
+          username.clear();
+          email.clear();
+          birth.clear();
+          password.clear();
+
+          Navigator.pushNamed(context, AppRoute.loginPage);
+        } else {
+          setState(() {
+            responseBody = res.body as ResponseBody;
+          });
+        }
+      }
+    } catch (e) {
+      print(e.toString());
+    }
   }
 
   @override
@@ -60,40 +96,18 @@ class _LoginPageState extends State<RegisterPage> {
             child: ListView(
               children: [
                 const Image(image: AssetImage('assets/logo.png')),
-                TextFormField(
+                CustomTextFormField(
+                  hintText: 'Username',
                   controller: username,
-                  decoration: InputDecoration(
-                    contentPadding: const EdgeInsets.only(left: 20),
-                    hintText: "Username",
-                    filled: true,
-                    fillColor: Color(0xFF253960),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(25),
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(25),
-                      borderSide: BorderSide.none,
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(25),
-                      borderSide: BorderSide(
-                        color: Color(0xFF6BC7E9),
-                      ),
-                    ),
-                    errorBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(25),
-                      borderSide: BorderSide(
-                        color: Color(0xFFFF6767),
-                      ),
-                    ),
-                  ),
+                  errorMessages: errorMessages,
                   validator: (value) {
                     String error = '';
                     if (value!.isEmpty) {
-                      error = "Enter your username";
+                      error = "username can't be empty";
                     }
+
                     setState(() {
-                      errorMessage.username = error;
+                      errorMessages.username = error;
                     });
                     return error != "" ? error : null;
                   },
@@ -101,43 +115,20 @@ class _LoginPageState extends State<RegisterPage> {
                 const SizedBox(
                   height: 20,
                 ),
-                TextFormField(
+                CustomTextFormField(
+                  hintText: 'Email',
                   controller: email,
-                  decoration: InputDecoration(
-                    contentPadding: const EdgeInsets.only(left: 20),
-                    hintText: "Email",
-                    filled: true,
-                    fillColor: Color(0xFF253960),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(25),
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(25),
-                      borderSide: BorderSide.none,
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(25),
-                      borderSide: BorderSide(
-                        color: Color(0xFF6BC7E9),
-                      ),
-                    ),
-                    errorBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(25),
-                      borderSide: BorderSide(
-                        color: Color(0xFFFF6767),
-                      ),
-                    ),
-                  ),
+                  errorMessages: errorMessages,
                   validator: (value) {
                     String error = '';
                     if (value!.isEmpty) {
-                      error = "Enter your Email";
+                      error = "Email can't be empty";
                     } else if (!RegExp("^[a-zA-Z0-9+.-]+@[a-zA-Z0-9+.-]+.[a-z]")
                         .hasMatch(value)) {
                       error = "Enter your valid Email";
                     }
                     setState(() {
-                      errorMessage.email = error;
+                      errorMessages.email = error;
                     });
                     return error != "" ? error : null;
                   },
@@ -145,49 +136,23 @@ class _LoginPageState extends State<RegisterPage> {
                 const SizedBox(
                   height: 20,
                 ),
-                TextFormField(
+                CustomTextFormField(
+                  hintText: 'Brithdate',
                   controller: birth,
-                  readOnly: true,
+                  errorMessages: errorMessages,
                   onTap: () {
                     setState(() {
                       _selectDate();
                     });
                   },
-                  decoration: InputDecoration(
-                    contentPadding: const EdgeInsets.only(left: 20),
-                    hintText: "Brithdate",
-                    filled: true,
-                    fillColor: Color(0xFF253960),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(25),
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(25),
-                      borderSide: BorderSide.none,
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(25),
-                      borderSide: BorderSide(
-                        color: Color(0xFF6BC7E9),
-                      ),
-                    ),
-                    errorBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(25),
-                      borderSide: BorderSide(
-                        color: Color(0xFFFF6767),
-                      ),
-                    ),
-                  ),
                   validator: (value) {
                     String error = '';
                     if (value!.isEmpty) {
-                      error = "Username can't be empty";
-                    } else if (value.length < 6 || value.length > 20) {
-                      error =
-                          "Username must be between 6 and 20 characters long";
+                      error = "Brithdate can't be empty";
                     }
+
                     setState(() {
-                      errorMessage.birth = error;
+                      errorMessages.birth = error;
                     });
                     return error != "" ? error : null;
                   },
@@ -195,56 +160,18 @@ class _LoginPageState extends State<RegisterPage> {
                 const SizedBox(
                   height: 20,
                 ),
-                TextFormField(
+                CustomTextFormField(
+                  hintText: 'Password',
                   controller: password,
-                  obscureText: !_isPasswordVisible,
-                  decoration: InputDecoration(
-                    suffixIcon: IconButton(
-                      onPressed: () {
-                        setState(() {
-                          _isPasswordVisible = !_isPasswordVisible;
-                        });
-                      },
-                      icon: Icon(
-                        _isPasswordVisible
-                            ? Icons.visibility
-                            : Icons.visibility_off,
-                        color: errorMessage.password != ""
-                            ? Color(0xFFFF6767)
-                            : Color(0xFF6BC7E9),
-                      ),
-                    ),
-                    contentPadding: const EdgeInsets.only(left: 20),
-                    hintText: "Password",
-                    filled: true,
-                    fillColor: Color(0xFF253960),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(25),
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(25),
-                      borderSide: BorderSide.none,
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(25),
-                      borderSide: BorderSide(
-                        color: Color(0xFF6BC7E9),
-                      ),
-                    ),
-                    errorBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(25),
-                      borderSide: BorderSide(
-                        color: Color(0xFFFF6767),
-                      ),
-                    ),
-                  ),
+                  errorMessages: errorMessages,
+                  isPassword: true,
                   validator: (value) {
                     String error = '';
                     if (value!.isEmpty) {
                       error = "Enter Password";
                     }
                     setState(() {
-                      errorMessage.password = error;
+                      errorMessages.password = error;
                     });
 
                     return error != "" ? error : null;
@@ -253,57 +180,19 @@ class _LoginPageState extends State<RegisterPage> {
                 const SizedBox(
                   height: 20,
                 ),
-                TextFormField(
-                  obscureText: !_isConPasswordVisible,
-                  decoration: InputDecoration(
-                    suffixIcon: IconButton(
-                      onPressed: () {
-                        setState(() {
-                          _isConPasswordVisible = !_isConPasswordVisible;
-                        });
-                      },
-                      icon: Icon(
-                        _isConPasswordVisible
-                            ? Icons.visibility
-                            : Icons.visibility_off,
-                        color: errorMessage.conpassword != ""
-                            ? Color(0xFFFF6767)
-                            : Color(0xFF6BC7E9),
-                      ),
-                    ),
-                    contentPadding: const EdgeInsets.only(left: 20),
-                    hintText: "Confirm Password",
-                    filled: true,
-                    fillColor: Color(0xFF253960),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(25),
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(25),
-                      borderSide: BorderSide.none,
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(25),
-                      borderSide: BorderSide(
-                        color: Color(0xFF6BC7E9),
-                      ),
-                    ),
-                    errorBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(25),
-                      borderSide: BorderSide(
-                        color: Color(0xFFFF6767),
-                      ),
-                    ),
-                  ),
+                CustomTextFormField(
+                  hintText: 'Confirm Password',
+                  errorMessages: errorMessages,
+                  isPassword: true,
                   validator: (value) {
                     String error = '';
                     if (value!.isEmpty) {
                       error = "Enter Password";
                     } else if (password.text != value) {
-                      error = "Passwords don't match";
+                      error = "Password don't match";
                     }
                     setState(() {
-                      errorMessage.conpassword = error;
+                      errorMessages.conpassword = error;
                     });
 
                     return error != "" ? error : null;
@@ -317,26 +206,14 @@ class _LoginPageState extends State<RegisterPage> {
                       backgroundColor:
                           MaterialStatePropertyAll(Color(0xFF6BC7E9))),
                   onPressed: () {
-                    if (_formkey.currentState!.validate()) {
-                      String jsonString = jsonEncode({
-                        'username': username.text,
-                        'email': email.text,
-                        'brith': birth.text,
-                        'password': password.text,
-                      });
-                      print(jsonString);
-                      username.clear();
-                      email.clear();
-                      birth.clear();
-                      password.clear();
-                    }
+                    register();
                   },
                   child: const Center(
                       child: Text(
-                    "Sign In",
+                    "Sign Up",
                     style: TextStyle(
                         color: Color(0xFF253960),
-                        fontSize: 25,
+                        fontSize: 20,
                         fontWeight: FontWeight.bold),
                   )),
                 ),
@@ -356,14 +233,28 @@ class _LoginPageState extends State<RegisterPage> {
                       width: 5,
                     ),
                     GestureDetector(
-                        onTap: () {},
+                        onTap: () {
+                          Navigator.pushNamed(context, AppRoute.loginPage);
+                        },
                         child: const Text(
-                          "Sigh Up",
+                          "Login",
                           style:
                               TextStyle(color: Color(0xFF6BC7E9), fontSize: 14),
                         )),
                   ],
-                )
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                // responseBody != null
+                //     ? Container(
+                //         child: Text(
+                //             '- ${responseBody.statusCode} ${responseBody.message} '),
+                //       )
+                //     : Container(
+                //         child: Text(
+                //             '- ${responseBody.statusCode} ${responseBody.message} '),
+                //       ),
               ],
             ),
           ),

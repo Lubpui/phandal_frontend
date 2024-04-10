@@ -21,59 +21,65 @@ class UserButton extends StatelessWidget {
     final Usermodel selecteduser = modelDB[0];
     return Center(
       child: Container(
-        width: 350,
-        height: 110,
+        padding: const EdgeInsets.all(20),
         decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(40),
-            gradient: const LinearGradient(colors: [
+          borderRadius: BorderRadius.circular(40),
+          gradient: const LinearGradient(
+            colors: [
               AppPallete.buttongradient2,
               AppPallete.buttongradient1,
-            ], begin: Alignment.topCenter, end: Alignment.bottomCenter)),
+            ],
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+          ),
+        ),
         child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: CircleAvatar(
-                backgroundImage: NetworkImage(
-                  selecteduser.imageUrl,
-                ),
-                radius: 40,
-              ),
-            ),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.center,
+            Row(
               children: [
-                Padding(
-                  padding: const EdgeInsets.only(left: 12.0),
-                  child: Text(
-                    selecteduser.name,
-                    style: const TextStyle(
-                        fontSize: 20, fontWeight: FontWeight.bold),
+                CircleAvatar(
+                  backgroundImage: NetworkImage(
+                    selecteduser.imageUrl,
                   ),
+                  radius: 35,
                 ),
-                TextButton(
-                  onPressed: () {},
-                  child: const Text(
-                    "View Account",
-                    style: TextStyle(color: AppPallete.subtitlecolor),
-                  ),
+                const SizedBox(width: 15),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      selecteduser.name,
+                      style: const TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    const Text(
+                      "View Account",
+                      style: TextStyle(
+                        color: AppPallete.subtitlecolor,
+                        fontSize: 14,
+                      ),
+                    ),
+                  ],
                 ),
               ],
-            ),
-            const SizedBox(
-              width: 50,
             ),
             ElevatedButton(
               onPressed: () {},
               style: ElevatedButton.styleFrom(
-                  backgroundColor: AppPallete.logoutButton),
+                backgroundColor: AppPallete.logoutButton,
+                maximumSize: const Size(110, 50),
+              ),
               child: const Text(
                 "Log out",
                 style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 15,
-                    color: AppPallete.whiteColor),
+                  fontWeight: FontWeight.bold,
+                  fontSize: 15,
+                  color: AppPallete.whiteColor,
+                ),
               ),
             ),
           ],

@@ -3,8 +3,21 @@ class Account {
   String? password;
   String? email;
   String? birth;
-  String? conpassword;
 
-  Account(
-      {this.username, this.password, this.email, this.birth, this.conpassword});
+  Account({
+    this.username,
+    this.password,
+    this.email,
+    this.birth,
+  });
+}
+
+class ErrorAccount extends Account {
+  String? conpassword;
+  String? response;
+
+  ErrorAccount({
+    this.conpassword,
+    this.response,
+  });
 }

@@ -2,8 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:phandal_frontend/core/theme/app_theme.dart';
-import 'package:phandal_frontend/routes/routes.dart';
-import 'package:phandal_frontend/pages/register_page.dart';
+import 'package:phandal_frontend/routes/app_router.dart';
 
 void main() {
   runApp(
@@ -16,12 +15,11 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return MaterialApp.router(
       debugShowCheckedModeBanner: false,
       title: 'Phandal App',
-      routes: AppRoute.all,
       theme: AppTheme.darkThemeMode,
-      home: RegisterPage(),
+      routerConfig: AppRouter.router,
     );
   }
 }

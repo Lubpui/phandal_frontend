@@ -1,12 +1,14 @@
 // ignore_for_file: prefer_const_constructors, library_private_types_in_public_api
 
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:phandal_frontend/core/theme/app_pallete.dart';
 
 class MyNavigationBar extends StatefulWidget {
-  const MyNavigationBar({super.key});
+  const MyNavigationBar({super.key, required this.currentIndex, this.onTap});
+
+  final int currentIndex;
+  final void Function(int)? onTap;
 
   @override
   _MyNavigationBarState createState() => _MyNavigationBarState();
@@ -35,9 +37,11 @@ class _MyNavigationBarState extends State<MyNavigationBar> {
                 selectedIconTheme: IconThemeData(
                   color: AppPallete.iconColor,
                 ),
-                unselectedIconTheme:
-                    IconThemeData(color: AppPallete.unselectIcon),
-                /* onTap: (index) {}, */
+                unselectedIconTheme: IconThemeData(
+                  color: AppPallete.unselectIcon,
+                ),
+                onTap: widget.onTap,
+                currentIndex: widget.currentIndex,
                 selectedItemColor: AppPallete.selecterIcon,
                 showSelectedLabels: false,
                 showUnselectedLabels: false,

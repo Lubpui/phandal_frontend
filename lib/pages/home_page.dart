@@ -1,13 +1,12 @@
 // ignore_for_file: non_constant_identifier_names
 
 import 'dart:async';
-
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:phandal_frontend/widget/bottom_sheet.dart';
 import 'package:phandal_frontend/model/data_model.dart';
 import 'package:phandal_frontend/core/theme/app_pallete.dart';
 import 'package:percent_indicator/percent_indicator.dart';
-import 'package:phandal_frontend/widget/navbar_widget.dart';
 import 'package:phandal_frontend/widget/user_data.dart';
 
 class HomePage extends StatefulWidget {
@@ -45,31 +44,21 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        actions: const [UserData()],
+        toolbarHeight: 90,
+        surfaceTintColor: AppPallete.transparentColor,
+      ),
       backgroundColor: const Color(0xff101F3D),
-      body: Column(
-        children: [
-          const SizedBox(
-            height: 50,
-          ),
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const UserData(),
-              IconButton(
-                onPressed: () {},
-                icon: const Icon(Icons.notifications_none_rounded),
-                iconSize: 40,
-                color: AppPallete.iconColor,
-              )
-            ],
-          ),
-          Padding(
-            padding: const EdgeInsets.only(left: 30, right: 30, bottom: 20),
-            child: Container(
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 30),
+        child: Column(
+          children: [
+            Container(
               decoration: BoxDecoration(
-                  color: AppPallete.searchbarcolor,
-                  borderRadius: BorderRadius.circular(30)),
+                color: AppPallete.searchbarcolor,
+                borderRadius: BorderRadius.circular(30),
+              ),
               child: TextField(
                 autofocus: false,
                 onChanged: (value) => updateList(value),
@@ -77,8 +66,10 @@ class _HomePageState extends State<HomePage> {
                   color: AppPallete.whiteColor,
                 ),
                 decoration: InputDecoration(
-                  contentPadding:
-                      const EdgeInsets.symmetric(horizontal: 50, vertical: 20),
+                  contentPadding: const EdgeInsets.symmetric(
+                    horizontal: 50,
+                    vertical: 15,
+                  ),
                   prefixIcon: const Padding(
                     padding: EdgeInsets.only(left: 20, right: 10),
                     child: Icon(
@@ -87,7 +78,7 @@ class _HomePageState extends State<HomePage> {
                       color: Color(0xff5B7299),
                     ),
                   ),
-                  hintText: "Search Settings, etc",
+                  hintText: "Search Devices",
                   hintStyle: const TextStyle(color: Color(0xff496BA5)),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(50),
@@ -95,157 +86,151 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
             ),
-          ),
-          Expanded(
-            child: CustomScrollView(
-              slivers: [
-                SliverList(
-                  delegate: SliverChildBuilderDelegate(
-                    (context, index) {
-                      final wifi = _mockUp[index];
-                      double bat = display_list[index].number / 100;
-                      return GestureDetector(
-                        onTap: () {
-                          showModalBottomSheet(
+            const SizedBox(
+              height: 20,
+            ),
+            Expanded(
+              child: CustomScrollView(
+                slivers: [
+                  SliverList(
+                    delegate: SliverChildBuilderDelegate(
+                      (context, index) {
+                        final wifi = _mockUp[index];
+                        double bat = display_list[index].number / 100;
+                        return GestureDetector(
+                          onTap: () {
+                            showModalBottomSheet(
                               isScrollControlled: true,
+                              useRootNavigator: true,
                               context: context,
                               builder: (ctx) => Sheet(
-                                    mockUp: wifi,
-                                  ));
-                        },
-                        child: Column(
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  vertical: 10, horizontal: 30),
-                              child: Container(
-                                decoration: const BoxDecoration(
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(35)),
-                                  gradient: LinearGradient(
-                                      colors: [
-                                        AppPallete.buttongradient2,
-                                        AppPallete.buttongradient1,
-                                      ],
-                                      begin: Alignment.topCenter,
-                                      end: Alignment.bottomCenter),
+                                mockUp: wifi,
+                              ),
+                            );
+                          },
+                          child: Padding(
+                            padding: const EdgeInsets.only(bottom: 16),
+                            child: Container(
+                              decoration: const BoxDecoration(
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(35),
                                 ),
-                                width: 400,
-                                height: 110,
-                                padding: const EdgeInsets.symmetric(
-                                    vertical: 20, horizontal: 35),
-                                child: Row(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.only(top: 10),
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
+                                gradient: LinearGradient(
+                                    colors: [
+                                      AppPallete.buttongradient2,
+                                      AppPallete.buttongradient1,
+                                    ],
+                                    begin: Alignment.topCenter,
+                                    end: Alignment.bottomCenter),
+                              ),
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 30,
+                              ),
+                              height: 110,
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Text(
+                                        display_list[index].name,
+                                        style: const TextStyle(
+                                          color: Color(0xffFFFFFF),
+                                        ),
+                                      ),
+                                      Row(
                                         children: [
                                           Text(
-                                            display_list[index].name,
+                                            display_list[index].network,
                                             style: const TextStyle(
-                                              color: Color(0xffFFFFFF),
+                                              color: Color(0xff678BCA),
                                             ),
                                           ),
-                                          Row(
-                                            children: [
-                                              Text(
-                                                display_list[index].network,
-                                                style: const TextStyle(
-                                                  color: Color(0xff678BCA),
-                                                ),
-                                              ),
-                                              Padding(
-                                                padding: const EdgeInsets.only(
-                                                    left: 5),
-                                                child: display_list[index].lock
-                                                    ? const Icon(
-                                                        Icons.bluetooth,
-                                                        size: 15,
-                                                        color:
-                                                            Color(0xffFFFFFF))
-                                                    : const Icon(
-                                                        Icons.bluetooth,
-                                                        size: 15,
-                                                        color:
-                                                            Color(0xff678BCA)),
-                                              ),
-                                            ],
+                                          Padding(
+                                            padding:
+                                                const EdgeInsets.only(left: 5),
+                                            child: display_list[index].lock
+                                                ? const Icon(Icons.bluetooth,
+                                                    size: 15,
+                                                    color: Color(0xffFFFFFF))
+                                                : const Icon(Icons.bluetooth,
+                                                    size: 15,
+                                                    color: Color(0xff678BCA)),
                                           ),
                                         ],
                                       ),
+                                    ],
+                                  ),
+                                  CircularPercentIndicator(
+                                    radius: 35.0,
+                                    lineWidth: 5,
+                                    percent: bat,
+                                    center: Text(
+                                      "${display_list[index].number}%",
+                                      style: const TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 15,
+                                          color: Color(0xfFFFFFFF)),
                                     ),
-                                    CircularPercentIndicator(
-                                      radius: 35.0,
-                                      lineWidth: 5,
-                                      percent: bat,
-                                      center: Text(
-                                        "${display_list[index].number}%",
-                                        style: const TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 15,
-                                            color: Color(0xfFFFFFFF)),
-                                      ),
-                                      circularStrokeCap:
-                                          CircularStrokeCap.round,
-                                      progressColor: AppPallete.progressColor,
-                                      backgroundColor: AppPallete.greyColor,
-                                      animation: true,
-                                      animationDuration: 1000,
-                                    ),
-                                  ],
-                                ),
+                                    circularStrokeCap: CircularStrokeCap.round,
+                                    progressColor: AppPallete.progressColor,
+                                    backgroundColor: AppPallete.greyColor,
+                                    animation: true,
+                                    animationDuration: 1000,
+                                  ),
+                                ],
                               ),
                             ),
-                          ],
-                        ),
-                      );
-                    },
-                    childCount: display_list.length,
+                          ),
+                        );
+                      },
+                      childCount: display_list.length,
+                    ),
                   ),
-                ),
-                SliverToBoxAdapter(
-                  child: GestureDetector(
-                    // ontap in bluetooth_home
-                    onTap: () {},
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 10, horizontal: 30),
-                      child: Container(
-                        decoration: const BoxDecoration(
-                          borderRadius: BorderRadius.all(Radius.circular(35)),
-                          gradient: LinearGradient(
-                              colors: [
-                                AppPallete.buttongradient2,
-                                AppPallete.buttongradient1
-                              ],
-                              begin: Alignment.topCenter,
-                              end: Alignment.bottomCenter),
-                        ),
-                        width: 400,
-                        height: 100,
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 30, horizontal: 40),
-                        child: const Center(
-                          child: Icon(
-                            Icons.add,
-                            size: 30,
+                  SliverToBoxAdapter(
+                    child: GestureDetector(
+                      onTap: () {
+                        context.goNamed('BluetoothConnect');
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.only(bottom: 10),
+                        child: Container(
+                          decoration: const BoxDecoration(
+                            borderRadius: BorderRadius.all(Radius.circular(35)),
+                            gradient: LinearGradient(
+                                colors: [
+                                  AppPallete.buttongradient2,
+                                  AppPallete.buttongradient1
+                                ],
+                                begin: Alignment.topCenter,
+                                end: Alignment.bottomCenter),
+                          ),
+                          height: 110,
+                          padding: const EdgeInsets.symmetric(
+                            vertical: 30,
+                            horizontal: 40,
+                          ),
+                          child: const Center(
+                            child: Icon(
+                              Icons.add,
+                              size: 30,
+                            ),
                           ),
                         ),
                       ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
-      bottomNavigationBar: const MyNavigationBar(),
     );
   }
 }

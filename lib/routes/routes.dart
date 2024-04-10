@@ -7,19 +7,20 @@ import 'package:phandal_frontend/pages/register_page.dart';
 import 'package:phandal_frontend/pages/setting_page.dart';
 
 class AppRoute {
-  static const home = 'home-page';
-  static const loginpage = 'login-page';
-  static const registerpage = 'register-page';
-  static const bluetoothpage = 'bluetooth-page';
-  static const dashboardpage = 'dashboard-page';
-  static const settingpagepage = 'settingpage-page';
+  static const homePage = 'home-page';
+  static const loginPage = 'login-page';
+  static const registerPage = 'register-page';
+  static const bluetoothConnectPage = 'bluetooth-connect-page';
+  static const dashboardPage = 'dashboard-page';
+  static const settingPage = 'settingpage-page';
 
   static get all => <String, WidgetBuilder>{
-        home: (BuildContext context) => const HomePage(),
-        loginpage: (BuildContext context) => const LoginPage(),
-        registerpage: (BuildContext context) => const RegisterPage(),
-        bluetoothpage: (BuildContext context) => const BluetoothConnectPage(),
-        dashboardpage: (BuildContext context) => DashBoard(),
-        settingpagepage: (BuildContext context) => const SettingPage(),
+        homePage: (BuildContext context) => const HomePage(),
+        loginPage: (BuildContext context) => const LoginPage(),
+        registerPage: (BuildContext context) => const RegisterPage(),
+        bluetoothConnectPage: (BuildContext context) =>
+            const BluetoothConnectPage(),
+        dashboardPage: (BuildContext context) => DashBoard(),
+        settingPage: (BuildContext context) => const SettingPage(),
       };
 }
