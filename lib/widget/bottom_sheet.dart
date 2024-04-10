@@ -176,7 +176,7 @@ class _SheetState extends State<Sheet> {
             child: GestureDetector(
               onTap: () {
                 Map<String, dynamic> body = {
-                  "color": colors[_selectedColor],
+                  "color": colors[_selectedColor].name,
                   "recoil": _current.toStringAsFixed(0),
                   "mode": selectedValue
                 };
