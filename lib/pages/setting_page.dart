@@ -103,7 +103,7 @@ class SettingPage extends StatelessWidget {
                                   Text(
                                     "Notification",
                                     style: TextStyle(
-                                        fontSize: 20,
+                                        fontSize: 18,
                                         fontWeight: FontWeight.bold,
                                         color:
                                             Color.fromARGB(255, 151, 151, 151)),
@@ -111,9 +111,9 @@ class SettingPage extends StatelessWidget {
                                   Text(
                                     "Coming soon",
                                     style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        color: AppPallete.greyscalebg,
-                                        fontSize: 16),
+                                      color: AppPallete.greyscalebg,
+                                      fontSize: 14,
+                                    ),
                                   )
                                 ],
                               )
@@ -153,7 +153,7 @@ class SettingPage extends StatelessWidget {
                                   Text(
                                     "Appearance",
                                     style: TextStyle(
-                                        fontSize: 20,
+                                        fontSize: 18,
                                         fontWeight: FontWeight.bold,
                                         color:
                                             Color.fromARGB(255, 151, 151, 151)),
@@ -161,9 +161,9 @@ class SettingPage extends StatelessWidget {
                                   Text(
                                     "Coming soon",
                                     style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        color: AppPallete.greyscalebg,
-                                        fontSize: 16),
+                                      color: AppPallete.greyscalebg,
+                                      fontSize: 14,
+                                    ),
                                   )
                                 ],
                               )
@@ -203,7 +203,7 @@ class SettingPage extends StatelessWidget {
                                   Text(
                                     "Language",
                                     style: TextStyle(
-                                        fontSize: 20,
+                                        fontSize: 18,
                                         fontWeight: FontWeight.bold,
                                         color:
                                             Color.fromARGB(255, 151, 151, 151)),
@@ -211,9 +211,9 @@ class SettingPage extends StatelessWidget {
                                   Text(
                                     "Coming soon",
                                     style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        color: AppPallete.greyscalebg,
-                                        fontSize: 16),
+                                      color: AppPallete.greyscalebg,
+                                      fontSize: 14,
+                                    ),
                                   )
                                 ],
                               )
@@ -253,7 +253,7 @@ class SettingPage extends StatelessWidget {
                                   Text(
                                     "About",
                                     style: TextStyle(
-                                        fontSize: 20,
+                                        fontSize: 18,
                                         fontWeight: FontWeight.bold,
                                         color:
                                             Color.fromARGB(255, 151, 151, 151)),
@@ -261,9 +261,9 @@ class SettingPage extends StatelessWidget {
                                   Text(
                                     "Coming soon",
                                     style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        color: AppPallete.greyscalebg,
-                                        fontSize: 16),
+                                      color: AppPallete.greyscalebg,
+                                      fontSize: 14,
+                                    ),
                                   )
                                 ],
                               )

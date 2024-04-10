@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:phandal_frontend/core/theme/app_pallete.dart';
+import 'package:phandal_frontend/utils/utils.dart';
 import 'package:phandal_frontend/widget/device_widget.dart';
 import 'package:phandal_frontend/widget/searchbar_widget.dart';
 import 'package:phandal_frontend/widget/user_data.dart';
@@ -12,7 +13,8 @@ class BluetoothConnectPage extends StatefulWidget {
 }
 
 class _BluetoothConnectPageState extends State<BluetoothConnectPage> {
-  final bool isConnected = true;
+  bool isConnected = true;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -21,87 +23,73 @@ class _BluetoothConnectPageState extends State<BluetoothConnectPage> {
         toolbarHeight: 90,
         surfaceTintColor: AppPallete.transparentColor,
       ),
-      body: ListView(
-        children: [
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-/*               Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 30),
+        child: Column(
+          children: [
+            SearchBarWidget(
+              onChanged: (value) {},
+            ),
+            const SizedBox(height: 20),
+            Expanded(
+              child: ListView(
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.only(left: 20.0),
-                    child: IconButton(
-                        onPressed: () {}, icon: const Icon(Icons.arrow_back)),
-                  ),
-                  const UserData(),
-                ],
-              ), */
-              const SearchBarWidget(),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Padding(
-                    padding: EdgeInsets.only(left: 45.0, bottom: 20),
-                    child: Text(
-                      "My devices",
-                      style:
-                          TextStyle(color: Color.fromARGB(80, 255, 255, 255)),
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  //Device Data from bluetooth
-                  isConnected
-                      ? const DeviceWidget()
-                      : const Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              'Device not connected',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                color: Color.fromARGB(80, 255, 255, 255),
-                              ),
-                            )
-                          ],
-                        ),
-
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      const Padding(
-                        padding: EdgeInsets.only(left: 45.0, top: 20),
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 10),
                         child: Text(
-                          "Other devices",
+                          "My devices",
                           style: TextStyle(
-                              color: Color.fromARGB(80, 255, 255, 255)),
+                            color: Color(toIntColor("#496BA5")),
+                          ),
                         ),
                       ),
-                      const SizedBox(
-                        height: 30,
+                      isConnected
+                          ? const DeviceWidget()
+                          : Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  'Device not connected',
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                    color: Color(toIntColor("#496BA5")),
+                                  ),
+                                )
+                              ],
+                            ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(bottom: 10),
+                            child: Text(
+                              "Other devices",
+                              style: TextStyle(
+                                color: Color(toIntColor("#496BA5")),
+                              ),
+                            ),
+                          ),
+                          ListView.builder(
+                            shrinkWrap: true,
+                            physics: const NeverScrollableScrollPhysics(),
+                            itemCount: 4,
+                            itemBuilder: (context, index) {
+                              return const DeviceWidget();
+                            },
+                          )
+                        ],
                       ),
-
-                      //Device Data from bluetooth
-                      ListView.builder(
-                        shrinkWrap: true,
-                        physics: const NeverScrollableScrollPhysics(),
-                        itemCount: 4,
-                        itemBuilder: (context, index) {
-                          return const DeviceWidget();
-                        },
-                      )
                     ],
                   ),
                 ],
               ),
-            ],
-          ),
-        ],
+            ),
+          ],
+        ),
       ),
     );
   }

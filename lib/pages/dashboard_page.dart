@@ -2,10 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:phandal_frontend/core/theme/app_pallete.dart';
 import 'package:phandal_frontend/widget/user_data.dart';
 
-import '../model/usermodel.dart';
-
 class DashBoard extends StatelessWidget {
-  DashBoard({super.key});
+  const DashBoard({super.key});
 
   @override
   Widget build(BuildContext context) {
