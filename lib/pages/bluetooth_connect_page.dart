@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:phandal_frontend/core/theme/app_pallete.dart';
 import 'package:phandal_frontend/widget/device_widget.dart';
+import 'package:phandal_frontend/widget/searchbar_widget.dart';
 import 'package:phandal_frontend/widget/user_data.dart';
 
 class BluetoothConnectPage extends StatefulWidget {
@@ -24,40 +25,80 @@ class _BluetoothConnectPageState extends State<BluetoothConnectPage> {
         children: [
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              const Padding(
-                padding: EdgeInsets.all(20.0),
-                child: Text("My devices"),
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              //Device Data from bluetooth
-              isConnected
-                  ? const DeviceWidget()
-                  : const Text('Device not connected'),
-            ],
-          ),
+/*               Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(left: 20.0),
+                    child: IconButton(
+                        onPressed: () {}, icon: const Icon(Icons.arrow_back)),
+                  ),
+                  const UserData(),
+                ],
+              ), */
+              const SearchBarWidget(),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Padding(
+                    padding: EdgeInsets.only(left: 45.0, bottom: 20),
+                    child: Text(
+                      "My devices",
+                      style:
+                          TextStyle(color: Color.fromARGB(80, 255, 255, 255)),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  //Device Data from bluetooth
+                  isConnected
+                      ? const DeviceWidget()
+                      : const Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              'Device not connected',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                color: Color.fromARGB(80, 255, 255, 255),
+                              ),
+                            )
+                          ],
+                        ),
 
-          //Device not connected
-          const SizedBox(
-            height: 30,
-          ),
-          const Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Padding(
-                padding: EdgeInsets.all(20.0),
-                child: Text("Other devices"),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Padding(
+                        padding: EdgeInsets.only(left: 45.0, top: 20),
+                        child: Text(
+                          "Other devices",
+                          style: TextStyle(
+                              color: Color.fromARGB(80, 255, 255, 255)),
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 30,
+                      ),
+
+                      //Device Data from bluetooth
+                      ListView.builder(
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        itemCount: 4,
+                        itemBuilder: (context, index) {
+                          return const DeviceWidget();
+                        },
+                      )
+                    ],
+                  ),
+                ],
               ),
-              SizedBox(
-                height: 10,
-              ),
-              //Device Data from bluetooth
-              DeviceWidget(),
-              DeviceWidget(),
             ],
           ),
         ],

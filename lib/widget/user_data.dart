@@ -1,15 +1,11 @@
 import 'package:flutter/material.dart';
 
 import 'package:phandal_frontend/core/theme/app_pallete.dart';
+import 'package:phandal_frontend/model/userDB.dart';
 import 'package:phandal_frontend/model/usermodel.dart';
+import 'package:phandal_frontend/widget/user_widget.dart';
 
-final List<Usermodel> modelDB = [
-  Usermodel(
-    name: "PatcharaPN",
-    imageUrl:
-        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR_CCRvW0Z7s0SH-1TFYoKxDg5P6A34J6XsyqUJEk4XYQ&s',
-  )
-];
+final UserModel selectedUser = UserModelDB.modelDB[0];
 
 class UserData extends StatelessWidget {
   const UserData({

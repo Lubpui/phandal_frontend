@@ -1,19 +1,16 @@
-import 'package:flutter/foundation.dart';
-import 'package:phandal_frontend/model/usermodel.dart';
+class UserModel {
+  final String name;
+  final String imageUrl;
 
-class UserProvider extends ChangeNotifier {
-  final List<Usermodel> _users = [
-    Usermodel(
+  UserModel({required this.name, required this.imageUrl});
+}
+
+class UserModelDB {
+  static final List<UserModel> modelDB = [
+    UserModel(
       name: "PatcharaPN",
       imageUrl:
           'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR_CCRvW0Z7s0SH-1TFYoKxDg5P6A34J6XsyqUJEk4XYQ&s',
-    ),
+    )
   ];
-
-  List<Usermodel> get users => _users;
-
-  void addUser(Usermodel user) {
-    _users.add(user);
-    notifyListeners(); // Notify listeners of changes
-  }
 }
