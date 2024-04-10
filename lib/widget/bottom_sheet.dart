@@ -178,7 +178,12 @@ class _SheetState extends State<Sheet> {
                   padding: const EdgeInsets.only(top: 50, left: 20, right: 20),
                   child: GestureDetector(
                     onTap: () {
-                      print("Save");
+                      Map<String, dynamic> body = {
+                        "color": colors[_selectedColor],
+                        "recoil": _current.toStringAsFixed(0),
+                        "mode": selectedValue
+                      };
+                      print(body);
                     },
                     child: Container(
                       width: 300,
