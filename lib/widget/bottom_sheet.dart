@@ -65,7 +65,8 @@ class _SheetState extends State<Sheet> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: MediaQuery.of(context).size.height * 0.75,
+      padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 20),
+      height: MediaQuery.of(context).size.height * 0.70,
       decoration: const BoxDecoration(
         gradient: LinearGradient(
             colors: [AppPallete.buttongradient2, AppPallete.buttongradient1],
@@ -78,217 +79,153 @@ class _SheetState extends State<Sheet> {
       ),
       width: double.infinity,
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          const Padding(padding: EdgeInsets.only(top: 30)),
-          Text(
-            "Light Color for ${widget.mockUp.name} ${widget.mockUp.network}",
-            style: const TextStyle(
-              color: Color(0xffFFFFFF),
-              fontSize: 17,
-            ),
-          ),
-          const Padding(
-            padding: EdgeInsets.only(top: 28),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(left: 20, right: 20),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                for (int i = 0; i < 5; i++) Radiopress(i),
-              ],
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(left: 30, right: 30, top: 28),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                const Text(
-                  "Recoil",
-                  style: TextStyle(
-                    color: Color(0xffFFFFFF),
-                    fontSize: 17,
-                  ),
-                ),
-                Text(
-                  _current.round().toString(),
-                  style: const TextStyle(
-                    color: Color(0xffFFFFFF),
-                    fontSize: 17,
-                  ),
-                ),
-              ],
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(top: 30, right: 10, left: 15),
-            child: Slider(
-              value: _current,
-              min: 0,
-              max: 5,
-              activeColor: const Color(0xff6BC7E9),
-              thumbColor: const Color(0xffD9D9D9),
-              onChanged: (value) {
-                setState(() {
-                  _current = value;
-                });
-              },
-            ),
-          ),
-          SizedBox(
-            width: double.infinity,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(left: 30, right: 30, top: 20),
-                  child: Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(20),
-                      color: const Color(0xff3E5888),
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.only(left: 15, right: 15),
-                      child: DropdownButton<String>(
-                        hint: const Text("Select Mode"),
-                        value: selectedValue,
-                        items: dropdownItem.map((String value) {
-                          return DropdownMenuItem<String>(
-                              value: value, child: Text(value));
-                        }).toList(),
-                        onChanged: (newValue) {
-                          setState(() {
-                            selectedValue = newValue;
-                          });
-                        },
-                        isExpanded: true,
-                        dropdownColor: const Color(0xff3E5888),
-                        borderRadius: BorderRadius.circular(20),
-                        icon: const Icon(
-                          Icons.keyboard_arrow_down,
-                          color: Color(0xff87A2D3),
-                        ),
-                        iconSize: 20,
-                        underline: const SizedBox(),
-                      ),
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 50, left: 20, right: 20),
-                  child: GestureDetector(
-                    onTap: () {
-                      print("Save");
-                      _closeBottomSheet(context);
-                    },
-                    child: Container(
-                      width: 300,
-                      height: 50,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(25),
-                        color: const Color(0xff6BC7E9),
-                      ),
-                      child: const Center(
-                        child: Text(
-                          "Save",
-                          style: TextStyle(
-                            color: Color(0xff1E345C),
-                            fontWeight: FontWeight.bold,
-                            fontSize: 17,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 20, left: 20, right: 20),
-                  child: GestureDetector(
-                    onTap: () {
-                      print("Disconnect");
-                      _closeBottomSheet(context);
-                    },
-                    child: Container(
-                      width: 300,
-                      height: 50,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(25),
-                        color: const Color(0xffFF6767),
-                      ),
-                      child: const Center(
-                        child: Text(
-                          "Disconnect",
-                          style: TextStyle(
-                            color: Color(0xffFFFFFF),
-                            fontWeight: FontWeight.bold,
-                            fontSize: 17,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(top: 50, left: 20, right: 20),
-            child: GestureDetector(
-              onTap: () {
-                Map<String, dynamic> body = {
-                  "color": colors[_selectedColor].name,
-                  "recoil": _current.toStringAsFixed(0),
-                  "mode": selectedValue
-                };
-                print(body);
-              },
-              child: Container(
-                width: 350,
-                height: 50,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(25),
-                  color: const Color(0xff6BC7E9),
-                ),
-                child: const Center(
-                  child: Text(
-                    "Save",
-                    style: TextStyle(
-                      color: Color(0xff1E345C),
-                      fontWeight: FontWeight.bold,
-                      fontSize: 17,
-                    ),
-                  ),
+          Column(
+            children: [
+              Text(
+                "Light Color for ${widget.mockUp.name} ${widget.mockUp.network}",
+                style: const TextStyle(
+                  color: Color(0xffFFFFFF),
+                  fontSize: 17,
                 ),
               ),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(top: 20, left: 20, right: 20),
-            child: GestureDetector(
-              onTap: () {
-                print("Disconnection");
-              },
-              child: Container(
-                width: 350,
-                height: 50,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(25),
-                  color: const Color(0xffFF6767),
-                ),
-                child: const Center(
-                  child: Text(
-                    "Disconnection",
+              const SizedBox(height: 20),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  for (int i = 0; i < 5; i++) Radiopress(i),
+                ],
+              ),
+              const SizedBox(height: 20),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const Text(
+                    "Recoil",
                     style: TextStyle(
                       color: Color(0xffFFFFFF),
-                      fontWeight: FontWeight.bold,
                       fontSize: 17,
+                    ),
+                  ),
+                  Text(
+                    _current.round().toString(),
+                    style: const TextStyle(
+                      color: Color(0xffFFFFFF),
+                      fontSize: 17,
+                    ),
+                  ),
+                ],
+              ),
+              Slider(
+                value: _current,
+                min: 0,
+                max: 5,
+                activeColor: const Color(0xff6BC7E9),
+                thumbColor: const Color(0xffD9D9D9),
+                onChanged: (value) {
+                  setState(() {
+                    _current = value;
+                  });
+                },
+              ),
+              const SizedBox(height: 20),
+              SizedBox(
+                width: double.infinity,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(20),
+                        color: const Color(0xff3E5888),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 15, right: 15),
+                        child: DropdownButton<String>(
+                          hint: const Text("Select Mode"),
+                          value: selectedValue,
+                          items: dropdownItem.map((String value) {
+                            return DropdownMenuItem<String>(
+                                value: value, child: Text(value));
+                          }).toList(),
+                          onChanged: (newValue) {
+                            setState(() {
+                              selectedValue = newValue;
+                            });
+                          },
+                          isExpanded: true,
+                          dropdownColor: const Color(0xff3E5888),
+                          borderRadius: BorderRadius.circular(20),
+                          icon: const Icon(
+                            Icons.keyboard_arrow_down,
+                            color: Color(0xff87A2D3),
+                          ),
+                          iconSize: 20,
+                          underline: const SizedBox(),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 20),
+          Column(
+            children: [
+              GestureDetector(
+                onTap: () {
+                  Map<String, dynamic> body = {
+                    "color": colors[_selectedColor].name,
+                    "recoil": _current.toStringAsFixed(0),
+                    "mode": selectedValue
+                  };
+                  print(body);
+                },
+                child: Container(
+                  height: 50,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(25),
+                    color: const Color(0xff6BC7E9),
+                  ),
+                  child: const Center(
+                    child: Text(
+                      "Save",
+                      style: TextStyle(
+                        color: Color(0xff1E345C),
+                        fontWeight: FontWeight.bold,
+                        fontSize: 17,
+                      ),
                     ),
                   ),
                 ),
               ),
-            ),
+              const SizedBox(height: 20),
+              GestureDetector(
+                onTap: () {
+                  print("Disconnection");
+                },
+                child: Container(
+                  height: 50,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(25),
+                    color: const Color(0xffFF6767),
+                  ),
+                  child: const Center(
+                    child: Text(
+                      "Disconnection",
+                      style: TextStyle(
+                        color: Color(0xffFFFFFF),
+                        fontWeight: FontWeight.bold,
+                        fontSize: 17,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ],
           ),
         ],
       ),
