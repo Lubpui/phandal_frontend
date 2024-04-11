@@ -1,6 +1,92 @@
 import 'package:flutter/material.dart';
 import 'package:phandal_frontend/core/theme/app_pallete.dart';
+import 'package:phandal_frontend/model/history_model.dart';
+import 'package:phandal_frontend/model/score_model.dart';
 import 'package:phandal_frontend/widget/user_data.dart';
+
+HistoryModel mockUpHistory = HistoryModel(
+  match: [
+    Match(
+      redTeam: Team(
+        userId: '123',
+        score: Score(
+          killed: 0,
+          death: 1,
+          acc: 10,
+          hit: 5,
+          short: 66,
+        ),
+        competitionResults: 'Lose',
+      ),
+      blueTeam: Team(
+        userId: '124',
+        score: Score(
+          killed: 1,
+          death: 0,
+          acc: 10,
+          hit: 5,
+          short: 66,
+        ),
+        competitionResults: 'Win',
+      ),
+    ),
+    Match(
+      redTeam: Team(
+        userId: '123',
+        score: Score(
+          killed: 0,
+          death: 1,
+          acc: 10,
+          hit: 5,
+          short: 66,
+        ),
+        competitionResults: 'Lose',
+      ),
+      blueTeam: Team(
+        userId: '124',
+        score: Score(
+          killed: 1,
+          death: 0,
+          acc: 10,
+          hit: 5,
+          short: 66,
+        ),
+        competitionResults: 'Win',
+      ),
+    ),
+    Match(
+      redTeam: Team(
+        userId: '123',
+        score: Score(
+          killed: 0,
+          death: 1,
+          acc: 10,
+          hit: 5,
+          short: 66,
+        ),
+        competitionResults: 'Win',
+      ),
+      blueTeam: Team(
+        userId: '124',
+        score: Score(
+          killed: 1,
+          death: 0,
+          acc: 10,
+          hit: 5,
+          short: 66,
+        ),
+        competitionResults: 'Lose',
+      ),
+    )
+  ],
+  summaryScore: Score(
+    killed: 13,
+    death: 2,
+    acc: 50.45,
+    hit: 11,
+    short: 20,
+  ),
+);
 
 class DashBoard extends StatelessWidget {
   const DashBoard({super.key});
