@@ -1,7 +1,11 @@
+// ignore_for_file: use_build_context_synchronously, avoid_print
+
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 import 'package:phandal_frontend/core/theme/app_pallete.dart';
 import 'package:phandal_frontend/model/usermodel.dart';
+import 'package:phandal_frontend/routes/app_router.dart';
 
 final List<Usermodel> modelDB = [
   Usermodel(
@@ -68,7 +72,11 @@ class UserButton extends StatelessWidget {
               ],
             ),
             ElevatedButton(
-              onPressed: () {},
+              onPressed: () async {
+                await AppRouter.fss.delete(key: 'accessToken');
+                context.push(context.namedLocation('Login'));
+                print('Logout successfully...');
+              },
               style: ElevatedButton.styleFrom(
                 backgroundColor: AppPallete.logoutButton,
                 maximumSize: const Size(110, 50),

@@ -24,7 +24,7 @@ class _RegisterPageState extends State<RegisterPage> {
   final password = TextEditingController();
 
   ErrorAccount errorMessages = new ErrorAccount();
-  ResponseErrorBody responseErrorBody = new ResponseErrorBody();
+  ResponseBody responseBody = new ResponseBody();
 
   @override
   void initState() {
@@ -82,15 +82,15 @@ class _RegisterPageState extends State<RegisterPage> {
           context.push(context.namedLocation('Login'));
         } else {
           setState(() {
-            responseErrorBody = responseErrorBodyFromJson(res.body);
+            responseBody = responseBodyFromJson(res.body);
           });
 
-          print('Status Error: ${responseErrorBody.statusCode}');
+          print('Status Error: ${responseBody.statusCode}');
 
           FlashMessageScreen.show(
             context,
-            responseErrorBody.message!,
-            responseErrorBody.statusCode!,
+            responseBody.message!,
+            responseBody.statusCode!,
           );
         }
       }

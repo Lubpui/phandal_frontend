@@ -1,28 +1,30 @@
 import 'dart:convert';
 
-ResponseErrorBody responseErrorBodyFromJson(String str) =>
-    ResponseErrorBody.fromJson(json.decode(str));
+ResponseBody responseBodyFromJson(String str) =>
+    ResponseBody.fromJson(json.decode(str));
 
-String responseErrorBodyToJson(ResponseErrorBody data) =>
-    json.encode(data.toJson());
+String responseBodyToJson(ResponseBody data) => json.encode(data.toJson());
 
-class ResponseErrorBody {
+class ResponseBody {
   int? statusCode;
   String? message;
+  String? accessToken;
 
-  ResponseErrorBody({
+  ResponseBody({
     this.statusCode,
     this.message,
+    this.accessToken,
   });
 
-  factory ResponseErrorBody.fromJson(Map<String, dynamic> json) =>
-      ResponseErrorBody(
+  factory ResponseBody.fromJson(Map<String, dynamic> json) => ResponseBody(
         statusCode: json["statusCode"],
         message: json["message"],
+        accessToken: json["accessToken"],
       );
 
   Map<String, dynamic> toJson() => {
         "statusCode": statusCode,
         "message": message,
+        "accessToken": accessToken,
       };
 }

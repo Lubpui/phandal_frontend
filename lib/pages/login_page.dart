@@ -1,9 +1,12 @@
-// ignore_for_file: prefer_const_constructors, sized_box_for_whitespace, avoid_print
+// ignore_for_file: prefer_const_constructors, sized_box_for_whitespace, avoid_print, use_build_context_synchronously, unnecessary_new
 
-import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:phandal_frontend/model/account_model.dart';
+import 'package:phandal_frontend/model/response_body_model.dart';
+import 'package:http/http.dart' as http;
+import 'package:phandal_frontend/routes/app_router.dart';
+import 'package:phandal_frontend/widget/flash_message_screen.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -19,6 +22,7 @@ class _LoginPageState extends State<LoginPage> {
   final passwordController = TextEditingController();
 
   Account errorMessage = new Account();
+  ResponseBody responseBody = new ResponseBody();
 
   bool _isPasswordVisible = false;
 
@@ -37,6 +41,53 @@ class _LoginPageState extends State<LoginPage> {
     usernameController.dispose();
     passwordController.dispose();
     super.dispose();
+  }
+
+  void login() async {
+    try {
+      if (_formkey.currentState!.validate()) {
+        Map<String, String> body = {
+          'email': usernameController.text,
+          'password': passwordController.text,
+        };
+
+        var uri = Uri.parse('https://phandal-backend.onrender.com/auth/login');
+        var res = await http.post(uri, body: body);
+
+        if (res.statusCode == 201) {
+          print('Login successfully...');
+
+          // usernameController.clear();
+          // passwordController.clear();
+
+          FlashMessageScreen.show(
+            context,
+            'Login successfully...',
+            res.statusCode,
+          );
+
+          final accessToken = responseBodyFromJson(res.body).accessToken;
+
+          AppRouter.fss.write(key: 'accessToken', value: accessToken);
+
+          context.pushNamed('Home');
+        } else {
+          setState(() {
+            responseBody = responseBodyFromJson(res.body);
+          });
+
+          print('Status Error: ${responseBody.statusCode}');
+
+          FlashMessageScreen.show(
+            context,
+            responseBody.message!,
+            responseBody.statusCode!,
+          );
+        }
+      }
+    } catch (e) {
+      print('Error: ${e.toString()}');
+    }
   }
 
   @override
@@ -200,15 +251,7 @@ class _LoginPageState extends State<LoginPage> {
                       backgroundColor:
                           MaterialStatePropertyAll(Color(0xFF6BC7E9))),
                   onPressed: () {
-                    if (_formkey.currentState!.validate()) {
-                      String jsonString = jsonEncode({
-                        'username': usernameController.text,
-                        'password': passwordController.text
-                      });
-                      print(jsonString);
-                      usernameController.clear();
-                      passwordController.clear();
-                    }
+                    login();
                   },
                   child: const Center(
                       child: Text(
@@ -257,10 +300,12 @@ class _LoginPageState extends State<LoginPage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Container(
-                        height: 80,
-                        width: 80,
-                        child: const Image(
-                            image: AssetImage('assets/google_icon.png'))),
+                      height: 80,
+                      width: 80,
+                      child: const Image(
+                        image: AssetImage('assets/google_icon.png'),
+                      ),
+                    ),
                     SizedBox(
                       width: 30,
                     ),
@@ -268,9 +313,10 @@ class _LoginPageState extends State<LoginPage> {
                       height: 75,
                       width: 75,
                       child: const Image(
-                          image: AssetImage(
-                        'assets/facebook_icon.png',
-                      )),
+                        image: AssetImage(
+                          'assets/facebook_icon.png',
+                        ),
+                      ),
                     ),
                   ],
                 ),

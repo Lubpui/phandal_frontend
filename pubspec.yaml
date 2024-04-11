@@ -17,6 +17,7 @@ dependencies:
     date_picker_plus: ^3.0.2
     http: ^1.2.0
     go_router: ^13.2.3
+    flutter_secure_storage: ^9.0.0
 
 dev_dependencies:
     flutter_test:

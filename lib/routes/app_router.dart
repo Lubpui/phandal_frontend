@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:go_router/go_router.dart';
 import 'package:phandal_frontend/main_wrapper.dart';
 import 'package:phandal_frontend/pages/bluetooth_connect_page.dart';
@@ -26,6 +27,8 @@ class AppRouter {
   static final _rootNavigatorSetting = GlobalKey<NavigatorState>(
     debugLabel: 'shellSetting',
   );
+
+  static final FlutterSecureStorage fss = FlutterSecureStorage();
 
   static final GoRouter router = GoRouter(
     initialLocation: initRoute,
@@ -111,8 +114,11 @@ class AppRouter {
         builder: (context, state) => RegisterPage(key: state.pageKey),
       ),
     ],
-    redirect: (context, state) {
-      bool isAuth = false;
+    redirect: (context, state) async {
+      String? token = await fss.read(key: 'accessToken');
+
+      bool isAuth = token != null;
+
       if (!isAuth && state.fullPath != '/register') {
         return state.namedLocation('Login');
       }
