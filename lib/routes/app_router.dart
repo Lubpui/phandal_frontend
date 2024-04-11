@@ -4,6 +4,8 @@ import 'package:phandal_frontend/main_wrapper.dart';
 import 'package:phandal_frontend/pages/bluetooth_connect_page.dart';
 import 'package:phandal_frontend/pages/dashboard_page.dart';
 import 'package:phandal_frontend/pages/home_page.dart';
+import 'package:phandal_frontend/pages/login_page.dart';
+import 'package:phandal_frontend/pages/register_page.dart';
 import 'package:phandal_frontend/pages/setting_page.dart';
 
 class AppRouter {
@@ -28,6 +30,7 @@ class AppRouter {
   static final GoRouter router = GoRouter(
     initialLocation: initRoute,
     navigatorKey: _rootNavigatorKey,
+    debugLogDiagnostics: true,
     routes: <RouteBase>[
       StatefulShellRoute.indexedStack(
         builder: (context, state, navigationShell) {
@@ -94,7 +97,26 @@ class AppRouter {
             ],
           ),
         ],
-      )
+      ),
+      GoRoute(
+        path: '/login',
+        name: 'Login',
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (context, state) => LoginPage(key: state.pageKey),
+      ),
+      GoRoute(
+        path: '/register',
+        name: 'Register',
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (context, state) => RegisterPage(key: state.pageKey),
+      ),
     ],
+    redirect: (context, state) {
+      bool isAuth = false;
+      if (!isAuth && state.fullPath != '/register') {
+        return state.namedLocation('Login');
+      }
+      return null;
+    },
   );
 }

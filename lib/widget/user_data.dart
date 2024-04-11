@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 import 'package:phandal_frontend/core/theme/app_pallete.dart';
 import 'package:phandal_frontend/model/userDB.dart';
@@ -25,7 +26,9 @@ class UserData extends StatelessWidget {
             height: 40,
             width: 40,
             child: IconButton(
-              onPressed: () {},
+              onPressed: () {
+                context.push(context.namedLocation('Register'));
+              },
               icon: const Icon(
                 Icons.edit_document,
                 size: 15,

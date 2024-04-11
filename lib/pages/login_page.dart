@@ -2,9 +2,8 @@
 
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+import 'package:go_router/go_router.dart';
 import 'package:phandal_frontend/model/account_model.dart';
-import 'package:phandal_frontend/routes/routes.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -236,7 +235,7 @@ class _LoginPageState extends State<LoginPage> {
                       width: 15,
                     ),
                     Text(
-                      "OR Sign in",
+                      "OR",
                       style: TextStyle(color: Color(0xFF6BC7E9)),
                     ),
                     SizedBox(
@@ -292,7 +291,7 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                     GestureDetector(
                         onTap: () {
-                          Navigator.pushNamed(context, AppRoute.registerPage);
+                          context.push(context.namedLocation('Register'));
                         },
                         child: const Text(
                           "Register now",

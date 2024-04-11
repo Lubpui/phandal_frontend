@@ -107,14 +107,27 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
-  http:
+  flutter_web_plugins:
     dependency: transitive
+    description: flutter
+    source: sdk
+    version: "0.0.0"
+  go_router:
+    dependency: "direct main"
     description:
-      name: http
-      sha256: "761a297c042deedc1ffbb156d6e2af13886bb305c2a343a4d972504cd67dd938"
+      name: go_router
+      sha256: f6ba8eed5fa831e461122de577d4a26674a1d836e2956abe6c0f6c4d952e6673
       url: "https://pub.dev"
     source: hosted
-    version: "1.2.1"
+    version: "13.2.3"
+  http:
+    dependency: "direct main"
+    description:
+      name: http
+      sha256: a2bbf9d017fcced29139daa8ed2bba4ece450ab222871df93ca9eec6f80c34ba
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.2.0"
   http_parser:
     dependency: transitive
     description:
@@ -324,10 +337,10 @@ packages:
     dependency: transitive
     description:
       name: web
-      sha256: "97da13628db363c635202ad97068d47c5b8aa555808e7a9411963c533b449b27"
+      sha256: afe077240a270dcfd2aafe77602b4113645af95d0ad31128cc02bce5ac5d5152
       url: "https://pub.dev"
     source: hosted
-    version: "0.5.1"
+    version: "0.3.0"
   xml:
     dependency: transitive
     description:
@@ -338,4 +351,4 @@ packages:
     version: "6.5.0"
 sdks:
   dart: ">=3.2.3 <4.0.0"
-  flutter: ">=3.7.0-0"
+  flutter: ">=3.16.0"

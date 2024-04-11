@@ -1,11 +1,12 @@
 // ignore_for_file: prefer_const_constructors, sized_box_for_whitespace, avoid_print, unnecessary_new, unrelated_type_equality_checks, use_build_context_synchronously
 
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:phandal_frontend/model/account_model.dart';
 import 'package:phandal_frontend/model/response_body_model.dart';
-import 'package:phandal_frontend/routes/routes.dart';
 import 'package:phandal_frontend/widget/custom_text_form_field.dart';
 import 'package:http/http.dart' as http;
+import 'package:phandal_frontend/widget/flash_message_screen.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
@@ -23,7 +24,7 @@ class _RegisterPageState extends State<RegisterPage> {
   final password = TextEditingController();
 
   ErrorAccount errorMessages = new ErrorAccount();
-  ResponseBody responseBody = new ResponseBody();
+  ResponseErrorBody responseErrorBody = new ResponseErrorBody();
 
   @override
   void initState() {
@@ -60,10 +61,9 @@ class _RegisterPageState extends State<RegisterPage> {
           'password': password.text,
         };
 
-        var url = Uri.http('192.168.1.63:3000', '/user/register');
+        var url =
+            Uri.parse("https://phandal-backend.onrender.com/user/register");
         var res = await http.post(url, body: body);
-
-        print('status: ${res.statusCode}');
 
         if (res.statusCode == 201) {
           print('Register successful...');
@@ -73,15 +73,29 @@ class _RegisterPageState extends State<RegisterPage> {
           birth.clear();
           password.clear();
 
-          Navigator.pushNamed(context, AppRoute.loginPage);
+          FlashMessageScreen.show(
+            context,
+            'You are registered successfully...',
+            res.statusCode,
+          );
+
+          context.push(context.namedLocation('Login'));
         } else {
           setState(() {
-            responseBody = res.body as ResponseBody;
+            responseErrorBody = responseErrorBodyFromJson(res.body);
           });
+
+          print('Status Error: ${responseErrorBody.statusCode}');
+
+          FlashMessageScreen.show(
+            context,
+            responseErrorBody.message!,
+            responseErrorBody.statusCode!,
+          );
         }
       }
     } catch (e) {
-      print(e.toString());
+      print('Error: ${e.toString()}');
     }
   }
 
@@ -90,12 +104,15 @@ class _RegisterPageState extends State<RegisterPage> {
     return Scaffold(
       body: Center(
         child: Padding(
-          padding: const EdgeInsets.all(30.0),
+          padding: const EdgeInsets.symmetric(horizontal: 30),
           child: Form(
             key: _formkey,
             child: ListView(
               children: [
-                const Image(image: AssetImage('assets/logo.png')),
+                const Image(
+                    image: AssetImage(
+                  'assets/logo.png',
+                )),
                 CustomTextFormField(
                   hintText: 'Username',
                   controller: username,
@@ -234,7 +251,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     ),
                     GestureDetector(
                         onTap: () {
-                          Navigator.pushNamed(context, AppRoute.loginPage);
+                          context.push(context.namedLocation('Login'));
                         },
                         child: const Text(
                           "Login",
@@ -246,15 +263,6 @@ class _RegisterPageState extends State<RegisterPage> {
                 SizedBox(
                   height: 20,
                 ),
-                // responseBody != null
-                //     ? Container(
-                //         child: Text(
-                //             '- ${responseBody.statusCode} ${responseBody.message} '),
-                //       )
-                //     : Container(
-                //         child: Text(
-                //             '- ${responseBody.statusCode} ${responseBody.message} '),
-                //       ),
               ],
             ),
           ),
