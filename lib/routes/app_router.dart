@@ -33,7 +33,6 @@ class AppRouter {
   static final GoRouter router = GoRouter(
     initialLocation: initRoute,
     navigatorKey: _rootNavigatorKey,
-    debugLogDiagnostics: true,
     routes: <RouteBase>[
       StatefulShellRoute.indexedStack(
         builder: (context, state, navigationShell) {
@@ -119,9 +118,15 @@ class AppRouter {
 
       bool isAuth = token != null;
 
-      if (!isAuth && state.fullPath != '/register') {
-        return state.namedLocation('Login');
+      if (!isAuth &&
+          state.fullPath != '/register' &&
+          state.fullPath != '/login') {
+        return '/login';
       }
+      if (isAuth && state.fullPath == '/login') {
+        return '/home';
+      }
+
       return null;
     },
   );

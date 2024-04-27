@@ -62,7 +62,7 @@ class _RegisterPageState extends State<RegisterPage> {
         };
 
         var url =
-            Uri.parse("https://phandal-backend.onrender.com/user/register");
+            Uri.parse("https://phandal-backend.onrender.com/api/user/register");
         var res = await http.post(url, body: body);
 
         if (res.statusCode == 201) {
@@ -79,7 +79,7 @@ class _RegisterPageState extends State<RegisterPage> {
             res.statusCode,
           );
 
-          context.push(context.namedLocation('Login'));
+          GoRouter.of(context).go('/login');
         } else {
           setState(() {
             responseBody = responseBodyFromJson(res.body);

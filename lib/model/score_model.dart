@@ -13,12 +13,17 @@ class Score {
   int hit;
   int short;
 
+  int? winCount;
+  int? loseCount;
+
   Score({
     required this.killed,
     required this.death,
     required this.acc,
     required this.hit,
     required this.short,
+    this.winCount,
+    this.loseCount,
   });
 
   factory Score.fromJson(Map<String, dynamic> json) => Score(
@@ -27,6 +32,8 @@ class Score {
         acc: json["acc"]?.toDouble(),
         hit: json["hit"],
         short: json["short"],
+        winCount: json["winCount"],
+        loseCount: json["loseCount"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -35,5 +42,7 @@ class Score {
         "acc": acc,
         "hit": hit,
         "short": short,
+        "winCount": winCount,
+        "loseCount": loseCount,
       };
 }

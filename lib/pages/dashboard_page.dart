@@ -85,6 +85,8 @@ HistoryModel mockUpHistory = HistoryModel(
     acc: 50.45,
     hit: 11,
     short: 20,
+    winCount: 60,
+    loseCount: 50,
   ),
 );
 

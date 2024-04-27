@@ -51,14 +51,12 @@ class _LoginPageState extends State<LoginPage> {
           'password': passwordController.text,
         };
 
-        var uri = Uri.parse('https://phandal-backend.onrender.com/auth/login');
+        var uri =
+            Uri.parse('https://phandal-backend.onrender.com/api/auth/login');
         var res = await http.post(uri, body: body);
 
         if (res.statusCode == 201) {
           print('Login successfully...');
-
-          // usernameController.clear();
-          // passwordController.clear();
 
           FlashMessageScreen.show(
             context,
@@ -67,10 +65,11 @@ class _LoginPageState extends State<LoginPage> {
           );
 
           final accessToken = responseBodyFromJson(res.body).accessToken;
+          final userId = responseBodyFromJson(res.body).userId;
 
           AppRouter.fss.write(key: 'accessToken', value: accessToken);
 
-          context.pushNamed('Home');
+          GoRouter.of(context).go('/home');
         } else {
           setState(() {
             responseBody = responseBodyFromJson(res.body);
