@@ -34,28 +34,30 @@ class _SheetState extends State<Sheet> {
   ];
 
   Widget Radiopress(int index) {
-    return GestureDetector(
-      onTap: () {
-        setState(() {
-          _selectedColor = index;
-        });
-      },
-      child: Padding(
-        padding: const EdgeInsets.all(10),
-        child: Container(
-          width: 50,
-          height: 50,
-          decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            border: Border.all(
+    return Expanded(
+      child: GestureDetector(
+        onTap: () {
+          setState(() {
+            _selectedColor = index;
+          });
+        },
+        child: Padding(
+          padding: const EdgeInsets.all(10),
+          child: Container(
+            width: 50,
+            height: 50,
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              border: Border.all(
+                color: _selectedColor == index
+                    ? Color(toIntColor("#6BC7E9"))
+                    : Color(toIntColor(colors[index].secondary)),
+                width: 5,
+              ),
               color: _selectedColor == index
-                  ? Color(toIntColor("#6BC7E9"))
-                  : Color(toIntColor(colors[index].secondary)),
-              width: 5,
+                  ? Color(toIntColor(colors[index].primary))
+                  : Color(toIntColor(colors[index].primary)),
             ),
-            color: _selectedColor == index
-                ? Color(toIntColor(colors[index].primary))
-                : Color(toIntColor(colors[index].primary)),
           ),
         ),
       ),
@@ -205,7 +207,7 @@ class _SheetState extends State<Sheet> {
               const SizedBox(height: 20),
               GestureDetector(
                 onTap: () {
-                  print("Disconnection");
+                  print("Disconnect");
                 },
                 child: Container(
                   height: 50,
@@ -215,7 +217,7 @@ class _SheetState extends State<Sheet> {
                   ),
                   child: const Center(
                     child: Text(
-                      "Disconnection",
+                      "Disconnect",
                       style: TextStyle(
                         color: Color(0xffFFFFFF),
                         fontWeight: FontWeight.bold,

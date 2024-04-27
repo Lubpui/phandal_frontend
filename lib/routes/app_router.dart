@@ -3,9 +3,12 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:go_router/go_router.dart';
 import 'package:phandal_frontend/main_wrapper.dart';
 import 'package:phandal_frontend/pages/bluetooth_connect_page.dart';
+import 'package:phandal_frontend/pages/codeInput_page.dart';
+import 'package:phandal_frontend/pages/compettitive_page.dart';
 import 'package:phandal_frontend/pages/dashboard_page.dart';
 import 'package:phandal_frontend/pages/home_page.dart';
 import 'package:phandal_frontend/pages/login_page.dart';
+import 'package:phandal_frontend/pages/matchmaking_page.dart';
 import 'package:phandal_frontend/pages/register_page.dart';
 import 'package:phandal_frontend/pages/setting_page.dart';
 
@@ -67,12 +70,23 @@ class AppRouter {
             navigatorKey: _rootNavigatorMatch,
             routes: [
               GoRoute(
-                path: '/match',
-                name: 'Match',
-                builder: (context, state) => HomePage(
-                  key: state.pageKey,
-                ),
-              )
+                  path: '/match',
+                  name: 'Match',
+                  builder: (context, state) => MatchPage(
+                        key: state.pageKey,
+                      ),
+                  routes: [
+                    GoRoute(
+                      path: 'competitive',
+                      name: 'ComppititivePage',
+                      builder: (context, state) => const CompPage(),
+                    ),
+                    GoRoute(
+                      path: 'Join',
+                      name: 'JoinPage',
+                      builder: (context, state) => const JoinPage(),
+                    ),
+                  ])
             ],
           ),
           StatefulShellBranch(
