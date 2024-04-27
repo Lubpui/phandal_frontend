@@ -20,12 +20,8 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   static final List<DataModel> _mockUp = [
-    DataModel("HamHarry", "2.4 Ghz", true, 70),
-    DataModel("Google", "5 Ghz", false, 30),
-    DataModel("Welcome", "2.4 Ghz", false, 100),
-    DataModel("HyperX", "2.4 Ghz", true, 50),
-    DataModel("Iphone", "2.4 Ghz", true, 20),
-    DataModel("BUMAIL", "5 Ghz", false, 30),
+    DataModel("Gun Device", "2.4 Ghz", true, 70),
+    DataModel("Armor Device", "5 Ghz", false, 30),
   ];
 
   List<DataModel> display_list = List.from(_mockUp);

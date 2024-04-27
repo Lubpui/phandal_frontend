@@ -51,7 +51,8 @@ class _LoginPageState extends State<LoginPage> {
           'password': passwordController.text,
         };
 
-        var uri = Uri.parse('https://phandal-backend.onrender.com/auth/login');
+        var uri =
+            Uri.parse('https://phandal-backend.onrender.com/api/auth/login');
         var res = await http.post(uri, body: body);
 
         if (res.statusCode == 201) {
@@ -70,7 +71,7 @@ class _LoginPageState extends State<LoginPage> {
 
           AppRouter.fss.write(key: 'accessToken', value: accessToken);
 
-          context.pushNamed('Home');
+          GoRouter.of(context).go('/home');
         } else {
           setState(() {
             responseBody = responseBodyFromJson(res.body);

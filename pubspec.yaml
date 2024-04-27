@@ -20,6 +20,9 @@ dependencies:
     flutter_secure_storage: ^9.0.0
     flutter_bloc: ^8.1.5
     equatable: ^2.0.5
+    image_picker: ^1.1.0
+    image_cropper: ^5.0.1
+    modal_progress_hud_nsn: ^0.5.1
 
 dev_dependencies:
     flutter_test:

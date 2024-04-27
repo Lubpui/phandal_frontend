@@ -27,7 +27,7 @@ class UserData extends StatelessWidget {
             width: 40,
             child: IconButton(
               onPressed: () {
-                context.push(context.namedLocation('Register'));
+                context.push(context.namedLocation('ProfilePage'));
               },
               icon: const Icon(
                 Icons.edit_document,

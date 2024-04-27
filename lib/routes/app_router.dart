@@ -9,6 +9,7 @@ import 'package:phandal_frontend/pages/dashboard_page.dart';
 import 'package:phandal_frontend/pages/home_page.dart';
 import 'package:phandal_frontend/pages/login_page.dart';
 import 'package:phandal_frontend/pages/matchmaking_page.dart';
+import 'package:phandal_frontend/pages/profile_page.dart';
 import 'package:phandal_frontend/pages/register_page.dart';
 import 'package:phandal_frontend/pages/setting_page.dart';
 
@@ -61,7 +62,19 @@ class AppRouter {
                     builder: (context, state) => BluetoothConnectPage(
                       key: state.pageKey,
                     ),
-                  )
+                  ),
+                  GoRoute(
+                    path: 'profilepage',
+                    name: 'ProfilePage',
+                    builder: (context, state) {
+                      final initials = state.pathParameters['initials'];
+                      return ProfilePage(
+                        key: state.pageKey,
+                        initials: initials ??
+                            '', // Provide a default value if no param exists
+                      );
+                    },
+                  ),
                 ],
               )
             ],
@@ -133,9 +146,15 @@ class AppRouter {
 
       bool isAuth = token != null;
 
-      if (!isAuth && state.fullPath != '/register') {
-        return state.namedLocation('Login');
+      if (!isAuth &&
+          state.fullPath != '/register' &&
+          state.fullPath != '/login') {
+        return '/login';
       }
+      if (isAuth && state.fullPath == '/login') {
+        return '/home';
+      }
+
       return null;
     },
   );
