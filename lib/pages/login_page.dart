@@ -1,12 +1,12 @@
 // ignore_for_file: prefer_const_constructors, sized_box_for_whitespace, avoid_print, use_build_context_synchronously, unnecessary_new
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:phandal_frontend/bloc/auth/auth_bloc.dart';
 import 'package:phandal_frontend/model/account_model.dart';
+import 'package:phandal_frontend/model/login_model.dart';
 import 'package:phandal_frontend/model/response_body_model.dart';
-import 'package:http/http.dart' as http;
-import 'package:phandal_frontend/routes/app_router.dart';
-import 'package:phandal_frontend/widget/flash_message_screen.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -43,51 +43,14 @@ class _LoginPageState extends State<LoginPage> {
     super.dispose();
   }
 
-  void login() async {
-    try {
-      if (_formkey.currentState!.validate()) {
-        Map<String, String> body = {
-          'email': usernameController.text,
-          'password': passwordController.text,
-        };
+  void _handleClickSignIn() {
+    if (_formkey.currentState!.validate()) {
+      final loginPayload = LoginModel(
+        password: passwordController.text,
+        email: usernameController.text,
+      );
 
-        var uri =
-            Uri.parse('https://phandal-backend.onrender.com/api/auth/login');
-        var res = await http.post(uri, body: body);
-
-        if (res.statusCode == 201) {
-          print('Login successfully...');
-
-          // usernameController.clear();
-          // passwordController.clear();
-
-          FlashMessageScreen.show(
-            context,
-            'Login successfully...',
-            res.statusCode,
-          );
-
-          final accessToken = responseBodyFromJson(res.body).accessToken;
-
-          AppRouter.fss.write(key: 'accessToken', value: accessToken);
-
-          GoRouter.of(context).go('/home');
-        } else {
-          setState(() {
-            responseBody = responseBodyFromJson(res.body);
-          });
-
-          print('Status Error: ${responseBody.statusCode}');
-
-          FlashMessageScreen.show(
-            context,
-            responseBody.message!,
-            responseBody.statusCode!,
-          );
-        }
-      }
-    } catch (e) {
-      print('Error: ${e.toString()}');
+      context.read<AuthBloc>().add(AuthEventLogin(loginPayload));
     }
   }
 
@@ -252,7 +215,7 @@ class _LoginPageState extends State<LoginPage> {
                       backgroundColor:
                           MaterialStatePropertyAll(Color(0xFF6BC7E9))),
                   onPressed: () {
-                    login();
+                    _handleClickSignIn();
                   },
                   child: const Center(
                       child: Text(

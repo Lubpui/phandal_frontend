@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:go_router/go_router.dart';
@@ -18,7 +20,7 @@ class AppRouter {
 
   static String initRoute = '/home';
 
-  static final _rootNavigatorKey = GlobalKey<NavigatorState>();
+  static final rootNavigatorKey = GlobalKey<NavigatorState>();
   static final _rootNavigatorHome = GlobalKey<NavigatorState>(
     debugLabel: 'shellHome',
   );
@@ -36,7 +38,7 @@ class AppRouter {
 
   static final GoRouter router = GoRouter(
     initialLocation: initRoute,
-    navigatorKey: _rootNavigatorKey,
+    navigatorKey: rootNavigatorKey,
     debugLogDiagnostics: true,
     routes: <RouteBase>[
       StatefulShellRoute.indexedStack(
@@ -131,13 +133,13 @@ class AppRouter {
       GoRoute(
         path: '/login',
         name: 'Login',
-        parentNavigatorKey: _rootNavigatorKey,
+        parentNavigatorKey: rootNavigatorKey,
         builder: (context, state) => LoginPage(key: state.pageKey),
       ),
       GoRoute(
         path: '/register',
         name: 'Register',
-        parentNavigatorKey: _rootNavigatorKey,
+        parentNavigatorKey: rootNavigatorKey,
         builder: (context, state) => RegisterPage(key: state.pageKey),
       ),
     ],

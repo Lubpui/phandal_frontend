@@ -2,41 +2,22 @@ import 'dart:convert';
 
 import 'package:phandal_frontend/model/score_model.dart';
 
-HistoryModel historyModelFromJson(String str) =>
-    HistoryModel.fromJson(json.decode(str));
+List<HistoryModel> historyModelFromJson(String str) => List<HistoryModel>.from(
+    json.decode(str).map((x) => HistoryModel.fromJson(x)));
 
-String historyModelToJson(HistoryModel data) => json.encode(data.toJson());
+String historyModelToJson(List<HistoryModel> data) =>
+    json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
 class HistoryModel {
-  List<Match> match;
-  Score summaryScore;
-
-  HistoryModel({
-    required this.match,
-    required this.summaryScore,
-  });
-
-  factory HistoryModel.fromJson(Map<String, dynamic> json) => HistoryModel(
-        match: List<Match>.from(json["match"].map((x) => Match.fromJson(x))),
-        summaryScore: Score.fromJson(json["summaryScore"]),
-      );
-
-  Map<String, dynamic> toJson() => {
-        "match": List<dynamic>.from(match.map((x) => x.toJson())),
-        "summaryScore": summaryScore.toJson(),
-      };
-}
-
-class Match {
   Team redTeam;
   Team blueTeam;
 
-  Match({
+  HistoryModel({
     required this.redTeam,
     required this.blueTeam,
   });
 
-  factory Match.fromJson(Map<String, dynamic> json) => Match(
+  factory HistoryModel.fromJson(Map<String, dynamic> json) => HistoryModel(
         redTeam: Team.fromJson(json["redTeam"]),
         blueTeam: Team.fromJson(json["blueTeam"]),
       );
@@ -50,23 +31,27 @@ class Match {
 class Team {
   String userId;
   Score score;
-  String competitionResults;
+  String team;
+  String competitionResult;
 
   Team({
     required this.userId,
     required this.score,
-    required this.competitionResults,
+    required this.team,
+    required this.competitionResult,
   });
 
   factory Team.fromJson(Map<String, dynamic> json) => Team(
         userId: json["userId"],
         score: Score.fromJson(json["score"]),
-        competitionResults: json["competitionResults"],
+        team: json["team"],
+        competitionResult: json["competitionResult"],
       );
 
   Map<String, dynamic> toJson() => {
         "userId": userId,
         "score": score.toJson(),
-        "competitionResults": competitionResults,
+        "team": team,
+        "competitionResult": competitionResult,
       };
 }

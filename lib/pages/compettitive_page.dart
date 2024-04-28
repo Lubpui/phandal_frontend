@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors, sort_child_properties_last
+
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:phandal_frontend/core/theme/app_pallete.dart';
@@ -68,7 +70,7 @@ class _CompPageState extends State<CompPage> {
             ),
             ElevatedButton(
               onPressed: () {},
-              child: const Text(
+              child: Text(
                 "Start",
                 style: TextStyle(color: AppPallete.batterycolor, fontSize: 20),
               ),
@@ -102,7 +104,7 @@ class _CompPageState extends State<CompPage> {
 
   Widget _buildPlayerInfo() {
     String playerName = "PatcharaPN";
-    int playerHealth = 100;
+    // int playerHealth = 100;
 
     return Container(
       decoration: BoxDecoration(
@@ -122,7 +124,7 @@ class _CompPageState extends State<CompPage> {
                   CircleAvatar(
                     backgroundImage: NetworkImage(selectedUser.imageUrl),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     width: 10,
                   ),
                   Row(
@@ -135,7 +137,7 @@ class _CompPageState extends State<CompPage> {
                             playerName,
                             style: const TextStyle(fontSize: 18),
                           ),
-                          Text("Team :"),
+                          const Text("Team :"),
                         ],
                       ),
                     ],
@@ -156,12 +158,12 @@ class _CompPageState extends State<CompPage> {
             ],
           ),
           Padding(
-            padding: EdgeInsets.all(15.0),
+            padding: const EdgeInsets.all(15.0),
             child: LinearPercentIndicator(
               lineHeight: 10.0,
               animationDuration: 2000,
               percent: 0.9,
-              center: Text("90.0%"),
+              center: const Text("90.0%"),
               progressColor: Colors.greenAccent,
             ),
           ),

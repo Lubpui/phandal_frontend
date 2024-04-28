@@ -1,13 +1,10 @@
-import 'dart:io';
+// ignore_for_file: avoid_print, unnecessary_new, await_only_futures
 
+import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-import 'package:image_cropper/image_cropper.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:phandal_frontend/core/theme/app_pallete.dart';
 import 'package:phandal_frontend/image_helper.dart';
 import 'package:http/http.dart' as http;
-import 'package:phandal_frontend/routes/app_router.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key, required this.initials});
@@ -28,6 +25,30 @@ class _ProfilePageState extends State<ProfilePage> {
       setState(() {
         _image = File(image.path);
       });
+    }
+  }
+
+  Future<void> uploadImage() async {
+    var uri = Uri.parse(
+      'https://phandal-backend.onrender.com/api/user/662d207e43d5bc4ca3ffe972/upload/image',
+    );
+
+    var request = new http.MultipartRequest('POST', uri);
+
+    request.fields['userId'] = '662d207e43d5bc4ca3ffe972';
+
+    request.files.add(await http.MultipartFile.fromPath('image', _image!.path));
+
+    var response = await request.send();
+
+    print(response.stream);
+
+    if (response.statusCode == 201) {
+      print("complete upload");
+    } else {
+      print("failed");
+      print(response.statusCode);
+      print(response.reasonPhrase);
     }
   }
 
@@ -80,31 +101,8 @@ class _ProfilePageState extends State<ProfilePage> {
             child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
                     backgroundColor: AppPallete.buttongradient2),
-                onPressed: () async {
-                  final token = AppRouter.fss.read(key: 'accessToken');
-                  print(_image);
-                  var stream = new http.ByteStream(_image!.openRead());
-                  stream.cast();
-
-                  var length = await _image!.length();
-
-                  var uri = Uri.parse(
-                      'https://phandal-backend.onrender.comapi/user/662d15ec43d5bc4ca3ffe934/upload/image');
-
-                  var req = await http.MultipartRequest(
-                    'POST',
-                    uri,
-                  );
-                  var multiport =
-                      new http.MultipartFile('image', stream, length);
-
-                  req.files.add(multiport);
-
-                  var response = await req.send();
-
-                  if (response.statusCode == 201) {
-                    print("INTERNALPOINTTHATVARIABLE");
-                  }
+                onPressed: () {
+                  uploadImage();
                 },
                 child: const Row(
                   mainAxisAlignment: MainAxisAlignment.center,

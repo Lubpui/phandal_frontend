@@ -49,6 +49,7 @@ android {
         targetSdkVersion flutter.targetSdkVersion
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
+        multiDexEnabled true
     }
 
     buildTypes {
@@ -58,10 +59,19 @@ android {
             signingConfig signingConfigs.debug
         }
     }
+    
+    configurations.all {
+    resolutionStrategy {
+        force 'com.google.android.gms:play-services-places:11.8.0'
+        force 'com.google.android.gms:play-services-location:11.8.0'
+    }
+}
 }
 
 flutter {
     source '../..'
 }
 
-dependencies {}
+dependencies {
+    implementation 'com.google.android.material:material:1.12.0-rc01'
+}

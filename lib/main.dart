@@ -2,9 +2,9 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:phandal_frontend/bloc/auth/auth_bloc.dart';
+import 'package:phandal_frontend/bloc/user/user_bloc.dart';
 import 'package:phandal_frontend/core/theme/app_theme.dart';
-import 'package:phandal_frontend/repository/bluetooth_repository/bluetooth.dart';
-import 'package:phandal_frontend/repository/bluetooth_repository/stats.dart';
 import 'package:phandal_frontend/routes/app_router.dart';
 
 void main() {
@@ -18,15 +18,11 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MultiRepositoryProvider(
-      providers: [
-        RepositoryProvider<BluetoothRepository>(
-          create: (context) => BluetoothRepository(),
-        ),
-        RepositoryProvider<StatsRepository>(
-          create: (context) => StatsRepository(),
-        ),
-      ],
+    final userBloc = BlocProvider<UserBloc>(create: (context) => UserBloc());
+    final authBloc = BlocProvider<AuthBloc>(create: (context) => AuthBloc());
+
+    return MultiBlocProvider(
+      providers: [userBloc, authBloc],
       child: MaterialApp.router(
         debugShowCheckedModeBanner: false,
         title: 'Phandal App',

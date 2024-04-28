@@ -1,12 +1,11 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:phandal_frontend/bloc/user/user_bloc.dart';
 
 import 'package:phandal_frontend/core/theme/app_pallete.dart';
-import 'package:phandal_frontend/model/userDB.dart';
-import 'package:phandal_frontend/model/usermodel.dart';
-import 'package:phandal_frontend/widget/user_widget.dart';
-
-final UserModel selectedUser = UserModelDB.modelDB[0];
 
 class UserData extends StatelessWidget {
   const UserData({
@@ -15,7 +14,6 @@ class UserData extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final Usermodel selecteduser = modelDB[0];
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 30),
       child: Row(
@@ -36,16 +34,27 @@ class UserData extends StatelessWidget {
               ),
             ),
           ),
-          Text(
-            selecteduser.name,
-            style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+          BlocBuilder<UserBloc, UserState>(
+            builder: (context, state) {
+              return Text(
+                state.username,
+                style:
+                    const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              );
+            },
           ),
           const SizedBox(width: 10),
-          CircleAvatar(
-            backgroundImage: NetworkImage(
-              selecteduser.imageUrl,
-            ),
-            radius: 30,
+          BlocBuilder<UserBloc, UserState>(
+            builder: (context, state) {
+              return CircleAvatar(
+                backgroundImage: NetworkImage(
+                  state.image.isNotEmpty
+                      ? state.image
+                      : 'https://t4.ftcdn.net/jpg/05/50/60/55/360_F_550605549_PaTP81pjaCsrNTnfUaYlUZ8wmPpQSHY8.jpg',
+                ),
+                radius: 30,
+              );
+            },
           ),
         ],
       ),
