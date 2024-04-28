@@ -159,7 +159,6 @@ class _CompPageState extends State<CompPage> {
                             "Team :",
                             style: TextStyle(fontWeight: FontWeight.bold),
                           ),
-                          const Text("Team :"),
                         ],
                       ),
                     ],
