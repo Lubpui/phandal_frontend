@@ -59,8 +59,16 @@ class _CompPageState extends State<CompPage> {
                   ? _buildPlayerInfo() // Show info when pressed
                   : Center(
                       child: IconButton(
-                        onPressed: () =>
-                            setState(() => _isButtonPressed1 = true),
+                        onPressed: () {
+                          setState(() {
+                            if (_isButtonPressed1) {
+                              _isButtonPressed1 = false;
+                            } else {
+                              _isButtonPressed2 = false;
+                              _isButtonPressed1 = true;
+                            }
+                          });
+                        },
                         icon: const Icon(
                           Icons.add,
                           size: 50,
@@ -87,8 +95,16 @@ class _CompPageState extends State<CompPage> {
                   ? _buildPlayerInfo() // Show info when pressed
                   : Center(
                       child: IconButton(
-                        onPressed: () =>
-                            setState(() => _isButtonPressed2 = true),
+                        onPressed: () {
+                          setState(() {
+                            if (_isButtonPressed2) {
+                              _isButtonPressed1 = false;
+                            } else {
+                              _isButtonPressed2 = true;
+                              _isButtonPressed1 = false;
+                            }
+                          });
+                        },
                         icon: const Icon(
                           Icons.add,
                           size: 50,
@@ -108,12 +124,13 @@ class _CompPageState extends State<CompPage> {
 
     return Container(
       decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(30),
+          borderRadius: BorderRadius.circular(20),
           gradient: const LinearGradient(
               colors: [AppPallete.buttongradient2, AppPallete.buttongradient1],
               begin: Alignment.topCenter,
               end: Alignment.bottomCenter)),
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Row(
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -135,7 +152,12 @@ class _CompPageState extends State<CompPage> {
                         children: [
                           Text(
                             playerName,
-                            style: const TextStyle(fontSize: 18),
+                            style: const TextStyle(
+                                fontSize: 18, fontWeight: FontWeight.bold),
+                          ),
+                          const Text(
+                            "Team :",
+                            style: TextStyle(fontWeight: FontWeight.bold),
                           ),
                           const Text("Team :"),
                         ],
@@ -149,23 +171,87 @@ class _CompPageState extends State<CompPage> {
                   Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text("Shot"),
-                      Text("10"),
+                      Text(
+                        "Shot",
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                      Text(
+                        "10",
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
                     ],
                   )
                 ],
               )
             ],
           ),
-          Padding(
-            padding: const EdgeInsets.all(15.0),
-            child: LinearPercentIndicator(
-              lineHeight: 10.0,
-              animationDuration: 2000,
-              percent: 0.9,
-              center: const Text("90.0%"),
-              progressColor: Colors.greenAccent,
-            ),
+          Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(15.0),
+                child: LinearPercentIndicator(
+                  lineHeight: 20.0,
+                  animationDuration: 2000,
+                  percent: 0.9,
+                  center: const Text("90.0%"),
+                  progressColor: Colors.greenAccent,
+                  barRadius: const Radius.circular(20),
+                ),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const Expanded(
+                    child: Column(
+                      children: [
+                        Text(
+                          "Kill",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              fontSize: 15, fontWeight: FontWeight.bold),
+                        ),
+                        Text(
+                          "0",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              fontSize: 25,
+                              fontWeight: FontWeight.bold,
+                              color: AppPallete.win),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Container(
+                    height: 50,
+                    width: 1,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      color: Colors.white,
+                    ),
+                  ),
+                  const Expanded(
+                    child: Column(
+                      children: [
+                        Text(
+                          "Death",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              fontSize: 15, fontWeight: FontWeight.bold),
+                        ),
+                        Text(
+                          "0",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              fontSize: 25,
+                              fontWeight: FontWeight.bold,
+                              color: AppPallete.lost),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ],
           ),
         ],
       ),
