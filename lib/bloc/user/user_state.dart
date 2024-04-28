@@ -10,7 +10,7 @@ class UserState extends Equatable {
     this.username = '',
     this.email = '',
     this.birthdate = '',
-    this.image = '',
+    this.image = 'https://phandal-backend.onrender.com/profile.png',
   });
 
   UserState copyWith(

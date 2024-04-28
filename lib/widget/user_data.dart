@@ -47,11 +47,7 @@ class UserData extends StatelessWidget {
           BlocBuilder<UserBloc, UserState>(
             builder: (context, state) {
               return CircleAvatar(
-                backgroundImage: NetworkImage(
-                  state.image.isNotEmpty
-                      ? state.image
-                      : 'https://t4.ftcdn.net/jpg/05/50/60/55/360_F_550605549_PaTP81pjaCsrNTnfUaYlUZ8wmPpQSHY8.jpg',
-                ),
+                backgroundImage: NetworkImage(state.image),
                 radius: 30,
               );
             },

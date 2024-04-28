@@ -4,12 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:phandal_frontend/core/theme/app_pallete.dart';
 import 'package:phandal_frontend/model/history_model.dart';
 import 'package:phandal_frontend/model/score_model.dart';
+import 'package:phandal_frontend/model/user_lite_model.dart';
 import 'package:phandal_frontend/widget/user_data.dart';
 
 List<HistoryModel> mockUpHistory = [
   HistoryModel(
     redTeam: Team(
-      userId: '123',
+      user: UserLite(id: '', image: '', username: ''),
       score: Score(
         killed: 0,
         death: 1,
@@ -19,7 +20,7 @@ List<HistoryModel> mockUpHistory = [
       competitionResult: 'Win',
     ),
     blueTeam: Team(
-      userId: '124',
+      user: UserLite(id: '', image: '', username: ''),
       score: Score(
         killed: 1,
         death: 0,
@@ -31,7 +32,7 @@ List<HistoryModel> mockUpHistory = [
   ),
   HistoryModel(
     redTeam: Team(
-      userId: '123',
+      user: UserLite(id: '', image: '', username: ''),
       score: Score(
         killed: 0,
         death: 1,
@@ -41,7 +42,7 @@ List<HistoryModel> mockUpHistory = [
       competitionResult: 'Win',
     ),
     blueTeam: Team(
-      userId: '124',
+      user: UserLite(id: '', image: '', username: ''),
       score: Score(
         killed: 1,
         death: 0,

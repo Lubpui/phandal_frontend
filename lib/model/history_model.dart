@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:phandal_frontend/model/score_model.dart';
+import 'package:phandal_frontend/model/user_lite_model.dart';
 
 List<HistoryModel> historyModelFromJson(String str) => List<HistoryModel>.from(
     json.decode(str).map((x) => HistoryModel.fromJson(x)));
@@ -29,29 +30,33 @@ class HistoryModel {
 }
 
 class Team {
-  String userId;
+  UserLite user;
   Score score;
   String team;
+  int? health;
   String competitionResult;
 
   Team({
-    required this.userId,
+    required this.user,
     required this.score,
     required this.team,
+    this.health,
     required this.competitionResult,
   });
 
   factory Team.fromJson(Map<String, dynamic> json) => Team(
-        userId: json["userId"],
+        user: UserLite.fromJson(json['user']),
         score: Score.fromJson(json["score"]),
         team: json["team"],
+        health: json["health"],
         competitionResult: json["competitionResult"],
       );
 
   Map<String, dynamic> toJson() => {
-        "userId": userId,
+        "userId": user.toJson(),
         "score": score.toJson(),
         "team": team,
+        "health": health,
         "competitionResult": competitionResult,
       };
 }

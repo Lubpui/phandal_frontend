@@ -22,8 +22,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   }
 
   FutureOr<void> login(AuthEventLogin event, Emitter<AuthState> emit) async {
-    // print(event.payload.email);
-
     try {
       if (context == null) return;
 
