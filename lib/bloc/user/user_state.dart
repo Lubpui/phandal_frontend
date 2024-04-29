@@ -1,28 +1,14 @@
 part of 'user_bloc.dart';
 
 class UserState extends Equatable {
-  final String username;
-  final String email;
-  final String birthdate;
-  final String image;
+  final UserModel? user;
 
-  const UserState({
-    this.username = '',
-    this.email = '',
-    this.birthdate = '',
-    this.image = 'https://phandal-backend.onrender.com/profile.png',
-  });
+  const UserState({this.user});
 
-  UserState copyWith(
-      {String? username, String? email, String? birthdate, String? image}) {
-    return UserState(
-      username: username ?? this.username,
-      email: email ?? this.email,
-      birthdate: birthdate ?? this.birthdate,
-      image: image ?? this.image,
-    );
+  UserState copyWith({UserModel? user}) {
+    return UserState(user: user ?? this.user);
   }
 
   @override
-  List<Object?> get props => [username, email, birthdate, image];
+  List<Object?> get props => [user];
 }

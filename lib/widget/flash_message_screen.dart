@@ -13,7 +13,7 @@ class FlashMessageScreen {
     String message,
     int statusCode,
   ) {
-    bool isSuccess = statusCode == 201;
+    bool isSuccess = statusCode == 201 || statusCode == 200;
 
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(

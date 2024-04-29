@@ -1,15 +1,17 @@
-// ignore_for_file: avoid_print, unnecessary_new, await_only_futures
+// ignore_for_file: avoid_print, unnecessary_new, await_only_futures, use_build_context_synchronously
 
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
+import 'package:phandal_frontend/bloc/user/user_bloc.dart';
 import 'package:phandal_frontend/core/theme/app_pallete.dart';
 import 'package:phandal_frontend/image_helper.dart';
 import 'package:http/http.dart' as http;
+import 'package:phandal_frontend/routes/app_router.dart';
 
 class ProfilePage extends StatefulWidget {
-  const ProfilePage({super.key, required this.initials});
-
-  final String initials;
+  const ProfilePage({super.key});
 
   @override
   State<ProfilePage> createState() => _ProfilePageState();
@@ -29,13 +31,15 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   Future<void> uploadImage() async {
+    var userId = await AppRouter.fss.read(key: 'userId');
+
     var uri = Uri.parse(
-      'https://phandal-backend.onrender.com/api/user/662d207e43d5bc4ca3ffe972/upload/image',
+      'https://phandal-backend.onrender.com/api/user/$userId/upload/image',
     );
 
     var request = new http.MultipartRequest('POST', uri);
 
-    request.fields['userId'] = '662d207e43d5bc4ca3ffe972';
+    request.fields['userId'] = '$userId';
 
     request.files.add(await http.MultipartFile.fromPath('image', _image!.path));
 
@@ -50,6 +54,8 @@ class _ProfilePageState extends State<ProfilePage> {
       print(response.statusCode);
       print(response.reasonPhrase);
     }
+    GoRouter.of(context).pop();
+    context.read<UserBloc>().add(UserEventGetUser());
   }
 
   @override
@@ -66,9 +72,9 @@ class _ProfilePageState extends State<ProfilePage> {
                 backgroundColor: Colors.grey[300],
                 radius: 64,
                 backgroundImage: _image != null ? FileImage(_image!) : null,
-                child: Text(
-                  widget.initials,
-                  style: const TextStyle(fontSize: 49),
+                child: const Text(
+                  'Profile',
+                  style: TextStyle(fontSize: 25, color: Colors.black),
                 ),
               ),
             ),

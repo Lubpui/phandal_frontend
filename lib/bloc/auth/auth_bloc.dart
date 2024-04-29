@@ -3,6 +3,7 @@
 import 'dart:async';
 
 import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:phandal_frontend/model/login_model.dart';
@@ -24,6 +25,10 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   FutureOr<void> login(AuthEventLogin event, Emitter<AuthState> emit) async {
     try {
       if (context == null) return;
+      showDialog(
+        context: context!,
+        builder: (context) => const Center(child: CircularProgressIndicator()),
+      );
 
       Map<String, String> body = {
         'email': event.payload.email,
@@ -48,6 +53,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         );
 
         AppRouter.fss.write(key: 'accessToken', value: body.accessToken);
+        AppRouter.fss.write(key: 'userId', value: body.userId);
 
         GoRouter.of(context!).go('/home');
       } else {

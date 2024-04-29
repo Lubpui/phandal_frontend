@@ -2,7 +2,9 @@
 
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:phandal_frontend/bloc/user/user_bloc.dart';
 import 'package:phandal_frontend/utils/utils.dart';
 import 'package:phandal_frontend/widget/bottom_sheet.dart';
 import 'package:phandal_frontend/model/data_model.dart';
@@ -37,6 +39,12 @@ class _HomePageState extends State<HomePage> {
             .toList();
       });
     });
+  }
+
+  @override
+  void initState() {
+    context.read<UserBloc>().add(UserEventGetUser());
+    super.initState();
   }
 
   @override

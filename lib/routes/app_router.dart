@@ -65,18 +65,6 @@ class AppRouter {
                       key: state.pageKey,
                     ),
                   ),
-                  GoRoute(
-                    path: 'profilepage',
-                    name: 'ProfilePage',
-                    builder: (context, state) {
-                      final initials = state.pathParameters['initials'];
-                      return ProfilePage(
-                        key: state.pageKey,
-                        initials: initials ??
-                            '', // Provide a default value if no param exists
-                      );
-                    },
-                  ),
                 ],
               )
             ],
@@ -93,13 +81,13 @@ class AppRouter {
                   routes: [
                     GoRoute(
                       path: 'competitive',
-                      name: 'ComppititivePage',
-                      builder: (context, state) => const CompPage(),
+                      name: 'Competitive',
+                      builder: (context, state) => CompPage(key: state.pageKey),
                     ),
                     GoRoute(
-                      path: 'Join',
-                      name: 'JoinPage',
-                      builder: (context, state) => const JoinPage(),
+                      path: 'join',
+                      name: 'Join',
+                      builder: (context, state) => JoinPage(key: state.pageKey),
                     ),
                   ])
             ],
@@ -141,6 +129,12 @@ class AppRouter {
         name: 'Register',
         parentNavigatorKey: rootNavigatorKey,
         builder: (context, state) => RegisterPage(key: state.pageKey),
+      ),
+      GoRoute(
+        path: '/profile',
+        name: 'Profile',
+        parentNavigatorKey: rootNavigatorKey,
+        builder: (context, state) => ProfilePage(key: state.pageKey),
       ),
     ],
     redirect: (context, state) async {

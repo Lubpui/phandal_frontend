@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors, sort_child_properties_last, unnecessary_new, unnecessary_null_comparison
+// ignore_for_file: prefer_const_constructors, sort_child_properties_last, unnecessary_new, unnecessary_null_comparison, avoid_print
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -10,6 +10,7 @@ import 'package:phandal_frontend/model/history_model.dart';
 import 'package:phandal_frontend/model/score_model.dart';
 import 'package:phandal_frontend/model/userDB.dart';
 import 'package:phandal_frontend/model/user_lite_model.dart';
+import 'package:phandal_frontend/utils/utils.dart';
 import 'package:phandal_frontend/widget/user_data.dart';
 
 Team mockUpincomeTeam = Team(
@@ -71,11 +72,13 @@ class _CompPageState extends State<CompPage> {
         actions: const [UserData()],
         toolbarHeight: 90,
         surfaceTintColor: AppPallete.transparentColor,
-        bottom: PreferredSize(
-          preferredSize: Size.fromHeight(60),
-          child: Padding(
-            padding: EdgeInsets.only(left: 45.0),
-            child: Row(
+      ),
+      body: Padding(
+        padding: EdgeInsets.symmetric(horizontal: 30),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            Row(
               children: [
                 Text("Code : "),
                 BlocBuilder<AuthBloc, AuthState>(
@@ -91,34 +94,28 @@ class _CompPageState extends State<CompPage> {
                 ),
               ],
             ),
-          ),
-        ),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            Container(
-              width: 303,
-              height: 216,
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20),
-                  border: Border.all(width: 1, color: Colors.cyan)),
-              child: redTeam.user.id.isNotEmpty
-                  ? _buildPlayerInfo(redTeam)
-                  : Center(
+            redTeam.user.id.isNotEmpty
+                ? _buildPlayerInfo(redTeam)
+                : Container(
+                    height: 220,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(20),
+                        border: Border.all(width: 1, color: Colors.cyan)),
+                    child: Center(
                       child: BlocBuilder<AuthBloc, AuthState>(
                         builder: (context, stateAuth) {
                           return BlocBuilder<UserBloc, UserState>(
                             builder: (context, stateUser) {
                               return IconButton(
                                 onPressed: () {
+                                  if (stateUser.user == null) return;
+
                                   setState(() {
                                     redTeam = Team(
                                       user: UserLite(
                                         id: stateAuth.userId,
-                                        username: stateUser.username,
-                                        image: stateUser.image,
+                                        username: stateUser.user!.username,
+                                        image: stateUser.user!.image,
                                       ),
                                       score: Score(
                                         killed: 0,
@@ -141,7 +138,7 @@ class _CompPageState extends State<CompPage> {
                         },
                       ),
                     ),
-            ),
+                  ),
             ElevatedButton(
               onPressed: () {
                 Map<String, dynamic> boby = {
@@ -158,42 +155,51 @@ class _CompPageState extends State<CompPage> {
               style: ElevatedButton.styleFrom(
                   backgroundColor: AppPallete.buttongradient1),
             ),
-            Container(
-              width: 303,
-              height: 216,
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20),
-                  border: Border.all(width: 1, color: Colors.cyan)),
-              child: blueTeam.user.id.isNotEmpty
-                  ? _buildPlayerInfo(blueTeam)
-                  : Center(
-                      child: IconButton(
-                        onPressed: () {
-                          setState(() {
-                            blueTeam = Team(
-                              user: UserLite(
-                                id: context.read<AuthState>().userId,
-                                username: context.read<UserState>().username,
-                                image: context.read<UserState>().image,
-                              ),
-                              score: Score(
-                                killed: 0,
-                                death: 0,
-                                short: 0,
-                              ),
-                              health: 100,
-                              team: 'blue',
-                              competitionResult: '',
-                            );
-                          });
+            blueTeam.user.id.isNotEmpty
+                ? _buildPlayerInfo(blueTeam)
+                : Container(
+                    height: 220,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(20),
+                        border: Border.all(width: 1, color: Colors.cyan)),
+                    child: Center(
+                      child: BlocBuilder<AuthBloc, AuthState>(
+                        builder: (context, stateAuth) {
+                          return BlocBuilder<UserBloc, UserState>(
+                            builder: (context, stateUser) {
+                              return IconButton(
+                                onPressed: () {
+                                  if (stateUser.user == null) return;
+
+                                  setState(() {
+                                    blueTeam = Team(
+                                      user: UserLite(
+                                        id: stateAuth.userId,
+                                        username: stateUser.user!.username,
+                                        image: stateUser.user!.image,
+                                      ),
+                                      score: Score(
+                                        killed: 0,
+                                        death: 0,
+                                        short: 0,
+                                      ),
+                                      health: 100,
+                                      team: 'blue',
+                                      competitionResult: '',
+                                    );
+                                  });
+                                },
+                                icon: const Icon(
+                                  Icons.add,
+                                  size: 50,
+                                ),
+                              );
+                            },
+                          );
                         },
-                        icon: const Icon(
-                          Icons.add,
-                          size: 50,
-                        ),
                       ),
                     ),
-            ),
+                  ),
           ],
         ),
       ),
@@ -202,33 +208,35 @@ class _CompPageState extends State<CompPage> {
 
   Widget _buildPlayerInfo(Team player) {
     return Container(
+      height: 220,
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20),
           gradient: const LinearGradient(
               colors: [AppPallete.buttongradient2, AppPallete.buttongradient1],
               begin: Alignment.topCenter,
               end: Alignment.bottomCenter)),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              Row(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 25),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  BlocBuilder<UserBloc, UserState>(
-                    builder: (context, state) {
-                      return CircleAvatar(
-                        backgroundImage: NetworkImage(player.user.image),
-                      );
-                    },
-                  ),
-                  const SizedBox(
-                    width: 10,
-                  ),
                   Row(
                     children: [
+                      BlocBuilder<UserBloc, UserState>(
+                        builder: (context, state) {
+                          return CircleAvatar(
+                            backgroundImage: NetworkImage(player.user.image),
+                          );
+                        },
+                      ),
+                      const SizedBox(
+                        width: 10,
+                      ),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -261,10 +269,6 @@ class _CompPageState extends State<CompPage> {
                       ),
                     ],
                   ),
-                ],
-              ),
-              Row(
-                children: [
                   Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -279,78 +283,74 @@ class _CompPageState extends State<CompPage> {
                     ],
                   )
                 ],
-              )
-            ],
-          ),
-          Column(
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(15.0),
-                child: LinearPercentIndicator(
-                  lineHeight: 20.0,
-                  animationDuration: 2000,
-                  percent: player.health != null ? (player.health! / 100) : 0,
-                  center: Text("${player.health}%"),
-                  progressColor: Colors.greenAccent,
-                  barRadius: const Radius.circular(20),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 15),
+              child: LinearPercentIndicator(
+                lineHeight: 20.0,
+                animationDuration: 2000,
+                percent: player.health != null ? (player.health! / 100) : 0,
+                center: Text("${player.health}%"),
+                progressColor: Color(toIntColor('#34D399')),
+                barRadius: const Radius.circular(20),
+              ),
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Expanded(
+                  child: Column(
+                    children: [
+                      Text(
+                        "Kill",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                            fontSize: 15, fontWeight: FontWeight.bold),
+                      ),
+                      Text(
+                        player.score.killed.toString(),
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                            fontSize: 25,
+                            fontWeight: FontWeight.bold,
+                            color: AppPallete.win),
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Expanded(
-                    child: Column(
-                      children: [
-                        Text(
-                          "Kill",
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                              fontSize: 15, fontWeight: FontWeight.bold),
-                        ),
-                        Text(
-                          player.score.killed.toString(),
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                              fontSize: 25,
-                              fontWeight: FontWeight.bold,
-                              color: AppPallete.win),
-                        ),
-                      ],
-                    ),
+                Container(
+                  height: 50,
+                  width: 1,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    color: Colors.white,
                   ),
-                  Container(
-                    height: 50,
-                    width: 1,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      color: Colors.white,
-                    ),
+                ),
+                Expanded(
+                  child: Column(
+                    children: [
+                      Text(
+                        "Death",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                            fontSize: 15, fontWeight: FontWeight.bold),
+                      ),
+                      Text(
+                        player.score.death.toString(),
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                            fontSize: 25,
+                            fontWeight: FontWeight.bold,
+                            color: AppPallete.lost),
+                      ),
+                    ],
                   ),
-                  Expanded(
-                    child: Column(
-                      children: [
-                        Text(
-                          "Death",
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                              fontSize: 15, fontWeight: FontWeight.bold),
-                        ),
-                        Text(
-                          player.score.death.toString(),
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                              fontSize: 25,
-                              fontWeight: FontWeight.bold,
-                              color: AppPallete.lost),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ],
-          ),
-        ],
+                ),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }

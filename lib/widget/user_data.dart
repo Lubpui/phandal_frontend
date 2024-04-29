@@ -7,10 +7,18 @@ import 'package:phandal_frontend/bloc/user/user_bloc.dart';
 
 import 'package:phandal_frontend/core/theme/app_pallete.dart';
 
-class UserData extends StatelessWidget {
-  const UserData({
-    super.key,
-  });
+class UserData extends StatefulWidget {
+  const UserData({super.key});
+
+  @override
+  State<UserData> createState() => _UserDataState();
+}
+
+class _UserDataState extends State<UserData> {
+  @override
+  void initState() {
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +33,7 @@ class UserData extends StatelessWidget {
             width: 40,
             child: IconButton(
               onPressed: () {
-                context.push(context.namedLocation('ProfilePage'));
+                GoRouter.of(context).push('/profile');
               },
               icon: const Icon(
                 Icons.edit_document,
@@ -37,7 +45,7 @@ class UserData extends StatelessWidget {
           BlocBuilder<UserBloc, UserState>(
             builder: (context, state) {
               return Text(
-                state.username,
+                state.user != null ? state.user!.username : '',
                 style:
                     const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               );
@@ -47,7 +55,11 @@ class UserData extends StatelessWidget {
           BlocBuilder<UserBloc, UserState>(
             builder: (context, state) {
               return CircleAvatar(
-                backgroundImage: NetworkImage(state.image),
+                backgroundImage: NetworkImage(
+                  state.user != null
+                      ? state.user!.image
+                      : 'https://phandal-backend.onrender.com/profile.png',
+                ),
                 radius: 30,
               );
             },
