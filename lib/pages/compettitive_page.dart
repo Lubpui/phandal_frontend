@@ -102,38 +102,34 @@ class _CompPageState extends State<CompPage> {
                         borderRadius: BorderRadius.circular(20),
                         border: Border.all(width: 1, color: Colors.cyan)),
                     child: Center(
-                      child: BlocBuilder<AuthBloc, AuthState>(
-                        builder: (context, stateAuth) {
-                          return BlocBuilder<UserBloc, UserState>(
-                            builder: (context, stateUser) {
-                              return IconButton(
-                                onPressed: () {
-                                  if (stateUser.user == null) return;
+                      child: BlocBuilder<UserBloc, UserState>(
+                        builder: (context, stateUser) {
+                          return IconButton(
+                            onPressed: () {
+                              if (stateUser.user == null) return;
 
-                                  setState(() {
-                                    redTeam = Team(
-                                      user: UserLite(
-                                        id: stateAuth.userId,
-                                        username: stateUser.user!.username,
-                                        image: stateUser.user!.image,
-                                      ),
-                                      score: Score(
-                                        killed: 0,
-                                        death: 0,
-                                        short: 0,
-                                      ),
-                                      health: 100,
-                                      team: 'red',
-                                      competitionResult: '',
-                                    );
-                                  });
-                                },
-                                icon: const Icon(
-                                  Icons.add,
-                                  size: 50,
-                                ),
-                              );
+                              setState(() {
+                                redTeam = Team(
+                                  user: UserLite(
+                                    id: stateUser.user!.id,
+                                    username: stateUser.user!.username,
+                                    image: stateUser.user!.image,
+                                  ),
+                                  score: Score(
+                                    killed: 0,
+                                    death: 0,
+                                    short: 0,
+                                  ),
+                                  health: 100,
+                                  team: 'red',
+                                  competitionResult: '',
+                                );
+                              });
                             },
+                            icon: const Icon(
+                              Icons.add,
+                              size: 50,
+                            ),
                           );
                         },
                       ),
@@ -163,38 +159,34 @@ class _CompPageState extends State<CompPage> {
                         borderRadius: BorderRadius.circular(20),
                         border: Border.all(width: 1, color: Colors.cyan)),
                     child: Center(
-                      child: BlocBuilder<AuthBloc, AuthState>(
-                        builder: (context, stateAuth) {
-                          return BlocBuilder<UserBloc, UserState>(
-                            builder: (context, stateUser) {
-                              return IconButton(
-                                onPressed: () {
-                                  if (stateUser.user == null) return;
+                      child: BlocBuilder<UserBloc, UserState>(
+                        builder: (context, stateUser) {
+                          return IconButton(
+                            onPressed: () {
+                              if (stateUser.user == null) return;
 
-                                  setState(() {
-                                    blueTeam = Team(
-                                      user: UserLite(
-                                        id: stateAuth.userId,
-                                        username: stateUser.user!.username,
-                                        image: stateUser.user!.image,
-                                      ),
-                                      score: Score(
-                                        killed: 0,
-                                        death: 0,
-                                        short: 0,
-                                      ),
-                                      health: 100,
-                                      team: 'blue',
-                                      competitionResult: '',
-                                    );
-                                  });
-                                },
-                                icon: const Icon(
-                                  Icons.add,
-                                  size: 50,
-                                ),
-                              );
+                              setState(() {
+                                blueTeam = Team(
+                                  user: UserLite(
+                                    id: stateUser.user!.id,
+                                    username: stateUser.user!.username,
+                                    image: stateUser.user!.image,
+                                  ),
+                                  score: Score(
+                                    killed: 0,
+                                    death: 0,
+                                    short: 0,
+                                  ),
+                                  health: 100,
+                                  team: 'blue',
+                                  competitionResult: '',
+                                );
+                              });
                             },
+                            icon: const Icon(
+                              Icons.add,
+                              size: 50,
+                            ),
                           );
                         },
                       ),
