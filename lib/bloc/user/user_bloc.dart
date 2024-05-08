@@ -39,7 +39,7 @@ class UserBloc extends Bloc<UserEvent, UserState> {
 
           final user = userModelFromJson(res.body);
 
-          emit(state.copyWith(user: user));
+          emit(state.copyWith(user: user, device: user.devices[2]));
         } else {
           print('filed... ${res.statusCode} ${res.reasonPhrase}');
 
@@ -61,5 +61,79 @@ class UserBloc extends Bloc<UserEvent, UserState> {
         throw new Exception('Error: ${e.toString()}');
       }
     });
+
+    on<UserEventUpdateUser>((event, emit) async {
+      try {
+        if (context == null || state.user == null) return;
+        showDialog(
+          context: context!,
+          builder: (context) =>
+              const Center(child: CircularProgressIndicator()),
+        );
+
+        Map<String, String> body = {
+          'name': event.name,
+          'address': event.address,
+          'userId': state.user!.id
+        };
+
+        var uri = Uri.parse('https://phandal-backend.onrender.com/api/device');
+        var res = await http.post(uri, body: body);
+
+        if (res.statusCode == 201) {
+          print('crete device successfully...');
+        } else {
+          print('filed... ${res.statusCode} ${res.reasonPhrase}');
+
+          ResponseBody responseBody = responseBodyFromJson(res.body);
+
+          FlashMessageScreen.show(
+            context!,
+            responseBody.message!,
+            responseBody.statusCode!,
+          );
+        }
+        // GoRouter.of(context!).pop();
+      } catch (e) {
+        throw new Exception('Error: ${e.toString()}');
+      }
+    });
+
+    on<UserEventUpdateConfiguration>((event, emit) async {
+      try {
+        if (context == null || state.user == null) return;
+
+        Map<String, dynamic> body = {
+          "lightColor": event.lightColor,
+          "mode": event.mode
+        };
+
+        var uri = Uri.parse(
+            'https://phandal-backend.onrender.com/api/device/configuration/update/${event.id}');
+        var res = await http.patch(uri, body: body);
+
+        if (res.statusCode == 200) {
+          print('update device successfully...');
+        } else {
+          print('filed... ${res.statusCode} ${res.reasonPhrase}');
+
+          ResponseBody responseBody = responseBodyFromJson(res.body);
+
+          FlashMessageScreen.show(
+            context!,
+            responseBody.message!,
+            responseBody.statusCode!,
+          );
+        }
+      } catch (e) {
+        throw new Exception('Error: ${e.toString()}');
+      }
+    });
+
+    on<UserEventAddDevice>(
+      (event, emit) {
+        emit(state.copyWith(device: event.device));
+      },
+    );
   }
 }

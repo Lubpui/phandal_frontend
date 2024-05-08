@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 UserModel userModelFromJson(String str) => UserModel.fromJson(json.decode(str));
+Device deviceModelFromJson(String str) => Device.fromJson(json.decode(str));
 
 String userModelToJson(UserModel data) => json.encode(data.toJson());
 
@@ -76,27 +77,23 @@ class Device {
 class Configurations {
   String id;
   String lightColor;
-  int recoil;
   String mode;
 
   Configurations({
     required this.id,
     required this.lightColor,
-    required this.recoil,
     required this.mode,
   });
 
   factory Configurations.fromJson(Map<String, dynamic> json) => Configurations(
         id: json["_id"],
         lightColor: json["lightColor"],
-        recoil: json["recoil"],
         mode: json["mode"],
       );
 
   Map<String, dynamic> toJson() => {
         "_id": id,
         "lightColor": lightColor,
-        "recoil": recoil,
         "mode": mode,
       };
 }

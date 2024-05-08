@@ -1,12 +1,23 @@
+// ignore_for_file: non_constant_identifier_names, unused_element, avoid_print, curly_braces_in_flow_control_structures, no_leading_underscores_for_local_identifiers, use_build_context_synchronously, avoid_function_literals_in_foreach_calls
+
+import 'dart:convert';
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_bluetooth_serial/flutter_bluetooth_serial.dart';
+import 'package:go_router/go_router.dart';
+import 'package:permission_handler/permission_handler.dart';
+import 'package:phandal_frontend/bloc/user/user_bloc.dart';
 import 'package:phandal_frontend/model/color_model.dart';
-import 'package:phandal_frontend/model/data_model.dart';
 import 'package:phandal_frontend/core/theme/app_pallete.dart';
+import 'package:phandal_frontend/model/user_model.dart';
 import 'package:phandal_frontend/utils/utils.dart';
 
 class Sheet extends StatefulWidget {
-  final DataModel mockUp;
-  const Sheet({super.key, required this.mockUp});
+  final Device device;
+
+  const Sheet({super.key, required this.device});
 
   @override
   State<Sheet> createState() => _SheetState();
@@ -19,11 +30,17 @@ void _closeBottomSheet(BuildContext context) {
 class _SheetState extends State<Sheet> {
   //widget 5 Colors
   int _selectedColor = 0;
-  double _current = 0;
+
+  BluetoothConnection? connection;
+
+  bool isConnecting = true;
+  bool get isConnected => (connection?.isConnected ?? false);
+
+  bool isDisconnecting = false;
 
   //widget Dropdown
   String? selectedValue;
-  List<String> dropdownItem = ["Item 1", "Item 2", "Item 3"];
+  List<String> dropdownItem = ["semi", "burst"];
 
   final List<ColorObject> colors = [
     ColorObject(primary: "#FF0000", secondary: "#FF7373", name: "red"),
@@ -32,6 +49,78 @@ class _SheetState extends State<Sheet> {
     ColorObject(primary: "#00FF1A", secondary: "#8EFF99", name: "green"),
     ColorObject(primary: "#0019FF", secondary: "#4F76FF", name: "blue"),
   ];
+
+  @override
+  void initState() {
+    _selectedColor = colors.indexWhere(
+      (item) => item.name == widget.device.configurations.lightColor,
+    );
+
+    selectedValue = widget.device.configurations.mode;
+
+    requestBluetoothPermission();
+
+    super.initState();
+  }
+
+  void requestBluetoothPermission() async {
+    PermissionStatus bluetoothStatus = await Permission.bluetoothScan.request();
+    PermissionStatus bluetoothConnectStatus =
+        await Permission.bluetoothConnect.request();
+
+    if (bluetoothStatus.isGranted && bluetoothConnectStatus.isGranted) {
+      BluetoothConnection.toAddress(widget.device.address).then(
+        (_connection) {
+          print('Connected to the device');
+          connection = _connection;
+          setState(() {
+            isConnecting = false;
+            isDisconnecting = false;
+          });
+
+          connection!.input!.listen(_onDataReceived).onDone(() {
+            if (isDisconnecting) {
+              print('Disconnecting locally!');
+            } else {
+              print('Disconnected remotely!');
+            }
+            if (this.mounted) {
+              setState(() {});
+            }
+          });
+        },
+      ).catchError(
+        (error) {
+          print('Cannot connect, exception occured');
+          print(error);
+        },
+      );
+    }
+  }
+
+  void _onDataReceived(Uint8List data) {
+    int backspacesCounter = 0;
+    data.forEach((byte) {
+      if (byte == 8 || byte == 127) {
+        backspacesCounter++;
+      }
+    });
+    Uint8List buffer = Uint8List(data.length - backspacesCounter);
+    int bufferIndex = buffer.length;
+
+    backspacesCounter = 0;
+    for (int i = data.length - 1; i >= 0; i--) {
+      if (data[i] == 8 || data[i] == 127) {
+        backspacesCounter++;
+      } else {
+        if (backspacesCounter > 0) {
+          backspacesCounter--;
+        } else {
+          buffer[--bufferIndex] = data[i];
+        }
+      }
+    }
+  }
 
   Widget Radiopress(int index) {
     return Expanded(
@@ -65,6 +154,16 @@ class _SheetState extends State<Sheet> {
   }
 
   @override
+  void dispose() {
+    if (isConnected) {
+      isDisconnecting = true;
+      connection?.dispose();
+      connection = null;
+    }
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 20),
@@ -86,7 +185,7 @@ class _SheetState extends State<Sheet> {
           Column(
             children: [
               Text(
-                "Light Color for ${widget.mockUp.name} ${widget.mockUp.network}",
+                "Light Color for ${widget.device.name}",
                 style: const TextStyle(
                   color: Color(0xffFFFFFF),
                   fontSize: 17,
@@ -98,38 +197,6 @@ class _SheetState extends State<Sheet> {
                 children: [
                   for (int i = 0; i < 5; i++) Radiopress(i),
                 ],
-              ),
-              const SizedBox(height: 20),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  const Text(
-                    "Recoil",
-                    style: TextStyle(
-                      color: Color(0xffFFFFFF),
-                      fontSize: 17,
-                    ),
-                  ),
-                  Text(
-                    _current.round().toString(),
-                    style: const TextStyle(
-                      color: Color(0xffFFFFFF),
-                      fontSize: 17,
-                    ),
-                  ),
-                ],
-              ),
-              Slider(
-                value: _current,
-                min: 0,
-                max: 5,
-                activeColor: const Color(0xff6BC7E9),
-                thumbColor: const Color(0xffD9D9D9),
-                onChanged: (value) {
-                  setState(() {
-                    _current = value;
-                  });
-                },
               ),
               const SizedBox(height: 20),
               SizedBox(
@@ -150,7 +217,9 @@ class _SheetState extends State<Sheet> {
                           value: selectedValue,
                           items: dropdownItem.map((String value) {
                             return DropdownMenuItem<String>(
-                                value: value, child: Text(value));
+                              value: value,
+                              child: Text(value),
+                            );
                           }).toList(),
                           onChanged: (newValue) {
                             setState(() {
@@ -178,25 +247,56 @@ class _SheetState extends State<Sheet> {
           Column(
             children: [
               GestureDetector(
-                onTap: () {
-                  Map<String, dynamic> body = {
-                    "color": colors[_selectedColor].name,
-                    "recoil": _current.toStringAsFixed(0),
-                    "mode": selectedValue
-                  };
-                  print(body);
+                onTap: () async {
+                  if (colors[_selectedColor].name !=
+                          widget.device.configurations.lightColor ||
+                      selectedValue != widget.device.configurations.mode) {
+                    if (selectedValue == null || connection == null) return;
+
+                    Map<String, dynamic> body = {
+                      "color": colors[_selectedColor].name,
+                      "mode": selectedValue
+                    };
+
+                    String jsonBody = json.encode(body);
+
+                    print(jsonBody);
+
+                    connection?.output.add(utf8.encode(jsonBody));
+                    connection?.output.allSent;
+
+                    context.read<UserBloc>().add(
+                          UserEventUpdateConfiguration(
+                            widget.device.id,
+                            colors[_selectedColor].name,
+                            selectedValue!,
+                          ),
+                        );
+
+                    GoRouter.of(context).pop();
+                    context.read<UserBloc>().add(UserEventGetUser());
+                  }
                 },
                 child: Container(
                   height: 50,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(25),
-                    color: const Color(0xff6BC7E9),
+                    color: colors[_selectedColor].name !=
+                                widget.device.configurations.lightColor ||
+                            selectedValue != widget.device.configurations.mode
+                        ? const Color(0xff6BC7E9)
+                        : Colors.grey[600],
                   ),
-                  child: const Center(
+                  child: Center(
                     child: Text(
                       "Save",
                       style: TextStyle(
-                        color: Color(0xff1E345C),
+                        color: colors[_selectedColor].name !=
+                                    widget.device.configurations.lightColor ||
+                                selectedValue !=
+                                    widget.device.configurations.mode
+                            ? const Color(0xff1E345C)
+                            : Colors.grey[400],
                         fontWeight: FontWeight.bold,
                         fontSize: 17,
                       ),
@@ -207,7 +307,8 @@ class _SheetState extends State<Sheet> {
               const SizedBox(height: 20),
               GestureDetector(
                 onTap: () {
-                  print("Disconnect");
+                  connection?.output.add(utf8.encode('0'));
+                  connection?.output.allSent;
                 },
                 child: Container(
                   height: 50,

@@ -1,12 +1,15 @@
-// ignore_for_file: prefer_const_constructors, sort_child_properties_last, unnecessary_new, unnecessary_null_comparison, avoid_print
+// ignore_for_file: prefer_const_constructors, sort_child_properties_last, unnecessary_new, unnecessary_null_comparison, avoid_print, no_leading_underscores_for_local_identifiers, unnecessary_brace_in_string_interps, unnecessary_this, avoid_function_literals_in_foreach_calls, unnecessary_string_interpolations
+
+import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_bluetooth_serial/flutter_bluetooth_serial.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
-import 'package:phandal_frontend/bloc/auth/auth_bloc.dart';
 import 'package:phandal_frontend/bloc/user/user_bloc.dart';
 import 'package:phandal_frontend/core/theme/app_pallete.dart';
 import 'package:phandal_frontend/model/history_model.dart';
+import 'package:phandal_frontend/model/player_info.dart';
 import 'package:phandal_frontend/model/score_model.dart';
 import 'package:phandal_frontend/model/userDB.dart';
 import 'package:phandal_frontend/model/user_lite_model.dart';
@@ -52,6 +55,21 @@ class _CompPageState extends State<CompPage> {
     competitionResult: '',
   );
 
+  BluetoothConnection? connection;
+
+  String res = '0';
+
+  final TextEditingController textEditingController =
+      new TextEditingController();
+  final ScrollController listScrollController = new ScrollController();
+
+  bool isConnecting = true;
+  bool get isConnected => (connection?.isConnected ?? false);
+
+  bool isDisconnecting = false;
+
+  String address = 'E4:65:B8:82:CD:FE';
+
   @override
   void initState() {
     super.initState();
@@ -63,6 +81,83 @@ class _CompPageState extends State<CompPage> {
     if (mockUpincomeTeam.team == 'blue') {
       blueTeam = mockUpincomeTeam;
     }
+
+    BluetoothConnection.toAddress(address).then((_connection) {
+      print('Connected to the device ${address}');
+      connection = _connection;
+      setState(() {
+        isConnecting = false;
+        isDisconnecting = false;
+      });
+
+      connection!.input!.listen(_onDataReceived).onDone(() {
+        if (isDisconnecting) {
+          print('Disconnecting locally!');
+        } else {
+          print('Disconnected remotely!');
+        }
+        if (this.mounted) {
+          setState(() {});
+        }
+      });
+    }).catchError((error) {
+      print('Cannot connect, exception occured');
+      print(error);
+    });
+  }
+
+  void _onDataReceived(Uint8List data) {
+    int backspacesCounter = 0;
+    data.forEach((byte) {
+      if (byte == 8 || byte == 127) {
+        backspacesCounter++;
+      }
+    });
+    Uint8List buffer = Uint8List(data.length - backspacesCounter);
+    int bufferIndex = buffer.length;
+
+    backspacesCounter = 0;
+    for (int i = data.length - 1; i >= 0; i--) {
+      if (data[i] == 8 || data[i] == 127) {
+        backspacesCounter++;
+      } else {
+        if (backspacesCounter > 0) {
+          backspacesCounter--;
+        } else {
+          buffer[--bufferIndex] = data[i];
+        }
+      }
+    }
+
+    String dataString = String.fromCharCodes(buffer);
+
+    PlayerInfo playerInfo = playerInfoFromJson(dataString);
+
+    final userState = BlocProvider.of<UserBloc>(context).state;
+    if (redTeam.user.id == userState.user?.id) {
+      setState(() {
+        redTeam.health = playerInfo.hp;
+        redTeam.score.short = playerInfo.short;
+      });
+    }
+
+    if (blueTeam.user.id == userState.user?.id) {
+      setState(() {
+        blueTeam.health = playerInfo.hp;
+        blueTeam.score.short = playerInfo.short;
+      });
+    }
+  }
+
+  @override
+  void dispose() {
+    if (isConnected) {
+      isDisconnecting = true;
+      connection?.dispose();
+      connection = null;
+    }
+
+    super.dispose();
   }
 
   @override
@@ -81,10 +176,10 @@ class _CompPageState extends State<CompPage> {
             Row(
               children: [
                 Text("Code : "),
-                BlocBuilder<AuthBloc, AuthState>(
+                BlocBuilder<UserBloc, UserState>(
                   builder: (context, state) {
                     return Text(
-                      state.userId,
+                      '${res}',
                       style: TextStyle(
                           color: Colors.green,
                           fontSize: 15,
