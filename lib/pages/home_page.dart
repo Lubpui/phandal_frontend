@@ -159,21 +159,18 @@ class _HomePageState extends State<HomePage> {
                           (context, index) {
                             if (state.user != null) {
                               final device = state.user!.devices[index];
-                              double bat = myDevice.any((item) =>
-                                      item.device.address == device.address)
-                                  ? 72 / 100
-                                  : 0;
+                              final isConnect = myDevice.any((item) =>
+                                  item.device.address == device.address);
+                              double bat = isConnect ? 72 / 100 : 0;
                               return GestureDetector(
                                 onTap: () {
-                                  if (myDevice.any((item) =>
-                                      item.device.address == device.address)) {
-                                    showModalBottomSheet(
-                                      isScrollControlled: true,
-                                      useRootNavigator: true,
-                                      context: context,
-                                      builder: (ctx) => Sheet(device: device),
-                                    );
-                                  }
+                                  showModalBottomSheet(
+                                    isScrollControlled: true,
+                                    useRootNavigator: true,
+                                    context: context,
+                                    builder: (ctx) => Sheet(
+                                        device: device, isConnect: isConnect),
+                                  );
                                 },
                                 child: Padding(
                                   padding: const EdgeInsets.only(bottom: 16),
@@ -230,9 +227,7 @@ class _HomePageState extends State<HomePage> {
                                                       const EdgeInsets.only(
                                                     left: 5,
                                                   ),
-                                                  child: myDevice.any((item) =>
-                                                          item.device.address ==
-                                                          device.address)
+                                                  child: isConnect
                                                       ? Icon(
                                                           Icons.bluetooth,
                                                           size: 15,
@@ -258,9 +253,7 @@ class _HomePageState extends State<HomePage> {
                                           radius: 35.0,
                                           lineWidth: 5,
                                           percent: bat,
-                                          center: myDevice.any((item) =>
-                                                  item.device.address ==
-                                                  device.address)
+                                          center: isConnect
                                               ? Text(
                                                   "${72}%",
                                                   style: TextStyle(

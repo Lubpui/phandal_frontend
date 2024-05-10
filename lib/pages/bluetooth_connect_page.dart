@@ -7,6 +7,7 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_bluetooth_serial/flutter_bluetooth_serial.dart';
+import 'package:go_router/go_router.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:phandal_frontend/bloc/user/user_bloc.dart';
 import 'package:phandal_frontend/core/theme/app_pallete.dart';
@@ -299,6 +300,12 @@ class _BluetoothConnectPageState extends State<BluetoothConnectPage> {
                                                 device.address,
                                               ),
                                             );
+
+                                        // GoRouter.of(context).pop();
+
+                                        context
+                                            .read<UserBloc>()
+                                            .add(UserEventGetUser());
                                       }
                                       myResults.add(otherResults[index]);
                                       otherResults.remove(otherResults[index]);

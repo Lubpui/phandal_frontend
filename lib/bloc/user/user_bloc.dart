@@ -39,7 +39,7 @@ class UserBloc extends Bloc<UserEvent, UserState> {
 
           final user = userModelFromJson(res.body);
 
-          emit(state.copyWith(user: user, device: user.devices[2]));
+          emit(state.copyWith(user: user));
         } else {
           print('filed... ${res.statusCode} ${res.reasonPhrase}');
 
@@ -65,11 +65,6 @@ class UserBloc extends Bloc<UserEvent, UserState> {
     on<UserEventUpdateUser>((event, emit) async {
       try {
         if (context == null || state.user == null) return;
-        showDialog(
-          context: context!,
-          builder: (context) =>
-              const Center(child: CircularProgressIndicator()),
-        );
 
         Map<String, String> body = {
           'name': event.name,
@@ -93,7 +88,6 @@ class UserBloc extends Bloc<UserEvent, UserState> {
             responseBody.statusCode!,
           );
         }
-        // GoRouter.of(context!).pop();
       } catch (e) {
         throw new Exception('Error: ${e.toString()}');
       }
@@ -135,5 +129,38 @@ class UserBloc extends Bloc<UserEvent, UserState> {
         emit(state.copyWith(device: event.device));
       },
     );
+
+    on<UserEventDeleteDevice>((event, emit) async {
+      try {
+        if (context == null || state.user == null) return;
+
+        Map<String, dynamic> body = {
+          "userId": event.userId,
+          "deviceId": event.deviceId
+        };
+
+        var uri =
+            Uri.parse('https://phandal-backend.onrender.com/api/device/delete');
+        var res = await http.delete(uri, body: body);
+
+        if (res.statusCode == 200) {
+          print('delete device successfully...');
+        } else {
+          print('filed... ${res.statusCode} ${res.reasonPhrase}');
+
+          ResponseBody responseBody = responseBodyFromJson(res.body);
+
+          FlashMessageScreen.show(
+            context!,
+            responseBody.message!,
+            responseBody.statusCode!,
+          );
+        }
+
+        // GoRouter.of(context!).pop();
+      } catch (e) {
+        throw new Exception('Error: ${e.toString()}');
+      }
+    });
   }
 }

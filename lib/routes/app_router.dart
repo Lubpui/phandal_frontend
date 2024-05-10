@@ -82,7 +82,10 @@ class AppRouter {
                     GoRoute(
                       path: 'competitive',
                       name: 'Competitive',
-                      builder: (context, state) => CompPage(key: state.pageKey),
+                      builder: (context, state) => CompPage(
+                        key: state.pageKey,
+                        address: state.extra.toString(),
+                      ),
                     ),
                     GoRoute(
                       path: 'join',

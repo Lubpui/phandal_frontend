@@ -6,12 +6,12 @@ PlayerInfo playerInfoFromJson(String str) =>
 String playerInfoToJson(PlayerInfo data) => json.encode(data.toJson());
 
 class PlayerInfo {
-  int hp;
-  int short;
+  int? hp;
+  int? short;
 
   PlayerInfo({
-    required this.hp,
-    required this.short,
+    this.hp,
+    this.short,
   });
 
   factory PlayerInfo.fromJson(Map<String, dynamic> json) => PlayerInfo(

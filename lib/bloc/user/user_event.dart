@@ -33,3 +33,13 @@ class UserEventAddDevice extends UserEvent {
 
   UserEventAddDevice(this.device);
 }
+
+class UserEventDeleteDevice extends UserEvent {
+  final String userId;
+  final String deviceId;
+
+  UserEventDeleteDevice(
+    this.userId,
+    this.deviceId,
+  );
+}

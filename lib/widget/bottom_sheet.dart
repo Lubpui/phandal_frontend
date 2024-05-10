@@ -16,8 +16,9 @@ import 'package:phandal_frontend/utils/utils.dart';
 
 class Sheet extends StatefulWidget {
   final Device device;
+  final bool isConnect;
 
-  const Sheet({super.key, required this.device});
+  const Sheet({super.key, required this.device, required this.isConnect});
 
   @override
   State<Sheet> createState() => _SheetState();
@@ -58,7 +59,9 @@ class _SheetState extends State<Sheet> {
 
     selectedValue = widget.device.configurations.mode;
 
-    requestBluetoothPermission();
+    if (widget.isConnect) {
+      requestBluetoothPermission();
+    }
 
     super.initState();
   }
@@ -167,7 +170,9 @@ class _SheetState extends State<Sheet> {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 20),
-      height: MediaQuery.of(context).size.height * 0.70,
+      height: widget.isConnect
+          ? MediaQuery.of(context).size.height * 0.70
+          : MediaQuery.of(context).size.height * 0.35,
       decoration: const BoxDecoration(
         gradient: LinearGradient(
             colors: [AppPallete.buttongradient2, AppPallete.buttongradient1],
@@ -192,55 +197,60 @@ class _SheetState extends State<Sheet> {
                 ),
               ),
               const SizedBox(height: 20),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  for (int i = 0; i < 5; i++) Radiopress(i),
-                ],
-              ),
+              widget.isConnect
+                  ? Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        for (int i = 0; i < 5; i++) Radiopress(i),
+                      ],
+                    )
+                  : Container(),
               const SizedBox(height: 20),
-              SizedBox(
-                width: double.infinity,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(20),
-                        color: const Color(0xff3E5888),
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.only(left: 15, right: 15),
-                        child: DropdownButton<String>(
-                          hint: const Text("Select Mode"),
-                          value: selectedValue,
-                          items: dropdownItem.map((String value) {
-                            return DropdownMenuItem<String>(
-                              value: value,
-                              child: Text(value),
-                            );
-                          }).toList(),
-                          onChanged: (newValue) {
-                            setState(() {
-                              selectedValue = newValue;
-                            });
-                          },
-                          isExpanded: true,
-                          dropdownColor: const Color(0xff3E5888),
-                          borderRadius: BorderRadius.circular(20),
-                          icon: const Icon(
-                            Icons.keyboard_arrow_down,
-                            color: Color(0xff87A2D3),
+              widget.isConnect
+                  ? SizedBox(
+                      width: double.infinity,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(20),
+                              color: const Color(0xff3E5888),
+                            ),
+                            child: Padding(
+                              padding:
+                                  const EdgeInsets.only(left: 15, right: 15),
+                              child: DropdownButton<String>(
+                                hint: const Text("Select Mode"),
+                                value: selectedValue,
+                                items: dropdownItem.map((String value) {
+                                  return DropdownMenuItem<String>(
+                                    value: value,
+                                    child: Text(value),
+                                  );
+                                }).toList(),
+                                onChanged: (newValue) {
+                                  setState(() {
+                                    selectedValue = newValue;
+                                  });
+                                },
+                                isExpanded: true,
+                                dropdownColor: const Color(0xff3E5888),
+                                borderRadius: BorderRadius.circular(20),
+                                icon: const Icon(
+                                  Icons.keyboard_arrow_down,
+                                  color: Color(0xff87A2D3),
+                                ),
+                                iconSize: 20,
+                                underline: const SizedBox(),
+                              ),
+                            ),
                           ),
-                          iconSize: 20,
-                          underline: const SizedBox(),
-                        ),
+                        ],
                       ),
-                    ),
-                  ],
-                ),
-              ),
+                    )
+                  : Container(),
             ],
           ),
           const SizedBox(height: 20),
@@ -305,28 +315,46 @@ class _SheetState extends State<Sheet> {
                 ),
               ),
               const SizedBox(height: 20),
-              GestureDetector(
-                onTap: () {
-                  connection?.output.add(utf8.encode('0'));
-                  connection?.output.allSent;
-                },
-                child: Container(
-                  height: 50,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(25),
-                    color: const Color(0xffFF6767),
-                  ),
-                  child: const Center(
-                    child: Text(
-                      "Disconnect",
-                      style: TextStyle(
-                        color: Color(0xffFFFFFF),
-                        fontWeight: FontWeight.bold,
-                        fontSize: 17,
+              BlocBuilder<UserBloc, UserState>(
+                builder: (context, state) {
+                  return GestureDetector(
+                    onTap: () async {
+                      if (state.user == null) return;
+
+                      print('Unbonding from ${widget.device.address}...');
+                      await FlutterBluetoothSerial.instance
+                          .removeDeviceBondWithAddress(widget.device.address);
+                      print(
+                          'Unbonding from ${widget.device.address} has succed');
+
+                      context.read<UserBloc>().add(UserEventDeleteDevice(
+                            state.user!.id,
+                            widget.device.id,
+                          ));
+
+                      GoRouter.of(context).pop();
+
+                      context.read<UserBloc>().add(UserEventGetUser());
+                    },
+                    child: Container(
+                      height: 50,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(25),
+                        color: const Color(0xffFF6767),
+                      ),
+                      child: const Center(
+                        child: Text(
+                          "Disconnect",
+                          style: TextStyle(
+                            color: Color(0xffFFFFFF),
+                            fontWeight: FontWeight.bold,
+                            fontSize: 17,
+                          ),
+                        ),
                       ),
                     ),
-                  ),
-                ),
+                  );
+                },
               ),
             ],
           ),
